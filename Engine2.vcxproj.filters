@@ -16,41 +16,47 @@
     <Filter Include="Source Files\VisualCore">
       <UniqueIdentifier>{208eb49b-c7c5-4e5a-add3-ba4a531a4034}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{d4b3678b-a8b6-40a0-8552-6894169ec004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader.frag">
-      <Filter>Source Files</Filter>
+    <None Include="shader.frag">
+      <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="shaders\shader.vert">
-      <Filter>Source Files</Filter>
+    <None Include="shader.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graphic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipeline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Pipeline.cpp">
+      <Filter>Source Files\VisualCore</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualCore.cpp">
+      <Filter>Source Files\VisualCore</Filter>
+    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VisualCore.cpp">
+    <ClCompile Include="Device.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Pipeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

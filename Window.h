@@ -18,6 +18,7 @@ namespace vc{
 		Window& operator=(const Window&) = delete;
 
 		bool shouldClose() { return glfwWindowShouldClose(glWindow); }
+		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 	};
 }
 
