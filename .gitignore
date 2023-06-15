@@ -230,6 +230,7 @@ _pkginfo.txt
 !?*.[Cc]ache/
 
 # Others
+*.vcxproj
 ClientBin/
 ~$*
 *~
