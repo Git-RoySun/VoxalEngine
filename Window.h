@@ -18,6 +18,8 @@ namespace vc{
 		Window& operator=(const Window&) = delete;
 
 		bool shouldClose() { return glfwWindowShouldClose(glWindow); }
+		VkExtent2D getExtent() { return {static_cast<uint32_t>(width),static_cast<uint32_t>(height) }; }
+
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 	};
 }

@@ -4,7 +4,19 @@
 
 #include "Device.h"
 namespace vc {
-	struct PipelineStageInfo {};
+	struct PipelineFixedStageInfo {
+		VkViewport viewport;
+		VkRect2D scissor;
+		VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+		VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+		VkPipelineMultisampleStateCreateInfo multisampleInfo;
+		VkPipelineColorBlendAttachmentState colorBlendAttachment;
+		VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+		VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+		VkPipelineLayout pipelineLayout = nullptr;
+		VkRenderPass renderPass = nullptr;
+		uint32_t subpass = 0;
+	};
 
 	class Pipeline {
 		Device& device;
@@ -17,14 +29,14 @@ namespace vc {
 
 		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 	public:
-		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineStageInfo info);
-
-		~Pipeline(){}
+		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo info);
+		~Pipeline();
 		Pipeline(const Pipeline&) = delete;
 		Pipeline& operator=(const Pipeline&) = delete;
 
-		static PipelineStageInfo defaultPipelineInfo(uint32_t height, uint32_t width);
+		static PipelineFixedStageInfo defaultPipelineInfo(uint32_t width, uint32_t height);
 
+		void bind(VkCommandBuffer commandBuffer);
 	};
 }
 

@@ -2,11 +2,11 @@
 #include <stdexcept>
 
 namespace vc {
-	Window::Window(int h, int w, std::string name) :height{ h }, width{ w }, name{ name } {
+	Window::Window(int w, int h, std::string name) :height{ h }, width{ w }, name{ name } {
 		glfwInit();
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-		glWindow = glfwCreateWindow(height, width, name.c_str(), nullptr, nullptr);
+		glWindow = glfwCreateWindow( width, height, name.c_str(), nullptr, nullptr);
 	}
 	Window::~Window() {
 		glfwDestroyWindow(glWindow);
