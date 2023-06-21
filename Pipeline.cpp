@@ -1,4 +1,5 @@
 #include "Pipeline.h"
+#include "Model.h"
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
@@ -19,9 +20,9 @@ namespace vc{
 		return buffer;
 	}
 	Pipeline::~Pipeline() {
-		vkDestroyShaderModule(device.device(), vertShader, nullptr);
-		vkDestroyShaderModule(device.device(), fragShader, nullptr);
-		vkDestroyPipeline(device.device(), vkPipeline, nullptr);
+		vkDestroyShaderModule(device.getVkDevice(), vertShader, nullptr);
+		vkDestroyShaderModule(device.getVkDevice(), fragShader, nullptr);
+		vkDestroyPipeline(device.getVkDevice(), vkPipeline, nullptr);
 	};
 
 	Pipeline::Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo stageInfo) :device{ device }{
@@ -51,22 +52,15 @@ namespace vc{
 			.pName = "main",
 			.pSpecializationInfo = nullptr,
 		};
+		auto bindingDesc = Vertex::getBindingDescription();
+		auto attributeDesc = Vertex::getAttributeDescriptions();
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
 				.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
-				.vertexBindingDescriptionCount = 0,
-				.pVertexBindingDescriptions = nullptr, 
-				.vertexAttributeDescriptionCount = 0,
-				.pVertexAttributeDescriptions = nullptr,
-		};
-
-
-		VkPipelineViewportStateCreateInfo viewportInfo = {
-			.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
-			.viewportCount = 1,
-			.pViewports = &stageInfo.viewport,
-			.scissorCount = 1,
-			.pScissors = &stageInfo.scissor,
+				.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDesc.size()),
+				.pVertexBindingDescriptions = bindingDesc.data(),
+				.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDesc.size()),
+				.pVertexAttributeDescriptions = attributeDesc.data(),
 		};
 
 		VkGraphicsPipelineCreateInfo pipelineInfo = {
@@ -75,12 +69,12 @@ namespace vc{
 			.pStages = shaderStages,
 			.pVertexInputState = &vertexInputInfo,
 			.pInputAssemblyState = &stageInfo.inputAssemblyInfo,
-			.pViewportState = &viewportInfo,
+			.pViewportState = &stageInfo.viewportInfo,
 			.pRasterizationState = &stageInfo.rasterizationInfo,
 			.pMultisampleState = &stageInfo.multisampleInfo,
 			.pDepthStencilState = &stageInfo.depthStencilInfo,
 			.pColorBlendState = &stageInfo.colorBlendInfo,
-			.pDynamicState = nullptr,
+			.pDynamicState = &stageInfo.dynamicStateInfo,
 			.layout = stageInfo.pipelineLayout,
 			.renderPass = stageInfo.renderPass,
 			.subpass = stageInfo.subpass,
@@ -88,7 +82,7 @@ namespace vc{
 			.basePipelineIndex = -1,
 		};
 
-		if (vkCreateGraphicsPipelines(device.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline) != VK_SUCCESS) {
+		if (vkCreateGraphicsPipelines(device.getVkDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline) != VK_SUCCESS) {
 			throw std::runtime_error("Failed to create graphics pipeline!");
 		}
 	}
@@ -100,32 +94,24 @@ namespace vc{
 			.pCode = reinterpret_cast<const uint32_t*>(code.data()),
 		};
 
-		if(vkCreateShaderModule(device.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS) {
+		if(vkCreateShaderModule(device.getVkDevice(), &createInfo, nullptr, shaderModule) != VK_SUCCESS) {
 			throw std::runtime_error("Could not create shader module!");
 		}
 	}
 
-	PipelineFixedStageInfo Pipeline::defaultPipelineInfo(uint32_t width, uint32_t height) {
-		PipelineFixedStageInfo configInfo{};
-
-		configInfo.viewport = {
-			.x = 0.0f,
-			.y = 0.0f,
-			.width = static_cast<float>(width),
-			.height = static_cast<float>(height),
-			.minDepth = 0.0f,
-			.maxDepth = 1.0f,
-		};
-
-		configInfo.scissor = {
-			.offset = {0, 0},
-			.extent = {width, height}
-		};
-
+	PipelineFixedStageInfo Pipeline::defaultPipelineInfo(PipelineFixedStageInfo& configInfo) {
 		configInfo.inputAssemblyInfo = {
 			.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
 			.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
 			.primitiveRestartEnable = VK_FALSE
+		};
+
+		configInfo.viewportInfo = {
+			.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
+			.viewportCount = 1,
+			.pViewports = nullptr,
+			.scissorCount = 1,
+			.pScissors = nullptr,
 		};
 
 		configInfo.rasterizationInfo = {
@@ -187,6 +173,14 @@ namespace vc{
 			.back = {},
 			.minDepthBounds = 0.0f,
 			.maxDepthBounds = 1.0f,
+		};
+
+		configInfo.dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR };
+		configInfo.dynamicStateInfo = {
+			.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO,
+			.flags = 0,
+			.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size()),
+			.pDynamicStates = configInfo.dynamicStateEnables.data()
 		};
 
 		return configInfo;
