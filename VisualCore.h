@@ -9,13 +9,14 @@
 #include "Pipeline.h"
 #include "SwapChain.h"
 #include "Model.h"
+#include "Object.h"
 
 
 namespace vc {
 
 	struct PushConstantData {
-		glm::vec3 offset;
-		alignas(16) glm::vec3 color;
+		glm::mat2 transform{1.0f};
+		alignas(16) glm::vec2 offset;
 	};
 
 	class VisualCore {
@@ -25,10 +26,11 @@ namespace vc {
 
 		std::unique_ptr<SwapChain> swapChain;
 		std::unique_ptr<Pipeline> pipeline;
-		std::unique_ptr<Model> model;
+		std::vector<Object> objects;
 		std::vector<VkCommandBuffer> commandBuffers;
 
-		void loadModels();
+		void loadObjects();
+		void renderObjects(VkCommandBuffer commandBuffer);
 		void initPipelineLayout();
 		void initPipeline();
 		void initSwapChain();

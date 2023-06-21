@@ -8,7 +8,7 @@
 
 namespace vc {
 	struct Vertex {
-		glm::vec3 position;
+		glm::vec2 position;
 		glm::vec3 color;
 
 		static constexpr glm::vec3 RED { 1.0f,0.0f,0.0f };
@@ -17,6 +17,20 @@ namespace vc {
 
 		static std::vector<VkVertexInputBindingDescription> getBindingDescription();
 		static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
+	};
+
+	struct Transform {
+		glm::vec2 translation;
+		glm::vec2 scale{1.0f, 1.0f};
+
+
+		glm::mat2 mat2() {
+			return glm::mat2
+			{
+				{scale.x, 0.0f},
+				{ 0.0f, scale.y }
+			};
+		};
 	};
 
 	class Model {

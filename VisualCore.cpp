@@ -2,9 +2,10 @@
 #include <stdexcept>
 #include <array>
 #include <vector>
+#include <iostream>
 namespace vc {
 	VisualCore::VisualCore() {
-		loadModels();
+		loadObjects();
 		initPipelineLayout();
 		initSwapChain();
 		initCommandBuffer();
@@ -23,14 +24,39 @@ namespace vc {
 	};
 
 
-	void VisualCore::loadModels() {
+	void VisualCore::loadObjects() {
 		std::vector<Vertex> vertices {
-			{ { 0.0f, -0.5f, 0.0f }, Vertex::RED },
-			{ { 0.5f, 0.5f, 0.0f } , Vertex::BLUE },
-			{ { -0.5f, 0.5f, 0.0f }, Vertex::GREEN },
+			{ { 0.0f, -0.5f}, Vertex::RED },
+			{ { 0.5f, 0.5f} , Vertex::BLUE },
+			{ { -0.5f, 0.5f}, Vertex::GREEN },
 		};
 
-		model = std::make_unique<Model>(device, vertices);
+		Object triangle = Object(std::make_unique<Model>(device, vertices));
+		triangle.transform.translation.x = 0.5f;
+		triangle.transform.scale = glm::vec2{ 2.0f,0.5f };
+		objects.push_back(std::move(triangle));
+	}
+
+	void VisualCore::renderObjects(VkCommandBuffer commandBuffer) {
+		pipeline->bind(commandBuffer);
+		for (auto& obj:objects) {
+			PushConstantData push{
+				.transform = obj.transform.mat2(),
+				.offset = obj.transform.translation,
+			};
+
+			vkCmdPushConstants(
+				commandBuffer,
+				pipelineLayout,
+				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+				0,
+				sizeof(PushConstantData),
+				&push);
+
+			obj.model->bind(commandBuffer);
+			obj.model->draw(commandBuffer);
+
+		}
 	}
 
 	void VisualCore::initPipelineLayout() {
@@ -95,9 +121,6 @@ namespace vc {
 	};
 
 	void VisualCore::recordCommandBuffer(int imageIndex) {
-		static int frame = 0;
-		frame = (frame + 1) % 1000;
-
 		VkCommandBufferBeginInfo beginInfo = {
 			.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
 		};
@@ -138,24 +161,7 @@ namespace vc {
 		vkCmdSetViewport(commandBuffers[imageIndex], 0, 1, &viewport);
 		vkCmdSetScissor(commandBuffers[imageIndex], 0, 1, &scissor);
 
-		pipeline->bind(commandBuffers[imageIndex]);
-		model->bind(commandBuffers[imageIndex]);
-
-		for (int i = 0; i < 4; i++) {
-			PushConstantData push{
-				.offset = {-0.5f+0.0005F*frame, -0.4f + i * 0.25f, 0.0f},
-				.color = {0.0f, 0.0f, 0.1f + i * 0.3f},
-			};
-			vkCmdPushConstants(
-				commandBuffers[imageIndex],
-				pipelineLayout,
-				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-				0,
-				sizeof(PushConstantData),
-				&push);
-			model->draw(commandBuffers[imageIndex]);
-		};
-
+		renderObjects(commandBuffers[imageIndex]);
 		vkCmdEndRenderPass(commandBuffers[imageIndex]);
 
 		if (vkEndCommandBuffer(commandBuffers[imageIndex])) {
