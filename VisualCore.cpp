@@ -26,14 +26,14 @@ namespace vc {
 
 	void VisualCore::loadObjects() {
 		std::vector<Vertex> vertices {
-			{ { 0.0f, -0.5f}, Vertex::RED },
-			{ { 0.5f, 0.5f} , Vertex::BLUE },
-			{ { -0.5f, 0.5f}, Vertex::GREEN },
+			{ { 0.0f, -0.5f,0.0f}, Vertex::RED },
+			{ { 0.5f, 0.5f,0.0f} , Vertex::BLUE },
+			{ { -0.5f, 0.5f,0.0f}, Vertex::GREEN },
 		};
 
 		Object triangle = Object(std::make_unique<Model>(device, vertices));
-		triangle.transform.translation.x = 0.5f;
-		triangle.transform.scale = glm::vec2{ 2.0f,0.5f };
+		triangle.transform.translation.x = -0.5f;
+		triangle.transform.scale = glm::vec3{ 1.0f,0.5f ,1.0f};
 		objects.push_back(std::move(triangle));
 	}
 
@@ -41,7 +41,7 @@ namespace vc {
 		pipeline->bind(commandBuffer);
 		for (auto& obj:objects) {
 			PushConstantData push{
-				.transform = obj.transform.mat2(),
+				.transform = obj.transform.mat4(),
 				.offset = obj.transform.translation,
 			};
 

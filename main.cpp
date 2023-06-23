@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 int main(){
-	vc::VisualCore vc{};
-	try{
+	try {
+		vc::VisualCore vc{};
 		vc.start();
 	}
 	catch (std::exception e) {
