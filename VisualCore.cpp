@@ -12,13 +12,17 @@ namespace vc {
 	VisualCore::~VisualCore() {};
 
 	void VisualCore::start() {
+    Camera camera{};
+    camera.setViewDirection(glm::vec3{0.f}, glm::vec3{0.5f, 0.f, 1.f});
 		RenderSystem renderSystem {device, renderer.getRenderPass() };
 		while (!window.shouldClose()) {
 			glfwPollEvents();
-
+      float aspect = renderer.getAspectRatio();
+      //camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
+      camera.setPerspectiveProjection(glm::radians(50.f), aspect, .1f,15.f);
 			if (auto commandBuffer = renderer.startFrame()) {
 				renderer.startRenderPass(commandBuffer);
-				renderSystem.renderObjects(commandBuffer, objects);
+				renderSystem.renderObjects(commandBuffer, objects,camera);
 				renderer.endRenderPass(commandBuffer);
 				renderer.endFrame();
 			}
@@ -87,7 +91,7 @@ namespace vc {
 	void VisualCore::loadObjects() {
   Object cube = createCubeModel(device, { 0.0f,0.0f,0.0f });
     cube.transform.scale = { 0.5f,0.5f,0.5f };
-    cube.transform.translation = { 0.0f,0.0f,0.5f };
+    cube.transform.translation = { 0.0f,0.0f,5.f };
 		objects.push_back(std::move(cube));
 	}
 

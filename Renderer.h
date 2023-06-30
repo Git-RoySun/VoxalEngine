@@ -53,6 +53,7 @@ namespace vc {
 			assert(frameStatus == ACTIVE && "Cannot get active command buffer when frame is not active!");
 			return commandBuffers[frameIndex];
 		};
+		float getAspectRatio() { return swapChain->extentAspectRatio(); };
 
 	};
 }

@@ -9,6 +9,8 @@
 #include "Pipeline.h"
 #include "Renderer.h"
 #include "Object.h"
+#include "Camera.h"
+
 
 
 namespace vc {

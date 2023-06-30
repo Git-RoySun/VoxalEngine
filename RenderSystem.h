@@ -8,6 +8,7 @@
 #include "Pipeline.h"
 #include "Object.h"
 #include "Device.h"
+#include "Camera.h"
 
 
 namespace vc {
@@ -30,7 +31,7 @@ namespace vc {
 		RenderSystem(const RenderSystem&) = delete;
 		RenderSystem& operator=(const RenderSystem&) = delete;
 
-		void renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects);
+		void renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects, Camera& camera);
 	};
 }
 

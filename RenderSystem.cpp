@@ -13,14 +13,16 @@ namespace vc {
 		vkDestroyPipelineLayout(device.getVkDevice(), pipelineLayout, nullptr);
 	};
 
-	void RenderSystem::renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects) {
+	void RenderSystem::renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects, Camera& camera) {
 		pipeline->bind(commandBuffer);
+
+		auto projectionView = camera.getProjection() * camera.getView();
 		for (auto& obj : objects) {
 
 			obj.transform.rotation.y = glm::mod(obj.transform.rotation.y + 0.0005f, glm::two_pi<float>());
 			obj.transform.rotation.x = glm::mod(obj.transform.rotation.x + 0.0001f, glm::two_pi<float>());
 			PushConstantData push{
-				.transform = obj.transform.mat4(),
+				.transform = projectionView * obj.transform.mat4(),
 			};
 
 			vkCmdPushConstants(
