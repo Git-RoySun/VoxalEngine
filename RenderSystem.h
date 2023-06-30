@@ -13,7 +13,6 @@
 namespace vc {
 		struct PushConstantData {
 			glm::mat4 transform{1.0f};
-			alignas(16) glm::vec2 offset;
 		};
 
 	class RenderSystem {
