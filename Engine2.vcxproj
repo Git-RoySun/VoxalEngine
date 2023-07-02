@@ -157,6 +157,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="IMovable.cpp" />
+    <ClCompile Include="IRotatable.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="DeltaCommand.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -165,20 +171,30 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
-    <ClCompile Include="VisualCore.cpp" />
+    <ClCompile Include="VisualComponent.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraObject.h" />
+    <ClInclude Include="IMovable.h" />
+    <ClInclude Include="IRotatable.h" />
+    <ClInclude Include="IUpdatable.h" />
+    <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="DeltaCommand.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
-    <ClInclude Include="VisualCore.h" />
+    <ClInclude Include="VisualComponent.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag" />

@@ -47,7 +47,6 @@ namespace vc {
 	public:
 		Object(std::unique_ptr<Model> model, Transform transform = Transform{});
 
-
 		Object(const Object&) = delete;
 		Object& operator=(const Object&) = delete;
 

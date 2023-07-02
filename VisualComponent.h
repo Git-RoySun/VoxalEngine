@@ -1,23 +1,19 @@
 #pragma once
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <memory>
 #include <vector>
 
 #include "Window.h"
-#include "Pipeline.h"
 #include "Renderer.h"
 #include "Object.h"
 #include "Camera.h"
-
+#include "CameraObject.h"
 
 
 namespace vc {
-	class VisualCore {
+	class VisualComponent {
 		Window window{WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
+		CameraObject& camera;
 		std::vector<Object> objects;
 
 		void loadObjects();
@@ -29,11 +25,14 @@ namespace vc {
 		static constexpr int HEIGHT = 600;
 		void start();
 
-		VisualCore();
-		~VisualCore();
+		VisualComponent(CameraObject& camera);
+		~VisualComponent();
 
-		VisualCore(const VisualCore&) = delete;
-		VisualCore& operator=(const VisualCore&) = delete;
+		VisualComponent(const VisualComponent&) = delete;
+		VisualComponent& operator=(const VisualComponent&) = delete;
+
+		void setCamera(CameraObject& camera) { camera = camera; };
+		Window& getWindow() { return window; };
 	};
 }
 

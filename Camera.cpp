@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include <cassert>
 #include <limits>
-namespace vc {
+namespace vc{
   void Camera::setOrthographicProjection(
     float left, float right, float top, float bottom, float near, float far) {
     projection = glm::mat4{ 1.0f };
@@ -47,7 +47,7 @@ namespace vc {
     setViewDirection(position, target - position, up);
   }
 
-  void Camera::setRotation(glm::vec3 position, glm::vec3 rotation) {
+  /*void Camera::setRotation(glm::vec3 position, glm::vec3 rotation) {
     const float c3 = glm::cos(rotation.z);
     const float s3 = glm::sin(rotation.z);
     const float c2 = glm::cos(rotation.x);
@@ -70,5 +70,5 @@ namespace vc {
     view[3][0] = -glm::dot(u, position);
     view[3][1] = -glm::dot(v, position);
     view[3][2] = -glm::dot(w, position);
-  }
+  }*/
 }

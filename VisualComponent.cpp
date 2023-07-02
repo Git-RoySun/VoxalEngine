@@ -1,28 +1,27 @@
-#include "VisualCore.h"
+#include "VisualComponent.h"
 #include "RenderSystem.h"
 #include <stdexcept>
 #include <array>
 #include <vector>
 #include <iostream>
 namespace vc {
-	VisualCore::VisualCore() {
+  VisualComponent::VisualComponent(CameraObject& camera) :camera{ camera } {
 		loadObjects();
 	};
 
-	VisualCore::~VisualCore() {};
+	VisualComponent::~VisualComponent() {};
 
-	void VisualCore::start() {
-    Camera camera{};
-    camera.setViewDirection(glm::vec3{0.f}, glm::vec3{0.5f, 0.f, 1.f});
+	void VisualComponent::start() {
 		RenderSystem renderSystem {device, renderer.getRenderPass() };
 		while (!window.shouldClose()) {
 			glfwPollEvents();
       float aspect = renderer.getAspectRatio();
-      //camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
-      camera.setPerspectiveProjection(glm::radians(50.f), aspect, .1f,15.f);
+      camera.getVcCamera().setPerspectiveProjection(glm::radians(50.f), aspect, .1f,15.f);
+
 			if (auto commandBuffer = renderer.startFrame()) {
 				renderer.startRenderPass(commandBuffer);
-				renderSystem.renderObjects(commandBuffer, objects,camera);
+        camera.update();
+				renderSystem.renderObjects(commandBuffer, objects,camera.getVcCamera());
 				renderer.endRenderPass(commandBuffer);
 				renderer.endFrame();
 			}
@@ -88,7 +87,7 @@ namespace vc {
   }
 
 
-	void VisualCore::loadObjects() {
+	void VisualComponent::loadObjects() {
   Object cube = createCubeModel(device, { 0.0f,0.0f,0.0f });
     cube.transform.scale = { 0.5f,0.5f,0.5f };
     cube.transform.translation = { 0.0f,0.0f,5.f };
