@@ -7,7 +7,7 @@
 class IRotatable: public IUpdatable{
 protected:
 	glm::vec3 rotation{0.f,0.f,1.f};
-	float speed;
+	float speed = 0;
 public:
 	bool update() override;
 };
