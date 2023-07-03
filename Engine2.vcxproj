@@ -157,28 +157,44 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="InputModule.cpp" />
+    <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MouseInput.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
-    <ClCompile Include="VisualCore.cpp" />
+    <ClCompile Include="Updatable.cpp" />
+    <ClCompile Include="VisualModule.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="IMovable.h" />
+    <ClInclude Include="InputModule.h" />
+    <ClInclude Include="IRotatable.h" />
+    <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="Updatable.h" />
+    <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
-    <ClInclude Include="VisualCore.h" />
+    <ClInclude Include="VisualModule.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag" />

@@ -1,8 +1,6 @@
 #include "RenderSystem.h"
 #include <stdexcept>
-#include <array>
-#include <vector>
-#include <iostream>
+
 namespace vc {
 	RenderSystem::RenderSystem(Device& device, VkRenderPass renderPass):device{ device } {
 		initPipelineLayout();
@@ -18,11 +16,8 @@ namespace vc {
 
 		auto projectionView = camera.getProjection() * camera.getView();
 		for (auto& obj : objects) {
-
-			obj.transform.rotation.y = glm::mod(obj.transform.rotation.y + 0.0005f, glm::two_pi<float>());
-			obj.transform.rotation.x = glm::mod(obj.transform.rotation.x + 0.0001f, glm::two_pi<float>());
 			PushConstantData push{
-				.transform = projectionView * obj.transform.mat4(),
+				.transform = projectionView * obj.getTransform(),
 			};
 
 			vkCmdPushConstants(

@@ -25,6 +25,7 @@ namespace vc{
 		void resetResized() { resized = false; }
 
 		VkExtent2D getExtent() { return {static_cast<uint32_t>(width),static_cast<uint32_t>(height) }; }
+		GLFWwindow* getGlWindow() { return glWindow; };
 
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 	};
