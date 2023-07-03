@@ -1,8 +1,13 @@
 #include "CameraObject.h"
-bool CameraObject::update(){
-	bool changed = (IMovable::update() || IRotatable::update());
-	if(changed)
-		camera.setViewDirection(position, rotation);
 
+#include <iostream>
+#include <glm/ext/matrix_transform.hpp>
+
+bool CameraObject::update(){
+	bool changed = IMovable::update();
+	if (changed) {
+		camera.setRotation(position, rotation);
+		std::cout << std::format("{} {} {}", rotation.x, rotation.y, rotation.z) << std::endl;
+	}
 	return changed;
 }

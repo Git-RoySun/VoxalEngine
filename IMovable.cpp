@@ -1,12 +1,13 @@
 #include "IMovable.h"
 
-#include <iostream>
 #include <glm/detail/func_geometric.inl>
+
+//Todo: Cleanup first person movement
 
 bool IMovable::update(){
 	bool updated = false;
-	if (!started) {
-		started = true;
+	if (!moving) {
+		moving = true;
 		last = std::chrono::steady_clock::now();
 	}
 	auto now = std::chrono::steady_clock::now();
@@ -18,12 +19,17 @@ bool IMovable::update(){
 			step += directionsQueue.back();
 		}
 	}
-	started = updated;
+	moving = updated;
 	if(updated) {
+		float yaw = rotation.y;
+		glm::vec3 front {sin(yaw), 0.f, cos(yaw)};
+		glm::vec3 right {front.z, 0.f, -front.x};
+		step = step.z * front + step.x * right;
 		position += glm::normalize(step) * speed * delta.count();
-		std::cout << std::format("{} {} {}", step.x, step.y, step.z) << std::endl;
 	}
 	last = now;
+	updated = updated || rotated;
+	rotated = false;
 	return updated;
 }
 

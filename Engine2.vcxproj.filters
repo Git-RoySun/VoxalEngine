@@ -78,13 +78,13 @@
     <ClCompile Include="IMovable.cpp">
       <Filter>Source Files\Objects\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="IRotatable.cpp">
-      <Filter>Source Files\Objects\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RotateCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,9 +125,6 @@
     <ClInclude Include="DeltaCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -137,13 +134,16 @@
     <ClInclude Include="CameraObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IRotatable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IUpdatable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RotateCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

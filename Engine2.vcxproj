@@ -159,7 +159,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObject.cpp" />
     <ClCompile Include="IMovable.cpp" />
-    <ClCompile Include="IRotatable.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="DeltaCommand.cpp" />
     <ClCompile Include="InputComponent.cpp" />
@@ -169,6 +168,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="VisualComponent.cpp" />
@@ -179,10 +179,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObject.h" />
     <ClInclude Include="IMovable.h" />
-    <ClInclude Include="IRotatable.h" />
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="MoveCommand.h" />
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="KeyCommand.h" />
     <ClInclude Include="DeltaCommand.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="InputComponent.h" />
@@ -190,6 +189,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="VisualComponent.h" />

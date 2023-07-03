@@ -6,11 +6,11 @@
 namespace ic{
 	std::unique_ptr<InputComponent> InputComponent::instance = std::unique_ptr<InputComponent>(new InputComponent());
 	InputComponent&  InputComponent::getInstance(){ return *instance; }
-	void InputComponent::setKeyCommand(int key, Command& command) {
+	void InputComponent::setKeyCommand(int key, KeyCommand& command) {
 		commandMap.insert({key, command});
 	}
 
-	void InputComponent::getKeyCommand(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	void InputComponent::callKeyCommand(int key, int scancode, int action, int mods) {
 		auto cmd = commandMap.find(key);
 		std::string actions[3] = {
 			"Release",
@@ -23,5 +23,11 @@ namespace ic{
 		else
 			cmd->second.actionMap[action]();
 	}
+	void InputComponent::callMouseCommand(double xpos, double ypos){
+		rotateCommand->rotate(xpos, ypos);
+	}
 
+	void InputComponent::setMouseCommand(RotateCommand* command){
+		rotateCommand = command;
+	};
 }

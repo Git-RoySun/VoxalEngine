@@ -1,9 +1,9 @@
 #pragma once
 #include <chrono>
-#include "Command.h"
+#include "KeyCommand.h"
 
 namespace ic {
-	class DeltaCommand: public Command{
+	class DeltaCommand: public KeyCommand{
 	protected:
 		std::chrono::steady_clock::time_point last;
 		std::chrono::duration<float> delta;

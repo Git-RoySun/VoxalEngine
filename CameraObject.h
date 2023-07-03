@@ -1,10 +1,9 @@
 #pragma once
 #include "Camera.h"
 #include "IMovable.h"
-#include "IRotatable.h"
 
 
-class CameraObject: public IMovable, public IRotatable{
+class CameraObject: public IMovable{
 	vc::Camera camera{};
 public:
 		bool update() override;

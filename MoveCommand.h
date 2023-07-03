@@ -1,9 +1,9 @@
 #pragma once
-#include "Command.h"
+#include "KeyCommand.h"
 #include "World.h"
 class IMovable;
 
-class MoveCommand: public ic::Command{
+class MoveCommand: public ic::KeyCommand{
 	bool active = false;
 	IMovable* target;
 	DirectionName direction;
