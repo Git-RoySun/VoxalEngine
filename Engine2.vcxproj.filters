@@ -19,12 +19,24 @@
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{d4b3678b-a8b6-40a0-8552-6894169ec004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\InputModule">
+      <UniqueIdentifier>{2a457854-8d8f-4c7a-89d6-4516d6519d61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{e2f6bc6d-865e-4c8e-8747-c8fe82a01841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputModule\Inputs">
+      <UniqueIdentifier>{20779118-2f5e-4386-9eba-b49ba043c20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Object">
+      <UniqueIdentifier>{299c8706-3c98-454b-91a1-486fe9cb4eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Object\Command">
+      <UniqueIdentifier>{a909b74c-376c-4ef2-a826-6155bb87c716}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pipeline.cpp">
-      <Filter>Source Files\VisualCore</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualCore.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
@@ -39,9 +51,6 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\VisualCore</Filter>
-    </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
@@ -54,12 +63,39 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
+    <ClCompile Include="InputModule.cpp">
+      <Filter>Source Files\InputModule</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyInput.cpp">
+      <Filter>Source Files\InputModule\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>Source Files\InputModule\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Updatable.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualModule.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraObject.cpp">
+      <Filter>Source Files\World\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>Source Files\World\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\World\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\World\Object\Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipeline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
@@ -84,6 +120,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

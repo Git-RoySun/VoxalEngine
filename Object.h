@@ -45,14 +45,15 @@ class Object{
 	static id_t nextId;
 	id_t instanceId;
 protected:
-  Transform transform;
-  std::unique_ptr<vc::Model> model;
+  Transform transform{};
+  std::unique_ptr<vc::Model> model = nullptr;
 public:
   Object(const Object&) = delete;
   Object& operator=(const Object&) = delete;
   Object(Object&&) = default;
   Object& operator=(Object&&) = default;
 
+  Object();
 	Object(std::unique_ptr<vc::Model> model, Transform transform = Transform{});
 	id_t Id() const { return instanceId; };
   glm::mat4 getTransform() const { return transform.mat4(); };

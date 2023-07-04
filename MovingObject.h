@@ -1,18 +1,22 @@
 #pragma once
-#include "IMovable.h"
-#include "IRotatable.h"
 #include "Object.h"
 #include "Updatable.h"
-#include "World.h"
+#include "MoveCommand.h"
+#include <vector>
 
-class MovingObject:public Object, public Updatable, public IMovable, public IRotatable{
-	std::vector<glm::vec3> directionsQueue[NUM_AXIS];
+class MovingObject:public Object, public Updatable {
+	std::vector<glm::vec3> directionQueues[3];
+	int inputs = 0;
 	float speed = 1.f;
 	float sensibility = 1000.f;
-
+	friend class MoveCommand;
+	
+protected:
+	void update(float delta) override;
 public:
-	void update() override;
-	void move(glm::vec3 direction) override;
-	void rotate(glm::vec3 rotation) override;
+	MoveCommand moveLeft { this,LEFT };
+	MoveCommand moveRight { this,RIGHT };
+	MoveCommand moveFront { this,FRONT };
+	MoveCommand moveBack { this,BACK };
 };
 

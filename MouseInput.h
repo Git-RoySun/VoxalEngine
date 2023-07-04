@@ -1,5 +1,8 @@
 #pragma once
-class MouseInput
-{
-};
+namespace ic {
+	class MouseInput{
+	public:
+		void move(double xpos, double ypos);
+	};
+}
 

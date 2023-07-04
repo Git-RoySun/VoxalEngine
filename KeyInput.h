@@ -1,17 +1,22 @@
 #pragma once
 #include <functional>
+#include <iostream>
 
 namespace ic{
 	class KeyInput {
 		protected:
-			virtual void press() = 0;
-			virtual void repeat() = 0;
-			virtual void release() = 0;
+			bool pressed = false;
+			std::function<void()> press;
+			std::function<void()> repeat;
+			std::function<void()> release;
 		public:
+			KeyInput(){};
+			KeyInput(std::function<void()> press, std::function<void()> repeat, std::function<void()> release):press(press), repeat(repeat), release(release) {};
+
 			std::function<void()> actionMap[3] = {
-					 [this]() { release(); },
-					 [this]() { press(); },
-					 [this]() { repeat(); },
+				release,
+				press,
+				repeat,
 			};
 	};
 }

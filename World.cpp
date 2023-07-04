@@ -75,16 +75,41 @@ void World::init(){
 void World::setup(){
   loadWorld();
   //temporary camera setup
-  cameras.push_back(std::move(CameraObject{}));
-  //still need to setup input map
+  float aspect = vc.renderer.getAspectRatio();
+  cameras.emplace_back();
+  cameras[0].getCamera().setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 15.f);
+
+  ic.setKeyInput(GLFW_KEY_A, ic::KeyInput{
+    [this]() {cameras[0].moveLeft.activate(); },
+    []() {},
+    [this]() {cameras[0].moveLeft.deactivate(); },
+    });
+  ic.setKeyInput(GLFW_KEY_D, ic::KeyInput{
+  [this]() {cameras[0].moveRight.activate(); },
+  []() {},
+  [this]() {cameras[0].moveRight.deactivate(); },
+    });
+  ic.setKeyInput(GLFW_KEY_W, ic::KeyInput{
+  [this]() {cameras[0].moveFront.activate(); },
+  []() {},
+  [this]() {cameras[0].moveFront.deactivate(); },
+    });
+  ic.setKeyInput(GLFW_KEY_S, ic::KeyInput{
+  [this]() {cameras[0].moveBack.activate(); },
+  []() {},
+  [this]() {cameras[0].moveBack.deactivate(); },
+    });
+  glfwSetKeyCallback(vc.window.getGlWindow(), ic::InputModule::callMappedKey);
 
 }
 
 void World::start() {
   while (!vc.window.shouldClose()) {
     glfwPollEvents();
-    float aspect = vc.renderer.getAspectRatio();
-    cameras[0].getCamera().setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 15.f);
+    auto now = std::chrono::steady_clock::now();
+    std::chrono::duration<float> delta = now - last;
+    last = now;
+    Updatable::updateAll(delta.count());
     if (auto commandBuffer = vc.renderer.startFrame()) {
       vc.renderer.startRenderPass(commandBuffer);
       vc.renderSystem.renderObjects(commandBuffer, objects, cameras[0].getCamera());

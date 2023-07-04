@@ -1,25 +1,27 @@
 #include "Updatable.h"
 //class functions
 std::vector<Updatable*> Updatable::updateQueue = {};
-std::vector<Updatable*>::iterator Updatable::add(Updatable* update){
-	updateQueue.emplace_back(update);
-	return --updateQueue.end();
-}
-
-void Updatable::updateAll(){
+void Updatable::updateAll(float delta){
 	for (auto it:updateQueue){
-		it->update();
+		it->update(delta);
 	}
 }
 
 void Updatable::queueUpdate(){
-	queuePosition = Updatable::add(this);
-	queued = true;
+	if (!queued) {
+		updateQueue.emplace_back(this);
+		queued = true;
+	}
 }
 
 void Updatable::unqueuUpdate(){
 	if (queued) {
-		Updatable::remove(queuePosition);
+		for(auto it = updateQueue.begin(); it!=updateQueue.end(); ++it){
+			if (*it == this) {
+				updateQueue.erase(it);
+				break;
+			}
+		}
 		queued = false;
 	}
 }
