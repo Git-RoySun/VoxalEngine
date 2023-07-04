@@ -9,7 +9,9 @@ namespace ic {
 		static MouseInput mouseInput;
 	public:
 		static void callMappedKey(GLFWwindow* window,int key, int scancode, int action, int mods);
+		static void callMappedMouse(GLFWwindow* window,double xpos, double ypos);
 		static void setKeyInput(int key, KeyInput input) { keyMap.insert({ key,input }); }
+		static void setMouseInput(MouseInput input) { mouseInput = input; };
 	};
 }
 

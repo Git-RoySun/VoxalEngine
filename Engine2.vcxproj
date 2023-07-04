@@ -171,6 +171,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Updatable.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Model.h" />

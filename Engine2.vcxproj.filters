@@ -93,6 +93,9 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Source Files\World\Object\Command</Filter>
     </ClCompile>
+    <ClCompile Include="RotateCommand.cpp">
+      <Filter>Source Files\World\Object\Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipeline.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Coordinates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RotateCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

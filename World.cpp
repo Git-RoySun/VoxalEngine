@@ -83,23 +83,28 @@ void World::setup(){
     [this]() {cameras[0].moveLeft.activate(); },
     []() {},
     [this]() {cameras[0].moveLeft.deactivate(); },
-    });
+  });
   ic.setKeyInput(GLFW_KEY_D, ic::KeyInput{
   [this]() {cameras[0].moveRight.activate(); },
   []() {},
   [this]() {cameras[0].moveRight.deactivate(); },
-    });
+  });
   ic.setKeyInput(GLFW_KEY_W, ic::KeyInput{
   [this]() {cameras[0].moveFront.activate(); },
   []() {},
   [this]() {cameras[0].moveFront.deactivate(); },
-    });
+  });
   ic.setKeyInput(GLFW_KEY_S, ic::KeyInput{
   [this]() {cameras[0].moveBack.activate(); },
   []() {},
   [this]() {cameras[0].moveBack.deactivate(); },
-    });
+  });
+  ic.setMouseInput(ic::MouseInput{
+    [this](double xpos, double ypos) {cameras[0].rotate.rotate(xpos,ypos); }
+  });
+  glfwSetInputMode(vc.window.getGlWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   glfwSetKeyCallback(vc.window.getGlWindow(), ic::InputModule::callMappedKey);
+  glfwSetCursorPosCallback(vc.window.getGlWindow(), ic::InputModule::callMappedMouse);
 
 }
 
