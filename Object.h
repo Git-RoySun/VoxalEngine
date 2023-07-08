@@ -59,4 +59,3 @@ public:
   glm::mat4 getTransform() const { return transform.mat4(); };
 };
 
-

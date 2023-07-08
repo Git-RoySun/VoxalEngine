@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\VisualCore">
-      <UniqueIdentifier>{208eb49b-c7c5-4e5a-add3-ba4a531a4034}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{d4b3678b-a8b6-40a0-8552-6894169ec004}</UniqueIdentifier>
     </Filter>
@@ -37,31 +34,55 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pipeline.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Source Files\InputModule</Filter>
+    </ClCompile>
+    <ClCompile Include="DeltaCommand.cpp">
+      <Filter>Source Files\InputModule\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\InputModule\Command</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\VisualCore</Filter>
+      <Filter>Source Files\VisualModule</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="IMovable.cpp">
+      <Filter>Source Files\Objects\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RotateCommand.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputModule.cpp">
       <Filter>Source Files\InputModule</Filter>

@@ -8,4 +8,3 @@ void CameraObject::setRotation(glm::vec3 rotation){
 	DynamicObject::setRotation(rotation);
 	camera.setRotation(transform.position, rotation);
 }
-

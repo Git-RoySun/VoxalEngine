@@ -170,6 +170,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Updatable.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="VisualModule.h" />

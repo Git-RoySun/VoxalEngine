@@ -1,7 +1,5 @@
+
 #include "World.h"
-
-#include <iostream>
-
 #include "Updatable.h"
 
 std::unique_ptr<vc::Model> createCubeModel(vc::Device& device, glm::vec3 offset) {

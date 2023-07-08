@@ -1,7 +1,10 @@
 #include "Camera.h"
 #include <cassert>
+#include <format>
 #include <limits>
-namespace vc {
+#include <iostream>
+
+namespace vc{
   void Camera::setOrthographicProjection(
     float left, float right, float top, float bottom, float near, float far) {
     projection = glm::mat4{ 1.0f };

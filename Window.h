@@ -28,6 +28,7 @@ namespace vc{
 		GLFWwindow* getGlWindow() { return glWindow; };
 
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+		GLFWwindow* getGlWindow() { return glWindow; };
 	};
 }
 
