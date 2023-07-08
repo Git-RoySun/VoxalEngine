@@ -3,7 +3,7 @@
 
 class Updatable{
 	//static members
-	static std::vector<Updatable*> updateQueue;
+	static std::vector<Updatable*> updateQueue;//should be DoubleList when it is implemented
 public:
 	static void updateAll(float delta);
 	//class members

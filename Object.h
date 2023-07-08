@@ -6,7 +6,7 @@
 namespace vc { class RenderSystem; };
 using id_t = unsigned int;
 struct Transform {
-	glm::vec3 translation {};
+	glm::vec3 position {};
 	glm::vec3 scale {1.f};
 	glm::vec3 rotation {};
 
@@ -36,7 +36,7 @@ struct Transform {
           scale.z * (c1 * c2),
           0.0f,
       },
-      { translation.x, translation.y, translation.z, 1.0f }};
+      { position.x, position.y, position.z, 1.0f }};
   }
 };
 

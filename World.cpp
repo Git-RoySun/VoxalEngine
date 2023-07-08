@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Updatable.h"
+
 std::unique_ptr<vc::Model> createCubeModel(vc::Device& device, glm::vec3 offset) {
   std::vector<vc::Vertex> vertices{
     // left face (white)
@@ -61,7 +63,7 @@ std::unique_ptr<vc::Model> createCubeModel(vc::Device& device, glm::vec3 offset)
 
 void World::loadWorld() {//load objects
   Transform transform{
-    .translation = { 0.f,0.f,7.f }
+    .position = { 0.f,0.f,5.f }
   };
   Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
   objects.push_back(std::move(cube));
@@ -78,42 +80,33 @@ void World::setup(){
   float aspect = vc.renderer.getAspectRatio();
   cameras.emplace_back();
   cameras[0].getCamera().setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 15.f);
+  controller = FPMovementController(&cameras[0]);
+  ic::InputModule::addMouseListener(&controller);
+  ic::InputModule::addKeyListener(GLFW_KEY_W, &controller);
+  ic::InputModule::addKeyListener(GLFW_KEY_A, &controller);
+  ic::InputModule::addKeyListener(GLFW_KEY_S, &controller);
+  ic::InputModule::addKeyListener(GLFW_KEY_D, &controller);
 
-  ic.setKeyInput(GLFW_KEY_A, ic::KeyInput{
-    [this]() {cameras[0].moveLeft.activate(); },
-    []() {},
-    [this]() {cameras[0].moveLeft.deactivate(); },
-  });
-  ic.setKeyInput(GLFW_KEY_D, ic::KeyInput{
-  [this]() {cameras[0].moveRight.activate(); },
-  []() {},
-  [this]() {cameras[0].moveRight.deactivate(); },
-  });
-  ic.setKeyInput(GLFW_KEY_W, ic::KeyInput{
-  [this]() {cameras[0].moveFront.activate(); },
-  []() {},
-  [this]() {cameras[0].moveFront.deactivate(); },
-  });
-  ic.setKeyInput(GLFW_KEY_S, ic::KeyInput{
-  [this]() {cameras[0].moveBack.activate(); },
-  []() {},
-  [this]() {cameras[0].moveBack.deactivate(); },
-  });
-  ic.setMouseInput(ic::MouseInput{
-    [this](double xpos, double ypos) {cameras[0].rotate.rotate(xpos,ypos); }
-  });
+  ic::InputModule::setDirection(GLFW_KEY_W, FRONT);
+  ic::InputModule::setDirection(GLFW_KEY_A, LEFT);
+  ic::InputModule::setDirection(GLFW_KEY_S, BACK);
+  ic::InputModule::setDirection(GLFW_KEY_D, RIGHT);
+
+  glfwSetCursorPos(vc.window.getGlWindow(), 0, 0);
   glfwSetInputMode(vc.window.getGlWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-  glfwSetKeyCallback(vc.window.getGlWindow(), ic::InputModule::callMappedKey);
-  glfwSetCursorPosCallback(vc.window.getGlWindow(), ic::InputModule::callMappedMouse);
+  glfwSetKeyCallback(vc.window.getGlWindow(), ic::InputModule::sendKeyEvent);
+  glfwSetCursorPosCallback(vc.window.getGlWindow(), ic::InputModule::sendMouseEvent);
 
 }
 
 void World::start() {
   while (!vc.window.shouldClose()) {
     glfwPollEvents();
+
     auto now = std::chrono::steady_clock::now();
     std::chrono::duration<float> delta = now - last;
     last = now;
+
     Updatable::updateAll(delta.count());
     if (auto commandBuffer = vc.renderer.startFrame()) {
       vc.renderer.startRenderPass(commandBuffer);

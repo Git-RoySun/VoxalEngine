@@ -1,17 +1,36 @@
 #pragma once
-#include "KeyInput.h"
-#include "MouseInput.h"
-#include "window.h"
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+#include <unordered_map>
+#include <vector>
+
+
+#include "Coordinates.h"
 
 namespace ic {
-	class InputModule {
-		static std::unordered_map<int, KeyInput> keyMap;
-		static MouseInput mouseInput;
+	template<typename ... T>
+	class Event {
 	public:
-		static void callMappedKey(GLFWwindow* window,int key, int scancode, int action, int mods);
-		static void callMappedMouse(GLFWwindow* window,double xpos, double ypos);
-		static void setKeyInput(int key, KeyInput input) { keyMap.insert({ key,input }); }
-		static void setMouseInput(MouseInput input) { mouseInput = input; };
+		class IHandler {
+		public:
+			virtual void EventCallback(T... args) = 0;
+		};
+	};
+	typedef Event<int, int> KeyEvent;         //key, action
+	typedef Event<double, double> MouseEvent; //xpos, ypos
+
+	class InputModule {
+		static std::unordered_map<int, std::vector<KeyEvent::IHandler*>> keyMap;
+		static std::unordered_map <int, DIRECTION_TITLE> directionMap;
+
+		static std::vector<MouseEvent::IHandler*> mouseListeners;
+	public:
+		InputModule() = delete;
+		static void sendKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void sendMouseEvent(GLFWwindow* window, double xpos, double ypos);
+		static void addKeyListener(int key, KeyEvent::IHandler* listener);
+		static void setDirection(int key, DIRECTION_TITLE dir) { directionMap[key] = dir; };
+		static void addMouseListener(MouseEvent::IHandler* listener);
+		static DIRECTION_TITLE getMappedDirection(int key) { return directionMap[key]; }
 	};
 }
-

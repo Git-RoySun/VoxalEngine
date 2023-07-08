@@ -1,19 +1,46 @@
 #include "InputModule.h"
 #include <iostream>
+#include <glm/common.hpp>
+
 namespace ic {
-	std::unordered_map<int, KeyInput> InputModule::keyMap = {};
-	MouseInput InputModule::mouseInput = {};
-	void InputModule::callMappedKey(GLFWwindow* window, int key, int scancode, int action, int mods) {
-		auto cmd = keyMap.find(key);
+	std::unordered_map<int, std::vector<KeyEvent::IHandler*>> InputModule::keyMap = {};
+	std::unordered_map <int, DIRECTION_TITLE> InputModule::directionMap = {};
+	std::vector<MouseEvent::IHandler*> InputModule::mouseListeners = {};
+
+	void InputModule::sendKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods) {
+		auto subs = keyMap.find(key);
 		auto name = glfwGetKeyName(key, scancode);
-		if (cmd == keyMap.end()) {
-			std::cout << "Key "<< ((name) ? name : "UNKOWN") <<" is not mapped to any action" << std::endl;
-		}else {
-			keyMap[key].actionMap[action]();
+		if (subs == keyMap.end() || subs->second.empty()) {
+			std::cerr << "Key "<< ((name) ? name : "UNKOWN") <<" is not mapped to any action" << std::endl;
+		} else {
+			for(auto it:subs->second){
+				it->EventCallback(key,action);
+			}
 		}
 	};
-	void InputModule::callMappedMouse(GLFWwindow* window, double xpos, double ypos){
-		mouseInput.move(xpos,ypos);
+
+	void InputModule::sendMouseEvent(GLFWwindow* window, double xpos, double ypos){
+		if(mouseListeners.empty()){
+			std::cerr << "Mouse Movement not mapped to anything" << std::endl;
+		} else {
+			for (auto it : mouseListeners) {
+				if(ypos<-700||ypos>700){
+					ypos = glm::clamp(ypos,-700.0,700.0);
+					glfwSetCursorPos(window, xpos,ypos);
+				}
+				it->EventCallback(xpos,ypos);
+			}
+		}
+	}
+
+	void InputModule::addKeyListener(int key, KeyEvent::IHandler* listener){//need to implement function that removes
+		auto subs = keyMap.find(key);
+		if(subs == keyMap.end())
+			subs = keyMap.insert({key, {}}).first;
+		subs->second.emplace_back(listener);
+	}
+	void InputModule::addMouseListener(MouseEvent::IHandler* listener) {//need to implement function that removes
+		mouseListeners.emplace_back(listener);
 	}
 
 }

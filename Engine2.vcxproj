@@ -117,13 +117,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\glfw-3.3.8.bin.WIN64\include;E:\glm;E:\VulkanSDK\1.3.250.0\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\glfw-3.3.8.bin.WIN64\include;D:\glm;D:\Dev\VulkanSDK\1.3.250.0\Include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\VulkanSDK\1.3.250.0\Lib;E:\glfw-3.3.8.bin.WIN64\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Dev\VulkanSDK\1.3.250.0\Lib;D:\Dev\glfw-3.3.8.bin.WIN64\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -160,18 +160,16 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="DoubleList.cpp" />
+    <ClCompile Include="FPMovementController.cpp" />
     <ClCompile Include="InputModule.cpp" />
-    <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="MouseInput.cpp" />
-    <ClCompile Include="MoveCommand.cpp" />
-    <ClCompile Include="MovingObject.cpp" />
+    <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
-    <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Updatable.cpp" />
@@ -184,14 +182,14 @@
     <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="DoubleList.h" />
+    <ClInclude Include="FPMovementController.h" />
+    <ClInclude Include="IMovable.h" />
     <ClInclude Include="InputModule.h" />
-    <ClInclude Include="MoveCommand.h" />
-    <ClInclude Include="MovingObject.h" />
-    <ClInclude Include="RotateCommand.h" />
+    <ClInclude Include="IRotatable.h" />
+    <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Updatable.h" />
-    <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
