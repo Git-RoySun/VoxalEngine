@@ -62,11 +62,19 @@ std::unique_ptr<vc::Model> createCubeModel(vc::Device& device, glm::vec3 offset)
 }
 
 void World::loadWorld() {//load objects
-  Transform transform{
-    .position = { 0.f,0.f,5.f }
-  };
-  Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
-  objects.push_back(std::move(cube));
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_real_distribution<float> dis(-10.0f, 10.0f);
+
+	for (int i = 0;i<50;i++){
+    Transform transform = {
+      .position = {dis(gen),0.f,dis(gen)},
+      .scale = {dis(gen)/10+1,dis(gen)/10+1,dis(gen)/10+1},
+      .rotation = {dis(gen) / 8,dis(gen) / 8,dis(gen) / 8}
+    };
+    Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
+    objects.push_back(std::move(cube));
+	}
 }
 
 void World::init(){
