@@ -80,12 +80,12 @@ void World::setup(){
   float aspect = vc.renderer.getAspectRatio();
   cameras.emplace_back();
   cameras[0].getCamera().setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 15.f);
-  controller = FPMovementController(&cameras[0]);
-  ic::InputModule::addMouseListener(&controller);
-  ic::InputModule::addKeyListener(GLFW_KEY_W, &controller);
-  ic::InputModule::addKeyListener(GLFW_KEY_A, &controller);
-  ic::InputModule::addKeyListener(GLFW_KEY_S, &controller);
-  ic::InputModule::addKeyListener(GLFW_KEY_D, &controller);
+  camController = ic::FPMovementController(&cameras[0]);
+  ic::InputModule::addMouseListener(&camController);
+  ic::InputModule::addKeyListener(GLFW_KEY_W, &camController);
+  ic::InputModule::addKeyListener(GLFW_KEY_A, &camController);
+  ic::InputModule::addKeyListener(GLFW_KEY_S, &camController);
+  ic::InputModule::addKeyListener(GLFW_KEY_D, &camController);
 
   ic::InputModule::setDirection(GLFW_KEY_W, FRONT);
   ic::InputModule::setDirection(GLFW_KEY_A, LEFT);

@@ -7,7 +7,6 @@
 
 #include "CameraObject.h"
 #include "FPMovementController.h"
-#include "InputModule.h"
 #include "Object.h"
 #include "VisualModule.h"
 
@@ -16,7 +15,7 @@ class World {
 	vc::VisualModule vc{};
 	std::vector<Object> objects{};
 	std::vector<CameraObject> cameras{};
-	FPMovementController controller{nullptr};
+	ic::FPMovementController camController{nullptr};
 	std::chrono::steady_clock::time_point last;
 
 	void loadWorld();

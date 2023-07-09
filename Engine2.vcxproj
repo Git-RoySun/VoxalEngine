@@ -173,7 +173,6 @@
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Updatable.cpp" />
-    <ClCompile Include="VisualModule.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>

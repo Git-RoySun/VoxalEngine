@@ -25,14 +25,11 @@
     <Filter Include="Source Files\World">
       <UniqueIdentifier>{e2f6bc6d-865e-4c8e-8747-c8fe82a01841}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\InputModule\Inputs">
-      <UniqueIdentifier>{20779118-2f5e-4386-9eba-b49ba043c20d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\World\Object">
       <UniqueIdentifier>{299c8706-3c98-454b-91a1-486fe9cb4eaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\World\Object\Command">
-      <UniqueIdentifier>{a909b74c-376c-4ef2-a826-6155bb87c716}</UniqueIdentifier>
+    <Filter Include="Source Files\InputModule\Controller">
+      <UniqueIdentifier>{88bcb354-2ef0-4102-9126-d45062260b00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,16 +63,7 @@
     <ClCompile Include="InputModule.cpp">
       <Filter>Source Files\InputModule</Filter>
     </ClCompile>
-    <ClCompile Include="KeyInput.cpp">
-      <Filter>Source Files\InputModule\Inputs</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
-      <Filter>Source Files\InputModule\Inputs</Filter>
-    </ClCompile>
     <ClCompile Include="Updatable.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualModule.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
@@ -84,17 +72,17 @@
     <ClCompile Include="CameraObject.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="MovingObject.cpp">
-      <Filter>Source Files\World\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Source Files\World\Object\Command</Filter>
+    <ClCompile Include="DoubleList.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RotateCommand.cpp">
-      <Filter>Source Files\World\Object\Command</Filter>
+    <ClCompile Include="DynamicObject.cpp">
+      <Filter>Source Files\World\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FPMovementController.cpp">
+      <Filter>Source Files\InputModule\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,16 +119,7 @@
     <ClInclude Include="InputModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovingObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Updatable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VisualModule.h">
@@ -149,13 +128,22 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RotateCommand.h">
+    <ClInclude Include="DoubleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPMovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRotatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
