@@ -4,7 +4,7 @@
 #include "IRotatable.h"
 
 class DynamicObject:public Object, public IMovable, public IRotatable {
-	float speed = 1.f;
+	float speed = 2.f;
 public:
 	virtual void move(glm::vec3 direction) override;
 	virtual void setPosition(glm::vec3 direction) override;

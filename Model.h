@@ -27,10 +27,21 @@ namespace vc {
 		VkDeviceMemory vertexMemory;
 		uint32_t vertexCount;
 
+		bool indexed = false;
+		VkBuffer indexBuffer;
+		VkDeviceMemory indexMemory;
+		uint32_t indexCount;
+
 		void initVertexBuffers(const std::vector<Vertex>& vertices);
+		void initIndexBuffers(const std::vector<uint32_t>& indices);
 
 	public:
-		Model(Device& device, const std::vector<Vertex>& vertices);
+		struct Builder {
+			std::vector<Vertex> vertices{};
+			std::vector<uint32_t> indices{};
+		};
+
+		Model(Device& device, const Builder& builder);
 		~Model();
 
 		Model(const Model&) = delete;
