@@ -12,9 +12,16 @@
 
 
 namespace vc {
-		struct PushConstantData {
-			glm::mat4 transform{1.0f};
-		};
+	struct PushConstantData {
+		glm::mat4 transform{1.0f};
+	};
+
+	struct FrameInfo{
+		int frameIndex;
+		float frameTime;
+		VkCommandBuffer commandBuffer;
+		Camera& camera;
+	};
 
 	class RenderSystem {
 		Device& device;
@@ -31,7 +38,7 @@ namespace vc {
 		RenderSystem(const RenderSystem&) = delete;
 		RenderSystem& operator=(const RenderSystem&) = delete;
 
-		void renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects, Camera& camera);
+		void renderObjects(FrameInfo info, std::vector<Object>& objects);
 	};
 }
 

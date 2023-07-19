@@ -6,93 +6,82 @@ namespace vc {
 		initIndexBuffers(builder.indices);
 	}
 
-	Model::~Model() {
-		vkDestroyBuffer(device.getVkDevice(), vertexBuffer, nullptr);
-		vkFreeMemory(device.getVkDevice(), vertexMemory, nullptr);
-		if(indexed){
-			vkDestroyBuffer(device.getVkDevice(), indexBuffer, nullptr);
-			vkFreeMemory(device.getVkDevice(), indexMemory, nullptr);
-		}
-	}
+	Model::~Model() {}
 
 	void Model::initVertexBuffers(const std::vector<Vertex>& vertices) {
 		vertexCount = static_cast<uint32_t>(vertices.size());
 		if (vertexCount < 3) throw std::runtime_error("Vertex count must be at least 3");
-		VkDeviceSize bufferSize = sizeof(vertices[0]) * vertexCount;
 
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingMemory;
-		device.createBuffer(
-			bufferSize,
+		uint32_t vertexSize = sizeof(vertices[0]);
+		VkDeviceSize bufferSize = vertexSize * vertexCount;
+
+		Buffer stagingBuffer{
+			device,
+			vertexSize,
+			vertexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingMemory);
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		};
+		stagingBuffer.map();
+		stagingBuffer.writeToBuffer((void*)vertices.data());
 
-		
-		void* data;//creates space on cpu to mimick gpu memory
-		vkMapMemory(device.getVkDevice(), stagingMemory, 0, bufferSize, 0, &data);//synchs both memory
-		memcpy(data, vertices.data(), static_cast<size_t>(bufferSize));
-		//copies vertex data to cpu memory, but since host_choerent_bit, gpu memory is synched to cpu memory, thus vertex data is on gpu
-		vkUnmapMemory(device.getVkDevice(), stagingMemory);
-
-		device.createBuffer(
-			bufferSize,
+		vertexBuffer = std::make_unique<Buffer>(
+			device,
+			vertexSize,
+			vertexCount,
 			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			vertexBuffer,
-			vertexMemory);
-		device.copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
-		vkDestroyBuffer(device.getVkDevice(), stagingBuffer, nullptr);
-		vkFreeMemory(device.getVkDevice(), stagingMemory, nullptr);
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+
+		);
+		device.copyBuffer(stagingBuffer.getVkBuffer(), vertexBuffer->getVkBuffer(), bufferSize);
 	}
 
 	void Model::initIndexBuffers(const std::vector<uint32_t>& indices) {
 		indexCount = static_cast<uint32_t>(indices.size());
 		indexed = indexCount > 0;
-		if (!indexed) return;
+
+		if (!indexed) {
+			return;
+		}
+
 		VkDeviceSize bufferSize = sizeof(indices[0]) * indexCount;
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingMemory;
-		device.createBuffer(
-			bufferSize,
-			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingMemory);
+		uint32_t indexSize = sizeof(indices[0]);
 
+		Buffer stagingBuffer{
+				device,
+				indexSize,
+				indexCount,
+				VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		};
 
-		void* data;//creates space on cpu to mimick gpu memory
-		vkMapMemory(device.getVkDevice(), stagingMemory, 0, bufferSize, 0, &data);//synchs both memory
-		memcpy(data, indices.data(), static_cast<size_t>(bufferSize));
-		//copies vertex data to cpu memory, but since host_choerent_bit, gpu memory is synched to cpu memory, thus vertex data is on gpu
-		vkUnmapMemory(device.getVkDevice(), stagingMemory);
+		stagingBuffer.map();
+		stagingBuffer.writeToBuffer((void*)indices.data());
 
-		device.createBuffer(
-			bufferSize,
+		indexBuffer = std::make_unique<Buffer>(
+			device,
+			indexSize,
+			indexCount,
 			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			indexBuffer,
-			indexMemory);
-		device.copyBuffer(stagingBuffer, indexBuffer, bufferSize);
-		vkDestroyBuffer(device.getVkDevice(), stagingBuffer, nullptr);
-		vkFreeMemory(device.getVkDevice(), stagingMemory, nullptr);
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+		device.copyBuffer(stagingBuffer.getVkBuffer(), indexBuffer->getVkBuffer(), bufferSize);
 	}
 
 	void Model::draw(VkCommandBuffer commandBuffer){
-		if(indexed) {
-			vkCmdDrawIndexed(commandBuffer,indexCount,1,0,0,0);
+		if (indexed) {
+			vkCmdDrawIndexed(commandBuffer, indexCount, 1, 0, 0, 0);
 		}
 		else
 			vkCmdDraw(commandBuffer, vertexCount, 1, 0, 0);
 	}
 
 	void Model::bind(VkCommandBuffer commandBuffer) {
-		VkBuffer buffers[] = { vertexBuffer };
+		VkBuffer buffers[] = { vertexBuffer->getVkBuffer() };
 		VkDeviceSize offsets[] = { 0 };
 		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
 		if(indexed){
-			vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+			vkCmdBindIndexBuffer(commandBuffer, indexBuffer->getVkBuffer(), 0, VK_INDEX_TYPE_UINT32);
 		}
 	}
 

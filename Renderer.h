@@ -42,7 +42,7 @@ namespace vc {
 		void startRenderPass(VkCommandBuffer commandBuffer);
 		void endRenderPass(VkCommandBuffer commandBuffer);
 
-		int frameindex() const { 
+		int getFrameIndex() const { 
 			assert(frameStatus == ACTIVE && "Cannot get active command buffer when frame is not active!");
 			return frameIndex;
 		};

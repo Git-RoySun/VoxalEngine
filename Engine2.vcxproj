@@ -158,8 +158,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="Descriptor.cpp" />
     <ClCompile Include="DoubleList.cpp" />
     <ClCompile Include="FPMovementController.cpp" />
     <ClCompile Include="InputModule.cpp" />
@@ -172,14 +174,17 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Updatable.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Coordinates.h" />
+    <ClInclude Include="Descriptor.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DoubleList.h" />
     <ClInclude Include="FPMovementController.h" />
@@ -187,6 +192,7 @@
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="IRotatable.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />

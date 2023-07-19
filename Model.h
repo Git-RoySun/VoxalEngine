@@ -2,9 +2,12 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
+
+#include <memory>
 #include <vector>
 
 #include "Device.h"
+#include "Buffer.h"
 
 namespace vc {
 	struct Vertex {
@@ -22,14 +25,11 @@ namespace vc {
 	class Model {
 	private:
 		Device& device;
-
-		VkBuffer vertexBuffer;
-		VkDeviceMemory vertexMemory;
+		std::unique_ptr<Buffer> vertexBuffer;
 		uint32_t vertexCount;
 
 		bool indexed = false;
-		VkBuffer indexBuffer;
-		VkDeviceMemory indexMemory;
+		std::unique_ptr<Buffer> indexBuffer;
 		uint32_t indexCount;
 
 		void initVertexBuffers(const std::vector<Vertex>& vertices);

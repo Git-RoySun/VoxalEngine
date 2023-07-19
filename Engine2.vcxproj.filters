@@ -31,6 +31,15 @@
     <Filter Include="Source Files\InputModule\Controller">
       <UniqueIdentifier>{88bcb354-2ef0-4102-9126-d45062260b00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{07728b12-f9e8-449e-ad64-5b071d4b5ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Procedural">
+      <UniqueIdentifier>{ca110262-8c88-40e3-8c88-9f62e374705f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Object\Abstract">
+      <UniqueIdentifier>{a9af26f8-9c7f-4af5-9b04-6c545cc7d27f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pipeline.cpp">
@@ -72,17 +81,26 @@
     <ClCompile Include="CameraObject.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\World\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="DoubleList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicObject.cpp">
-      <Filter>Source Files\World\Object</Filter>
-    </ClCompile>
     <ClCompile Include="FPMovementController.cpp">
       <Filter>Source Files\InputModule\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleList.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\World\Procedural</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicObject.cpp">
+      <Filter>Source Files\World\Object\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\World\Object\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Source Files\VisualCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Descriptor.cpp">
+      <Filter>Source Files\VisualCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +162,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DynamicObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Descriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

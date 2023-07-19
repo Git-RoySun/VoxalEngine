@@ -131,6 +131,7 @@ void Device::pickPhysicalDevice() {
 
   vkGetPhysicalDeviceProperties(physicalDevice, &properties);
   std::cout << "Selected physical device: " << properties.deviceName << std::endl;
+  std::cout << "maxMemoryAllocationCount: " << properties.limits.maxMemoryAllocationCount << std::endl;
 }
 
 void Device::createLogicalDevice() {

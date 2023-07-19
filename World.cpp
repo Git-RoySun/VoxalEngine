@@ -54,19 +54,32 @@ std::unique_ptr<vc::Model> createCubeModel(vc::Device& device, glm::vec3 offset)
 }
 
 void World::loadWorld() {//load objects
-  std::random_device rd;
+	/*std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_real_distribution<float> dis(-10.0f, 10.0f);
+  */
+  const float VOXELS = 4.f;
+  const float SIZE = 0.5f / VOXELS;
+  for (int x = 0; x < VOXELS; x++) {
+    for (int y = 0; y < VOXELS; y++) {
+      for (int z = 0; z < VOXELS; z++) {
+        Transform transform = {
+          .position = {(SIZE + 0.01f) * x , 0.2f+(SIZE + 0.01f) * -(y) ,(SIZE + 0.01f) * z},
+          .scale = glm::vec3{SIZE}
+        };
 
-	for (int i = 0;i<50;i++){
-    Transform transform = {
-      .position = {dis(gen),0.f,dis(gen)},
-      .scale = {dis(gen)/10+1,dis(gen)/10+1,dis(gen)/10+1},
-      .rotation = {dis(gen) / 8,dis(gen) / 8,dis(gen) / 8}
-    };
-    Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
-    objects.push_back(std::move(cube));
-	}
+        Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
+        objects.push_back(std::move(cube));
+      }
+    }
+  }
+
+  Transform transform = {
+  	.position = {-1.f,0,0},
+    .scale = glm::vec3{0.5f}
+  };
+  Object cube = Object(createCubeModel(vc.device, { 0.0f,0.0f,0.f }), transform);
+  objects.push_back(std::move(cube));
 }
 
 void World::init(){
@@ -100,6 +113,16 @@ void World::setup(){
 }
 
 void World::start() {
+  vc::Buffer buffer {
+    vc.device,
+    sizeof(vc::UniformBuffer),
+    vc::SwapChain::MAX_FRAMES_IN_FLIGHT,
+    VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+  	vc.device.properties.limits.minUniformBufferOffsetAlignment
+  };
+  buffer.map();
+
   while (!vc.window.shouldClose()) {
     glfwPollEvents();
 
@@ -107,10 +130,25 @@ void World::start() {
     std::chrono::duration<float> delta = now - last;
     last = now;
 
-    Updatable::updateAll(delta.count());
     if (auto commandBuffer = vc.renderer.startFrame()) {
+      Updatable::updateAll(delta.count());
+
+      int frameIndex = vc.renderer.getFrameIndex();
+      vc::UniformBuffer ubo;
+      ubo.projectionView = cameras[0].getCamera().getProjection() * cameras[0].getCamera().getView();
+      buffer.writeToIndex(&ubo, frameIndex);
+      buffer.flushIndex(frameIndex);
+      
+      //rendering stage
+      vc::FrameInfo frameInfo{
+        .frameIndex = frameIndex,
+        .frameTime = delta.count(),
+      	.commandBuffer = commandBuffer,
+        .camera = cameras[0].getCamera()
+      };
+
       vc.renderer.startRenderPass(commandBuffer);
-      vc.renderSystem.renderObjects(commandBuffer, objects, cameras[0].getCamera());
+      vc.renderSystem.renderObjects(frameInfo, objects);
       vc.renderer.endRenderPass(commandBuffer);
       vc.renderer.endFrame();
     }

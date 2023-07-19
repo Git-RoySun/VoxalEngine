@@ -11,25 +11,25 @@ namespace vc {
 		vkDestroyPipelineLayout(device.getVkDevice(), pipelineLayout, nullptr);
 	};
 
-	void RenderSystem::renderObjects(VkCommandBuffer commandBuffer, std::vector<Object>& objects, Camera& camera) {
-		pipeline->bind(commandBuffer);
+	void RenderSystem::renderObjects(FrameInfo info, std::vector<Object>& objects) {
+		pipeline->bind(info.commandBuffer);
 
-		auto projectionView = camera.getProjection() * camera.getView();
+		auto projectionView = info.camera.getProjection() * info.camera.getView();
 		for (auto& obj : objects) {
 			PushConstantData push{
 				.transform = projectionView * obj.getTransform(),
 			};
 
 			vkCmdPushConstants(
-				commandBuffer,
+				info.commandBuffer,
 				pipelineLayout,
 				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 				0,
 				sizeof(PushConstantData),
 				&push);
 
-			obj.model->bind(commandBuffer);
-			obj.model->draw(commandBuffer);
+			obj.model->bind(info.commandBuffer);
+			obj.model->draw(info.commandBuffer);
 
 		}
 	}
