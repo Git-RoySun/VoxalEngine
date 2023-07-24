@@ -7,7 +7,8 @@
 int main(){
 	try {
 		World world{};
-		world.init();
+		world.setup();
+		world.run();
 	}
 	catch (std::exception e) {
 		std::cerr << e.what();

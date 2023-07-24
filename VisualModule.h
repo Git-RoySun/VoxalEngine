@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Pipeline.h"
 #include "Renderer.h"
-#include "RenderSystem.h"
+#include "ObjectRenderer.h"
 
 
 namespace vc {
@@ -17,7 +17,7 @@ namespace vc {
 		Window window{WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
-		RenderSystem renderSystem{device, renderer.getRenderPass()};
+		ObjectRenderer renderSystem{device};
 	public:
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;

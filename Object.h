@@ -3,7 +3,7 @@
 #include <memory>
 #include "Model.h"
 #include "glm/gtc/matrix_transform.hpp"
-namespace vc { class RenderSystem; };
+namespace vc { class ObjectRenderer; };
 using id_t = unsigned int;
 struct Transform {
 	glm::vec3 position {};
@@ -41,7 +41,7 @@ struct Transform {
 };
 
 class Object{
-  friend class vc::RenderSystem;
+  friend class vc::ObjectRenderer;
 	static id_t nextId;
 	id_t instanceId;
 protected:

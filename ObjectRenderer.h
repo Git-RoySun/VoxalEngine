@@ -1,43 +1,43 @@
 #pragma once
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
 #include <memory>
 #include <vector>
 
+#include "Camera.h"
 #include "Pipeline.h"
 #include "Object.h"
 #include "Device.h"
-#include "Camera.h"
 
 
 namespace vc {
+
 	struct PushConstantData {
 		glm::mat4 transform{1.0f};
 	};
 
-	struct FrameInfo{
+	struct FrameInfo {
 		int frameIndex;
 		float frameTime;
 		VkCommandBuffer commandBuffer;
 		Camera& camera;
+		VkDescriptorSet descriptorSet;
 	};
 
-	class RenderSystem {
+	class ObjectRenderer {
 		Device& device;
 		VkPipelineLayout pipelineLayout;
 		std::unique_ptr<Pipeline> pipeline;
 
-		void initPipelineLayout();
+		void initPipelineLayout(VkDescriptorSetLayout setLayout);
 		void initPipeline(VkRenderPass renderPass);
 
 	public:
-		RenderSystem(Device& device, VkRenderPass renderPass);
-		~RenderSystem();
+		ObjectRenderer(Device& device);
+		~ObjectRenderer();
 
-		RenderSystem(const RenderSystem&) = delete;
-		RenderSystem& operator=(const RenderSystem&) = delete;
+		ObjectRenderer(const ObjectRenderer&) = delete;
+		ObjectRenderer& operator=(const ObjectRenderer&) = delete;
 
+		void init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass);
 		void renderObjects(FrameInfo info, std::vector<Object>& objects);
 	};
 }

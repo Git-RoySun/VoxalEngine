@@ -24,8 +24,8 @@ namespace ic {
 			std::cerr << "Mouse Movement not mapped to anything" << std::endl;
 		} else {
 			for (auto it : mouseListeners) {
-				if(ypos<-700||ypos>700){
-					ypos = glm::clamp(ypos,-700.0,700.0);
+				if(ypos<-1000||ypos>1000){
+					ypos = glm::clamp(ypos,-1000.0,1000.0);
 					glfwSetCursorPos(window, xpos,ypos);
 				}
 				it->EventCallback(xpos,ypos);

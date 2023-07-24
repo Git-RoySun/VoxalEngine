@@ -1,23 +1,31 @@
-#include "RenderSystem.h"
+#include "ObjectRenderer.h"
 #include <stdexcept>
 
 namespace vc {
-	RenderSystem::RenderSystem(Device& device, VkRenderPass renderPass):device{ device } {
-		initPipelineLayout();
-		initPipeline(renderPass);
-	};
+	ObjectRenderer::ObjectRenderer(Device& device):device{ device } {};
 
-	RenderSystem::~RenderSystem() {
+	ObjectRenderer::~ObjectRenderer() {
 		vkDestroyPipelineLayout(device.getVkDevice(), pipelineLayout, nullptr);
 	};
 
-	void RenderSystem::renderObjects(FrameInfo info, std::vector<Object>& objects) {
+	void ObjectRenderer::init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass){
+		initPipelineLayout(setLayout);
+		initPipeline(renderPass);
+	}
+
+
+	void ObjectRenderer::renderObjects(FrameInfo info, std::vector<Object>& objects) {
 		pipeline->bind(info.commandBuffer);
 
-		auto projectionView = info.camera.getProjection() * info.camera.getView();
+		vkCmdBindDescriptorSets(
+			info.commandBuffer,
+			VK_PIPELINE_BIND_POINT_GRAPHICS,
+			pipelineLayout,
+			0,1,&info.descriptorSet,0,nullptr);
+
 		for (auto& obj : objects) {
 			PushConstantData push{
-				.transform = projectionView * obj.getTransform(),
+				.transform = obj.getTransform(),
 			};
 
 			vkCmdPushConstants(
@@ -34,17 +42,19 @@ namespace vc {
 		}
 	}
 
-	void RenderSystem::initPipelineLayout() {
+	void ObjectRenderer::initPipelineLayout(VkDescriptorSetLayout setLayout) {
 		VkPushConstantRange pushConstantRange{
 			.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 			.offset = 0,
 			.size = sizeof(PushConstantData)
 		};
 
+		std::vector<VkDescriptorSetLayout> setLayouts {setLayout};
+
 		VkPipelineLayoutCreateInfo layoutInfo = {
 			.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
-			.setLayoutCount = 0,
-			.pSetLayouts = nullptr,
+			.setLayoutCount = static_cast<uint32_t>(setLayouts.size()),
+			.pSetLayouts = setLayouts.data(),
 			.pushConstantRangeCount = 1,
 			.pPushConstantRanges = &pushConstantRange,
 		};
@@ -52,7 +62,7 @@ namespace vc {
 			throw std::runtime_error("Failed to create pipeline LAYOUT!");
 	};
 
-	void RenderSystem::initPipeline(VkRenderPass renderPass) {
+	void ObjectRenderer::initPipeline(VkRenderPass renderPass) {
 		PipelineFixedStageInfo configInfo{};
 		auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
 		pipelineConfig.renderPass = renderPass;

@@ -15,7 +15,8 @@ namespace vc {
 		IDLE = 0,
 		ACTIVE = 1
 	};
-
+	/* Handles swapchains and command buffers
+	 */
 	class Renderer {
 		Window& window;
 		Device& device;
