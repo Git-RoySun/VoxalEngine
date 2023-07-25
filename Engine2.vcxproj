@@ -167,6 +167,7 @@
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="MeshGroup.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Updatable.cpp" />
+    <ClCompile Include="VisualContext.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -192,6 +194,7 @@
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="IRotatable.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="MeshGroup.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="Model.h" />

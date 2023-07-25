@@ -105,6 +105,9 @@
     <ClCompile Include="VisualContext.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
+    <ClCompile Include="MeshGroup.cpp">
+      <Filter>Source Files\VisualContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipeline.h">
@@ -177,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VisualContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

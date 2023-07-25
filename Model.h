@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "Device.h"
-#include "Buffer.h"
 
 namespace vc {
 	struct Vertex {
@@ -24,32 +23,22 @@ namespace vc {
 
 	class Model {
 	private:
-		Device& device;
-		std::unique_ptr<Buffer> vertexBuffer;
-		uint32_t vertexCount;
+		std::vector<Vertex> vertices;
+		std::vector<uint32_t> indices;
 
-		bool indexed = false;
-		std::unique_ptr<Buffer> indexBuffer;
-		uint32_t indexCount;
-
-		void initVertexBuffers(const std::vector<Vertex>& vertices);
-		void initIndexBuffers(const std::vector<uint32_t>& indices);
+		int indexOffset = 0;
 
 	public:
-		struct Builder {
-			std::vector<Vertex> vertices{};
-			std::vector<uint32_t> indices{};
-		};
-
-		Model(Device& device, const Builder& builder);
+		Model(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
 		~Model();
 
 		Model(const Model&) = delete;
 		Model& operator=(const Model&) = delete;
-
-		void bind(VkCommandBuffer commandBuffer);
-		void draw(VkCommandBuffer commandBuffer);
-
+		
+		std::vector<Vertex>& getVertices() { return vertices; };
+		std::vector<uint32_t>& getIndices() { return indices; };
+		int getIndexOffset() const { return indexOffset; }
+		void setIndexOffset(int offset) { indexOffset = offset; };
 	};
 }
 

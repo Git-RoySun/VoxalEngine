@@ -13,16 +13,9 @@ namespace vc {
 		initPipeline(renderPass);
 	}
 
-
-	void ObjectRenderer::renderObjects(FrameInfo info, std::vector<Object>& objects) {
+	void ObjectRenderer::renderObjects(FrameInfo info, std::vector<Object>& objects, MeshGroup& meshes) {
 		pipeline->bind(info.commandBuffer);
-
-		vkCmdBindDescriptorSets(
-			info.commandBuffer,
-			VK_PIPELINE_BIND_POINT_GRAPHICS,
-			pipelineLayout,
-			0,1,&info.descriptorSet,0,nullptr);
-
+		meshes.bind(info.commandBuffer);
 		for (auto& obj : objects) {
 			PushConstantData push{
 				.transform = obj.getTransform(),
@@ -36,9 +29,15 @@ namespace vc {
 				sizeof(PushConstantData),
 				&push);
 
-			obj.model->bind(info.commandBuffer);
-			obj.model->draw(info.commandBuffer);
+			vkCmdBindDescriptorSets(
+				info.commandBuffer,
+				VK_PIPELINE_BIND_POINT_GRAPHICS,
+				pipelineLayout,
+				0, 1,
+				&info.descriptorSet,
+				0, nullptr);
 
+			vkCmdDrawIndexed(info.commandBuffer,static_cast<uint32_t>(obj.getModel().getIndices().size()), 1, obj.getModel().getIndexOffset(), 0, 0);
 		}
 	}
 

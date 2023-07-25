@@ -7,6 +7,6 @@ class CameraObject: public DynamicObject{
 public:
 	void setPosition(glm::vec3 pos) override;
 	void setRotation(glm::vec3 rotation) override;
-	vc::Camera& getCamera() { return camera; };
+	vc::Camera* getCamera() { return &camera; };
 };
 

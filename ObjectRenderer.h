@@ -6,6 +6,7 @@
 #include "Pipeline.h"
 #include "Object.h"
 #include "Device.h"
+#include "MeshGroup.h"
 
 
 namespace vc {
@@ -38,7 +39,7 @@ namespace vc {
 		ObjectRenderer& operator=(const ObjectRenderer&) = delete;
 
 		void init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass);
-		void renderObjects(FrameInfo info, std::vector<Object>& objects);
+		void renderObjects(FrameInfo info,std::vector<Object>& objects, MeshGroup& meshes);
 	};
 }
 

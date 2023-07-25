@@ -3,7 +3,9 @@
 #include <memory>
 #include "Model.h"
 #include "glm/gtc/matrix_transform.hpp"
+
 namespace vc { class ObjectRenderer; };
+
 using id_t = unsigned int;
 struct Transform {
 	glm::vec3 position {};
@@ -41,12 +43,11 @@ struct Transform {
 };
 
 class Object{
-  friend class vc::ObjectRenderer;
 	static id_t nextId;
 	id_t instanceId;
 protected:
   Transform transform{};
-  std::unique_ptr<vc::Model> model = nullptr;
+  std::shared_ptr<vc::Model> model = nullptr;
 public:
   Object(const Object&) = delete;
   Object& operator=(const Object&) = delete;
@@ -54,9 +55,10 @@ public:
   Object& operator=(Object&&) = default;
 
   Object();
-	Object(std::unique_ptr<vc::Model> model, Transform transform = Transform{});
+	Object(std::shared_ptr<vc::Model> model, Transform transform = Transform{});
 	id_t Id() const { return instanceId; };
   glm::mat4 getTransform() const { return transform.mat4(); };
+  vc::Model& getModel() const { return *model; };
 };
 
 
