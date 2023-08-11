@@ -167,15 +167,17 @@
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ObjectRenderer.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Updatable.cpp" />
+    <ClCompile Include="VisualContext.cpp" />
+    <ClCompile Include="Voxel.cpp" />
+    <ClCompile Include="VoxelRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -191,10 +193,9 @@
     <ClInclude Include="IMovable.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="IRotatable.h" />
-    <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Updatable.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ObjectRenderer.h" />
@@ -202,6 +203,8 @@
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="VisualContext.h" />
     <ClInclude Include="VisualModule.h" />
+    <ClInclude Include="Voxel.h" />
+    <ClInclude Include="VoxelRenderer.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

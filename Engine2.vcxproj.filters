@@ -34,11 +34,14 @@
     <Filter Include="Source Files\World\Procedural">
       <UniqueIdentifier>{ca110262-8c88-40e3-8c88-9f62e374705f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\World\Object\Abstract">
-      <UniqueIdentifier>{a9af26f8-9c7f-4af5-9b04-6c545cc7d27f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\VisualContext">
       <UniqueIdentifier>{208eb49b-c7c5-4e5a-add3-ba4a531a4034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VisualContext\Render Systems">
+      <UniqueIdentifier>{5e515911-caf3-4e6f-9822-51ea8c4f65ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{2c1b347d-d772-4d1e-847d-f757cd5ffc13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,12 +55,6 @@
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>Source Files\VisualContext</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files\VisualContext</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectRenderer.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
@@ -90,12 +87,6 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\World\Procedural</Filter>
     </ClCompile>
-    <ClCompile Include="DynamicObject.cpp">
-      <Filter>Source Files\World\Object\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\World\Object\Abstract</Filter>
-    </ClCompile>
     <ClCompile Include="Buffer.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
@@ -103,6 +94,21 @@
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
     <ClCompile Include="VisualContext.cpp">
+      <Filter>Source Files\VisualContext</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectRenderer.cpp">
+      <Filter>Source Files\VisualContext\Render Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelRenderer.cpp">
+      <Filter>Source Files\VisualContext\Render Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>Source Files\VisualContext\Render Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\World\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,9 +123,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
@@ -158,15 +161,6 @@
     <ClInclude Include="FPMovementController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMovable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IRotatable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -178,6 +172,21 @@
     </ClInclude>
     <ClInclude Include="VisualContext.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRotatable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovable.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

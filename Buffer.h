@@ -12,7 +12,7 @@ namespace vc {
     VkDeviceMemory memory = VK_NULL_HANDLE;
 
     VkDeviceSize bufferSize;
-    uint32_t instanceCount;
+    uint32_t instanceCount; 
     VkDeviceSize instanceSize;
     VkDeviceSize alignmentSize;
     VkBufferUsageFlags usageFlags;
@@ -47,7 +47,7 @@ namespace vc {
     void* getMappedMemory() const { return mapped; }
     uint32_t getInstanceCount() const { return instanceCount; }
     VkDeviceSize getInstanceSize() const { return instanceSize; }
-    VkDeviceSize getAlignmentSize() const { return instanceSize; }
+    VkDeviceSize getAlignmentSize() const { return alignmentSize; }
     VkBufferUsageFlags getUsageFlags() const { return usageFlags; }
     VkMemoryPropertyFlags getMemoryPropertyFlags() const { return memoryPropertyFlags; }
     VkDeviceSize getBufferSize() const { return bufferSize; }
