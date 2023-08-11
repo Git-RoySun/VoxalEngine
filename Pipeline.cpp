@@ -1,5 +1,4 @@
 #include "Pipeline.h"
-#include "Model.h"
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
@@ -25,7 +24,7 @@ namespace vc{
 		vkDestroyPipeline(device.getVkDevice(), vkPipeline, nullptr);
 	};
 
-	Pipeline::Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo stageInfo) :device{ device }{
+	Pipeline::Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo stageInfo, std::vector<VkVertexInputBindingDescription> bindingDesc, std::vector<VkVertexInputAttributeDescription>  attributeDesc) :device{ device }{
 		auto vertFile = readFile(vertPath);
 		auto fragFile = readFile(fragPath);
 
@@ -52,8 +51,6 @@ namespace vc{
 			.pName = "main",
 			.pSpecializationInfo = nullptr,
 		};
-		auto bindingDesc = Vertex::getBindingDescription();
-		auto attributeDesc = Vertex::getAttributeDescriptions();
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
 				.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,

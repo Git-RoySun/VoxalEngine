@@ -10,9 +10,10 @@
 
 class World {
 	vc::VisualContext vc{};
-	ic::FPMovementController camController{nullptr};
+	ic::FPMovementController camController{nullptr, nullptr};
 
 	std::vector<Object> objects{};
+	//Should be replaced by a chunk map
 	std::vector<CameraObject> cameras{};
 	
 	std::chrono::steady_clock::time_point last;
@@ -20,7 +21,7 @@ class World {
 	const int seed = 123456;
 	bool alive = true;
 
-	void loadObject(Object& obj);
+	void loadVoxel(Voxel::Instance instance);
 	void loadWorld();
 	void configureControl();
 public:

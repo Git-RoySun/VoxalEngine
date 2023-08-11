@@ -2,11 +2,8 @@
 #include <chrono>
 
 #include "Descriptor.h"
-#include "MeshGroup.h"
-#include "ObjectRenderer.h"
 #include "Renderer.h"
-
-class World;
+#include "VoxelRenderer.h"
 
 namespace vc {
 	struct UniformBuffer {
@@ -21,23 +18,32 @@ namespace vc {
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
-		ObjectRenderer renderSystem{ device };
+		//ObjectRenderer renderSystem{ device };
+		VoxelRenderer voxelStage{ device };
+		//outlineRenderer
+
+		//data section (should probably be a separate class)
+		Buffer instanceBuffer;
+		int instanceCount = 0;
 
 		Buffer ubo;
+
 		std::unique_ptr<DescriptorPool> descriptorPool{};
 		std::unique_ptr<DescriptorSetLayout> setLayout{};
 		std::vector<VkDescriptorSet> descriptorSets{SwapChain::MAX_FRAMES_IN_FLIGHT};
-
-		MeshGroup meshes{device};
+		
 		Camera* camera = nullptr;
 		std::chrono::steady_clock::time_point last;
 	public:
 		VisualContext();
 		~VisualContext();
+
 		Window& getWindow() { return window; }
 		void setCamera(Camera* cam);
-		void loadModel(Model& model);
-		void renderFrame(std::vector<Object>& objects);
+		void renderFrame();
+
+		bool addInstance(Voxel::Instance instance);
+		void clearInstances();
 	};
 }
 

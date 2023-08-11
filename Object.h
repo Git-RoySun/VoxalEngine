@@ -1,10 +1,5 @@
 #pragma once
-
-#include <memory>
-#include "Model.h"
 #include "glm/gtc/matrix_transform.hpp"
-
-namespace vc { class ObjectRenderer; };
 
 using id_t = unsigned int;
 struct Transform {
@@ -42,23 +37,20 @@ struct Transform {
   }
 };
 
-class Object{
-	static id_t nextId;
-	id_t instanceId;
+class Object {
+  static id_t nextId;
+  id_t instanceId;
 protected:
   Transform transform{};
-  std::shared_ptr<vc::Model> model = nullptr;
 public:
   Object(const Object&) = delete;
   Object& operator=(const Object&) = delete;
   Object(Object&&) = default;
   Object& operator=(Object&&) = default;
 
-  Object();
-	Object(std::shared_ptr<vc::Model> model, Transform transform = Transform{});
-	id_t Id() const { return instanceId; };
+  Object(Transform transform = Transform{});
+  id_t Id() const { return instanceId; };
   glm::mat4 getTransform() const { return transform.mat4(); };
-  vc::Model& getModel() const { return *model; };
 };
 
 

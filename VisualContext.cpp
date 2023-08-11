@@ -1,32 +1,44 @@
 #include "VisualContext.h"
+
+#include "Voxel.h"
+
 namespace vc {
 	VisualContext::VisualContext():
+		instanceBuffer{
+		device,
+			sizeof(Voxel::Instance),
+			1000000,
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+			1
+		},
 		ubo{
-			device,
-				sizeof(UniformBuffer),
-				vc::SwapChain::MAX_FRAMES_IN_FLIGHT,
-				VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
-				device.properties.limits.minUniformBufferOffsetAlignment
-	} {
-		descriptorPool = vc::DescriptorPool::Builder(device)
-			.setMaxSets(vc::SwapChain::MAX_FRAMES_IN_FLIGHT)
-			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, vc::SwapChain::MAX_FRAMES_IN_FLIGHT)
+		device,
+			sizeof(UniformBuffer),
+			SwapChain::MAX_FRAMES_IN_FLIGHT,
+			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+			device.properties.limits.minUniformBufferOffsetAlignment
+		} {
+		descriptorPool = DescriptorPool::Builder(device)
+			.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 		ubo.map();
 
-		setLayout = vc::DescriptorSetLayout::Builder(device)
+		setLayout = DescriptorSetLayout::Builder(device)
 			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
 			.build();
 
 		for (int i = 0; i < descriptorSets.size(); ++i) {
-			auto bufferInfo = ubo.descriptorInfo();
-			vc::DescriptorWriter(*setLayout, *descriptorPool)
-				.writeBuffer(0, &bufferInfo)
+			auto uboInfo = ubo.descriptorInfo();
+
+			DescriptorWriter(*setLayout, *descriptorPool)
+				.writeBuffer(0, &uboInfo)
 				.build(descriptorSets[i]);
 		}
 
-		renderSystem.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
+		voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 	}
 
 	VisualContext::~VisualContext(){
@@ -35,13 +47,31 @@ namespace vc {
 
 	void VisualContext::setCamera(Camera* cam) {
 		camera = cam;
-		cam->setPerspectiveProjection(glm::radians(50.f), renderer.getAspectRatio(), .1f, 15.f);
+		cam->setPerspectiveProjection(glm::radians(50.f), renderer.getAspectRatio(), .1f, 50.f);
 	}
 
-	void VisualContext::renderFrame(std::vector<Object>& objects){
+	bool VisualContext::addInstance(Voxel::Instance instance){
+		bool result = false;
+		if(instanceBuffer.getMappedMemory()==nullptr)
+			instanceBuffer.map();
+		instanceBuffer.writeToIndex(&instance, instanceCount);
+		instanceBuffer.flushIndex(instanceCount);
+		instanceCount++;
+
+		return true;//TODO return actual result when it means something (it should fail if not enough space)
+	}
+
+	void VisualContext::clearInstances(){
+		instanceCount = 0;
+	}
+
+	void VisualContext::renderFrame(){
 		if (auto commandBuffer = renderer.startFrame()) {
+			if(instanceBuffer.getMappedMemory()!=nullptr)
+				instanceBuffer.unmap();
 			int frameIndex = renderer.getFrameIndex();
-			vc::UniformBuffer data;
+
+			UniformBuffer data;
 			data.projectionView = camera->getProjection() * camera->getView();
 			ubo.writeToIndex(&data, frameIndex);
 			ubo.flushIndex(frameIndex);
@@ -51,23 +81,22 @@ namespace vc {
 			last = now;
 
 			//rendering stage
-			vc::FrameInfo frameInfo{
+			FrameInfo frameInfo{
 				.frameIndex = frameIndex,
 				.frameTime = delta.count(),
 				.commandBuffer = commandBuffer,
+				.instanceBuffer = instanceBuffer.getVkBuffer(),
 				.camera = *camera,
 				.descriptorSet = descriptorSets[frameIndex]
 			};
 
 			renderer.startRenderPass(commandBuffer);
-			renderSystem.renderObjects(frameInfo,objects,meshes);
+
+			voxelStage.renderVoxels(frameInfo, instanceCount);
+
 			renderer.endRenderPass(commandBuffer);
 			renderer.endFrame();
 		}
-	}
-
-	void VisualContext::loadModel(Model& model){
-		model.setIndexOffset(meshes.addMesh(model));
 	}
 }
 

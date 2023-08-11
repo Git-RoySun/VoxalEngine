@@ -12,7 +12,7 @@ namespace vc {
     VkDeviceMemory memory = VK_NULL_HANDLE;
 
     VkDeviceSize bufferSize;
-    uint32_t instanceCount;
+    uint32_t instanceCount; 
     VkDeviceSize instanceSize;
     VkDeviceSize alignmentSize;
     VkBufferUsageFlags usageFlags;

@@ -31,7 +31,7 @@ namespace vc {
 		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 	public:
 		Pipeline() = default;
-		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo info);
+		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath, PipelineFixedStageInfo info, std::vector<VkVertexInputBindingDescription> vertexBinding, std::vector<VkVertexInputAttributeDescription>  vertexAttribute);
 		~Pipeline();
 
 		Pipeline(const Pipeline&) = delete;

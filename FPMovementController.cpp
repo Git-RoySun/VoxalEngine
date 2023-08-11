@@ -21,7 +21,7 @@ namespace ic {
 		}
 	}
 	void FPMovementController::MouseCallBack(double xpos, double ypos) {
-		target->setRotation({ -ypos / sensibility,xpos / sensibility,0.f });
+		rotatable->setRotation({ -ypos / sensibility,xpos / sensibility,0.f });
 	}
 
 	void FPMovementController::update(float delta) {
@@ -29,10 +29,10 @@ namespace ic {
 			((directionQueues[0].empty()) ? glm::vec3{0.f} : directionQueues[0].back()) +
 			((directionQueues[1].empty()) ? glm::vec3{0.f} : directionQueues[1].back()) +
 			((directionQueues[2].empty()) ? glm::vec3{0.f} : directionQueues[2].back());
-		float yaw = target->getRotation().y;
+		float yaw = rotatable->getRotation().y;
 		glm::vec3 front {sin(yaw), 0.f, cos(yaw)};
 		glm::vec3 right {front.z, 0.f, -front.x};
 		step = step.x * right + step.y + step.z * front;
-		target->move(step * delta);
+		movable->move(step * delta);
 	}
 }
