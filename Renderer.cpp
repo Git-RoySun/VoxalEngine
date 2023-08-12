@@ -106,7 +106,7 @@ namespace vc {
 			throw std::logic_error("Cannot start render pass on command buffer from another frame!");
 
 		VkClearValue clearValues[2] = {//background
-			{.color = {0.01f, 0.01f, 0.01f, 1.0f}},
+			{.color = {0.5f, 0.5f, 1.0f, 1.0f}},
 			{.depthStencil = {1.0f, 0}}
 		};
 
