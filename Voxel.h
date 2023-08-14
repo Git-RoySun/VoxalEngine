@@ -16,6 +16,8 @@ public:
 
 	struct Vertex {
 		glm::vec3 position{0.f};
+		static constexpr glm::vec3 DIRT { .6f,0.3f,0.f };
+		static constexpr glm::vec3 GRASS { 0.25f,1.f,0.01f };
 
 		static std::vector<VkVertexInputBindingDescription> getBindingDescription();
 		static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();

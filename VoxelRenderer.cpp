@@ -11,10 +11,10 @@ static std::vector<Voxel::Vertex> vertices = {
   {{1.f,1.f,1.f} },   //right top close     7
 };
 
-static std::vector<uint32_t> indices = {0,1,3, 3,2,0, 4,5,7, 7,6,4, 1,5,7, 7,3,1, 4,0,2, 2,6,4, 3,7,6, 6,2,3, 0,4,5, 5,1,0};
+static std::vector<uint32_t> indices = {0,1,3, 3,2,0, 5,4,6, 6,7,5, 1,5,7, 7,3,1, 4,0,2, 2,6,4, 3,7,6, 6,2,3, 0,4,5, 5,1,0};
 
-static uint32_t vertexCount = static_cast<uint32_t> (vertices.size());
-static uint32_t indexCount = static_cast<uint32_t> (indices.size());
+static const uint32_t vertexCount = static_cast<uint32_t> (vertices.size());
+static const uint32_t indexCount = static_cast<uint32_t> (indices.size());
 
 namespace vc {
 	VoxelRenderer::VoxelRenderer(Device& device):RenderSystem(device){
@@ -85,6 +85,7 @@ namespace vc {
   void VoxelRenderer::initPipeline(VkRenderPass renderPass) {
     PipelineFixedStageInfo configInfo{};
     auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
+    pipelineConfig.rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;
     pipeline = std::make_unique<Pipeline>(device, "shaders/vert.spv", "shaders/frag.spv", pipelineConfig, Voxel::Vertex::getBindingDescription(), Voxel::Vertex::getAttributeDescriptions());

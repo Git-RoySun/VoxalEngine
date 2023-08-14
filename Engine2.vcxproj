@@ -168,12 +168,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="OutlineRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ObjectRenderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
-    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Updatable.cpp" />
     <ClCompile Include="VisualContext.cpp" />
     <ClCompile Include="Voxel.cpp" />
@@ -193,8 +193,8 @@
     <ClInclude Include="IMovable.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="IRotatable.h" />
+    <ClInclude Include="OutlineRenderer.h" />
     <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
@@ -202,7 +202,6 @@
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="VisualContext.h" />
-    <ClInclude Include="VisualModule.h" />
     <ClInclude Include="Voxel.h" />
     <ClInclude Include="VoxelRenderer.h" />
     <ClInclude Include="Window.h" />
@@ -210,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+    <None Include="shaders\line.vert" />
     <None Include="shaders\shader.frag" />
     <None Include="shaders\shader.vert" />
   </ItemGroup>

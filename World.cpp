@@ -72,22 +72,23 @@ void World::loadVoxel(Voxel::Instance instance){
 void World::loadWorld() {//load objects
 	const float VOXELS = 100.f;
   const float SIZE = 1.f / 16.f;
+  const float HEIGHT = 3;
   for (int x = -VOXELS; x < VOXELS; x++) {
     for (int z = -VOXELS ; z < VOXELS; z++) {
       float val = 0;
       float freq = 1;
-      float amp = 1;
+      float amp = HEIGHT;
       for (int i = 0; i < 12; i++){
         val += perlin((x+VOXELS) * freq / VOXELS, (z+VOXELS) * freq / VOXELS) * amp;
         freq *= 2;
         amp /= 2;
       }
       val *= 1.2;
-      glm::clamp(val,-1.f,1.f);
-      for (float i = SIZE-(int)(val/SIZE)*SIZE; i > -val; i -= SIZE) {
+      for (float i = (HEIGHT*SIZE)-(int)(val/SIZE)*SIZE; i > -val; i -= SIZE) {
         loadVoxel(Voxel::Instance{
-          .position = { (SIZE)*x * 2 , i*2 ,(SIZE)*z * 2 },
-        	.scale = glm::vec3{ SIZE }
+          .position = { (SIZE)*x * 2 , i * 2 ,(SIZE)*z * 2 },
+            .scale = glm::vec3{ SIZE },
+            .colour = (i-SIZE<=-val)?glm::vec3(0.25f,1.f,0.01f) : glm::vec3(0.5f,0.5f,0.5f),
         });
       }
     }

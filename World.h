@@ -18,7 +18,7 @@ class World {
 	
 	std::chrono::steady_clock::time_point last;
 
-	const int seed = 314526;
+	const int seed = 1234;
 	bool alive = true;
 
 	void loadVoxel(Voxel::Instance instance);

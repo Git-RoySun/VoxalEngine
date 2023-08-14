@@ -2,6 +2,7 @@
 #include <chrono>
 
 #include "Descriptor.h"
+#include "OutlineRenderer.h"
 #include "Renderer.h"
 #include "VoxelRenderer.h"
 
@@ -12,14 +13,15 @@ namespace vc {
 	};
 
 	class VisualContext {
-		static constexpr int WIDTH = 800;
-		static constexpr int HEIGHT = 600;
+		static constexpr int WIDTH = 854;
+		static constexpr int HEIGHT = 480;
 
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
 		//ObjectRenderer renderSystem{ device };
 		VoxelRenderer voxelStage{ device };
+		OutlineRenderer outlineStage{ device };
 		//outlineRenderer
 
 		//data section (should probably be a separate class)

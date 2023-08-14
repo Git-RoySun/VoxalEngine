@@ -45,5 +45,5 @@ mat4 transformMatrix = mat4(
 
 void main() {
     gl_Position = ubo.view * transformMatrix * vec4(position, 1.0);
-    outColor = colour;
+    outColor = vec3(0.1,0.1,0.1);
 }
