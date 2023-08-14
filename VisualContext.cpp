@@ -7,7 +7,7 @@ namespace vc {
 		instanceBuffer{
 		device,
 			sizeof(Voxel::Instance),
-			1000000,
+			10000000,
 			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
 			1
@@ -47,7 +47,7 @@ namespace vc {
 
 	void VisualContext::setCamera(Camera* cam) {
 		camera = cam;
-		cam->setPerspectiveProjection(glm::radians(50.f), renderer.getAspectRatio(), .1f, 50.f);
+		cam->setPerspectiveProjection(glm::radians(50.f), renderer.getAspectRatio(), .1f, 35.f);
 	}
 
 	bool VisualContext::addInstance(Voxel::Instance instance){
