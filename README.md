@@ -13,10 +13,11 @@ Engine2 (placeholder) is a voxel game engine made with Vulkan and GLFW.
 - Remove outlines for all blocks except target
 
 ## (Optional) Todo:
-- Fix Y-axis movement and add jumping
+- add jumping
 - Serializable input configurations
 - File loading for input configuration
 
 ## Done:
 - Reorganize World.cpp and VisualModule.cpp
 - Rearange the buffer creation functions in model.cpp
+- Fix Y-axis movement

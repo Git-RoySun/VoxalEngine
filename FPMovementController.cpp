@@ -1,8 +1,12 @@
 #include "FPMovementController.h"
+
+#include <iostream>
+
 namespace ic {
 	void FPMovementController::KeyCallBack(int key, int action) {
 		auto dir = ic::InputModule::getMappedDirection(key);
-		auto axis = dir / NUM_AXIS;
+		auto axis = dir / DIRECTION_PER_AXIS;
+		std::cout << "Axis is " << axis << std::endl;
 		auto vec = DIRECTIONS[dir];
 
 		if (action == GLFW_PRESS) {
@@ -32,7 +36,7 @@ namespace ic {
 		float yaw = rotatable->getRotation().y;
 		glm::vec3 front {sin(yaw), 0.f, cos(yaw)};
 		glm::vec3 right {front.z, 0.f, -front.x};
-		step = step.x * right + step.y + step.z * front;
+		step = step.x * right + step.y*glm::vec3(0,1,0) + step.z * front;
 		movable->move(step * delta);
 	}
 }
