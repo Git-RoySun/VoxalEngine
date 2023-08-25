@@ -37,7 +37,7 @@ namespace vc {
 				.writeBuffer(0, &uboInfo)
 				.build(descriptorSets[i]);
 		}
-
+		
 		voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 		outlineStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 	}
@@ -94,7 +94,7 @@ namespace vc {
 			renderer.startRenderPass(commandBuffer);
 
 			voxelStage.renderVoxels(frameInfo, instanceCount);
-			outlineStage.renderOutlines(frameInfo, instanceCount);
+			//outlineStage.renderOutlines(frameInfo, instanceCount);
 
 			renderer.endRenderPass(commandBuffer);
 			renderer.endFrame();

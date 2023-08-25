@@ -161,6 +161,7 @@
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="ChunkLoader.cpp" />
     <ClCompile Include="Descriptor.cpp" />
     <ClCompile Include="DoubleList.cpp" />
     <ClCompile Include="FPMovementController.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObject.h" />
+    <ClInclude Include="ChunkLoader.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Descriptor.h" />
     <ClInclude Include="Device.h" />
