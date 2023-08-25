@@ -1,6 +1,4 @@
 #include "ChunkLoader.h"
-#include <limits>
-#include <iostream>
 const float ChunkLoader::CHUNKSIZE = 8;
 const float ChunkLoader::VOXELSIZE = 1.f/16.f;
 static const int HEIGHT = 3;
@@ -69,7 +67,6 @@ float perlin(float x, float y) {
 
 void ChunkLoader::loadChunk(int cx, int cz){
 	if(!chunks.contains(std::make_pair(cx,cz))){
-    std::cout << "loading new chunk!" << std::endl;
     Chunk chunk{};
     for (int x = 0; x < CHUNKSIZE;x++) {
       for (int z = 0; z < CHUNKSIZE; z++) {

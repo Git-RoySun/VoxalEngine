@@ -1,12 +1,9 @@
 #include "FPMovementController.h"
 
-#include <iostream>
-
 namespace ic {
 	void FPMovementController::KeyCallBack(int key, int action) {
 		auto dir = ic::InputModule::getMappedDirection(key);
 		auto axis = dir / DIRECTION_PER_AXIS;
-		std::cout << "Axis is " << axis << std::endl;
 		auto vec = DIRECTIONS[dir];
 
 		if (action == GLFW_PRESS) {

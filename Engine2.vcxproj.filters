@@ -93,9 +93,6 @@
     <ClCompile Include="VisualContext.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectRenderer.cpp">
-      <Filter>Source Files\VisualContext\Render Systems</Filter>
-    </ClCompile>
     <ClCompile Include="VoxelRenderer.cpp">
       <Filter>Source Files\VisualContext\Render Systems</Filter>
     </ClCompile>
@@ -108,8 +105,11 @@
     <ClCompile Include="Voxel.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
+    <ClCompile Include="ChunkLoader.cpp">
+      <Filter>Source Files\World\Procedural</Filter>
+    </ClCompile>
     <ClCompile Include="OutlineRenderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\VisualContext\Render Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -183,6 +180,9 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="OutlineRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

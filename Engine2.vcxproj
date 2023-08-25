@@ -171,7 +171,6 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OutlineRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ObjectRenderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Pipeline.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="ObjectRenderer.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="VisualContext.h" />
