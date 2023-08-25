@@ -158,60 +158,63 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Buffer.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraObject.cpp" />
-    <ClCompile Include="ChunkLoader.cpp" />
-    <ClCompile Include="Descriptor.cpp" />
-    <ClCompile Include="DoubleList.cpp" />
-    <ClCompile Include="FPMovementController.cpp" />
-    <ClCompile Include="InputModule.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="OutlineRenderer.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="RenderSystem.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
-    <ClCompile Include="Pipeline.cpp" />
-    <ClCompile Include="Updatable.cpp" />
-    <ClCompile Include="VisualContext.cpp" />
-    <ClCompile Include="Voxel.cpp" />
-    <ClCompile Include="VoxelRenderer.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Buffer.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraObject.h" />
-    <ClInclude Include="ChunkLoader.h" />
-    <ClInclude Include="Coordinates.h" />
-    <ClInclude Include="Descriptor.h" />
-    <ClInclude Include="Device.h" />
-    <ClInclude Include="DoubleList.h" />
-    <ClInclude Include="FPMovementController.h" />
-    <ClInclude Include="IMovable.h" />
-    <ClInclude Include="InputModule.h" />
-    <ClInclude Include="IRotatable.h" />
-    <ClInclude Include="OutlineRenderer.h" />
-    <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="Updatable.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="SwapChain.h" />
-    <ClInclude Include="Pipeline.h" />
-    <ClInclude Include="VisualContext.h" />
-    <ClInclude Include="Voxel.h" />
-    <ClInclude Include="VoxelRenderer.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="World.h" />
+    <ClCompile Include="src\Buffer.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CameraObject.cpp" />
+    <ClCompile Include="src\ChunkLoader.cpp" />
+    <ClCompile Include="src\Descriptor.cpp" />
+    <ClCompile Include="src\DoubleList.cpp" />
+    <ClCompile Include="src\FPMovementController.cpp" />
+    <ClCompile Include="src\InputModule.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\OutlineRenderer.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\RenderSystem.cpp" />
+    <ClCompile Include="src\SwapChain.cpp" />
+    <ClCompile Include="src\Pipeline.cpp" />
+    <ClCompile Include="src\Updatable.cpp" />
+    <ClCompile Include="src\VisualContext.cpp" />
+    <ClCompile Include="src\Voxel.cpp" />
+    <ClCompile Include="src\VoxelRenderer.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
     <None Include="shaders\line.vert" />
     <None Include="shaders\shader.frag" />
     <None Include="shaders\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Buffer.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CameraObject.h" />
+    <ClInclude Include="src\ChunkLoader.h" />
+    <ClInclude Include="src\Coordinates.h" />
+    <ClInclude Include="src\Descriptor.h" />
+    <ClInclude Include="src\Device.h" />
+    <ClInclude Include="src\DoubleList.h" />
+    <ClInclude Include="src\FPCameraController.h" />
+    <ClInclude Include="src\FPMovementController.h" />
+    <ClInclude Include="src\IMovable.h" />
+    <ClInclude Include="src\InputModule.h" />
+    <ClInclude Include="src\IRotatable.h" />
+    <ClInclude Include="src\Object.h" />
+    <ClInclude Include="src\OutlineRenderer.h" />
+    <ClInclude Include="src\Pipeline.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\RenderSystem.h" />
+    <ClInclude Include="src\SwapChain.h" />
+    <ClInclude Include="src\Terrain.h" />
+    <ClInclude Include="src\Updatable.h" />
+    <ClInclude Include="src\VisualContext.h" />
+    <ClInclude Include="src\VisualModule.h" />
+    <ClInclude Include="src\Voxel.h" />
+    <ClInclude Include="src\VoxelRenderer.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

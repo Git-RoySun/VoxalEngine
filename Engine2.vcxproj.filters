@@ -45,144 +45,144 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Pipeline.cpp">
+    <ClCompile Include="src\Pipeline.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="src\Window.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="Device.cpp">
+    <ClCompile Include="src\Device.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="SwapChain.cpp">
+    <ClCompile Include="src\SwapChain.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="InputModule.cpp">
+    <ClCompile Include="src\InputModule.cpp">
       <Filter>Source Files\InputModule</Filter>
     </ClCompile>
-    <ClCompile Include="Updatable.cpp">
+    <ClCompile Include="src\Updatable.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
+    <ClCompile Include="src\World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="CameraObject.cpp">
+    <ClCompile Include="src\CameraObject.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="FPMovementController.cpp">
+    <ClCompile Include="src\FPMovementController.cpp">
       <Filter>Source Files\InputModule\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="DoubleList.cpp">
+    <ClCompile Include="src\DoubleList.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Buffer.cpp">
+    <ClCompile Include="src\Buffer.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="Descriptor.cpp">
+    <ClCompile Include="src\Descriptor.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="VisualContext.cpp">
+    <ClCompile Include="src\VisualContext.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelRenderer.cpp">
+    <ClCompile Include="src\VoxelRenderer.cpp">
       <Filter>Source Files\VisualContext\Render Systems</Filter>
     </ClCompile>
-    <ClCompile Include="RenderSystem.cpp">
+    <ClCompile Include="src\RenderSystem.cpp">
       <Filter>Source Files\VisualContext\Render Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
+    <ClCompile Include="src\Object.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Voxel.cpp">
+    <ClCompile Include="src\Voxel.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
-    <ClCompile Include="ChunkLoader.cpp">
+    <ClCompile Include="src\ChunkLoader.cpp">
       <Filter>Source Files\World\Procedural</Filter>
     </ClCompile>
-    <ClCompile Include="OutlineRenderer.cpp">
+    <ClCompile Include="src\OutlineRenderer.cpp">
       <Filter>Source Files\VisualContext\Render Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Pipeline.h">
+    <ClInclude Include="src\Pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="src\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Device.h">
+    <ClInclude Include="src\Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SwapChain.h">
+    <ClInclude Include="src\SwapChain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
+    <ClInclude Include="src\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="src\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="src\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CameraObject.h">
+    <ClInclude Include="src\CameraObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputModule.h">
+    <ClInclude Include="src\InputModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Updatable.h">
+    <ClInclude Include="src\Updatable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
+    <ClInclude Include="src\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Coordinates.h">
+    <ClInclude Include="src\Coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoubleList.h">
+    <ClInclude Include="src\DoubleList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FPMovementController.h">
+    <ClInclude Include="src\FPMovementController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
+    <ClInclude Include="src\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Descriptor.h">
+    <ClInclude Include="src\Descriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VisualContext.h">
+    <ClInclude Include="src\VisualContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VoxelRenderer.h">
+    <ClInclude Include="src\VoxelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSystem.h">
+    <ClInclude Include="src\RenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel.h">
+    <ClInclude Include="src\Voxel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IRotatable.h">
+    <ClInclude Include="src\IRotatable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IMovable.h">
+    <ClInclude Include="src\IMovable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="OutlineRenderer.h">
+    <ClInclude Include="src\OutlineRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChunkLoader.h">
+    <ClInclude Include="src\ChunkLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
