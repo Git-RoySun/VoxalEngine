@@ -6,6 +6,7 @@ namespace ic {
 	std::unordered_map<int, std::vector<KeyEvent::IHandler*>> InputModule::keyMap = {};
 	std::unordered_map <int, DIRECTION_TITLE> InputModule::directionMap = {};
 	std::vector<MouseEvent::IHandler*> InputModule::mouseListeners = {};
+	bool InputModule::cursorEnabled = false;
 
 	void InputModule::sendKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods) {
 		auto subs = keyMap.find(key);
@@ -22,7 +23,7 @@ namespace ic {
 	void InputModule::sendMouseEvent(GLFWwindow* window, double xpos, double ypos){
 		if(mouseListeners.empty()){
 			std::cerr << "Mouse Movement not mapped to anything" << std::endl;
-		} else {
+		} else if(!cursorEnabled){
 			for (auto it : mouseListeners) {
 				if(ypos<-1000||ypos>1000){
 					ypos = glm::clamp(ypos,-1000.0,1000.0);

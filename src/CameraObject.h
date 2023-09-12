@@ -6,7 +6,7 @@
 
 class CameraObject: public Object, public IMovable, public IRotatable{
 	vc::Camera camera{};
-	float speed = 2.f;
+	float speed = 7.f;
 public:
 	glm::vec3 getRotation() const override { return transform.rotation; };
 	glm::vec3 getPosition() const override { return transform.position; };

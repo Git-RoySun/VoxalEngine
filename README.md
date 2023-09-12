@@ -1,5 +1,5 @@
-# Engine2
-Engine2 (placeholder) is a voxel game engine made with Vulkan and GLFW.
+# Voxal Engine
+Voxal Engine is a voxel game engine made with Vulkan and GLFW.
 ![image](https://github.com/Git-RoySun/Engine2/assets/25252952/d10aad84-218e-48dd-81e3-1516461b7aeb)
 
 ## Plan:
@@ -10,6 +10,7 @@ Engine2 (placeholder) is a voxel game engine made with Vulkan and GLFW.
 - Add biomes (with better chunk class)
 - Add shading/ray-tracing
 - Remove outlines for all blocks except target
+- Make View projection far plane round (cuttoff as a spehere not a plane, so when you spin the cutoff looks identical)
 
 ## (Optional) Todo:
 - Add jumping
@@ -17,6 +18,7 @@ Engine2 (placeholder) is a voxel game engine made with Vulkan and GLFW.
 - File loading for input configuration
 
 ## Done:
+- Integrate imgui
 - Extend world generation to be on the fly as player moves.
 - Reorganize World.cpp and VisualModule.cpp
 - Rearange the buffer creation functions in model.cpp

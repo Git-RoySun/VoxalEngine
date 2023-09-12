@@ -117,13 +117,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Dev\glfw-3.3.8.bin.WIN64\include;D:\glm;D:\Dev\VulkanSDK\1.3.250.0\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\glfw-3.3.8.bin.WIN64\include;D:\glm;D:\VulkanSDK\1.3.261.1\Include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Dev\VulkanSDK\1.3.250.0\Lib;D:\Dev\glfw-3.3.8.bin.WIN64\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\VulkanSDK\1.3.261.1\Lib;D:\glfw-3.3.8.bin.WIN64\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -162,9 +162,17 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CameraObject.cpp" />
     <ClCompile Include="src\ChunkLoader.cpp" />
+    <ClCompile Include="src\CursorToggleController.cpp" />
     <ClCompile Include="src\Descriptor.cpp" />
     <ClCompile Include="src\DoubleList.cpp" />
     <ClCompile Include="src\FPMovementController.cpp" />
+    <ClCompile Include="src\imgui.cpp" />
+    <ClCompile Include="src\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\imgui_impl_vulkan.cpp" />
+    <ClCompile Include="src\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui_widgets.cpp" />
     <ClCompile Include="src\InputModule.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Device.cpp" />
@@ -174,6 +182,7 @@
     <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\SwapChain.cpp" />
     <ClCompile Include="src\Pipeline.cpp" />
+    <ClCompile Include="src\UIModule.cpp" />
     <ClCompile Include="src\Updatable.cpp" />
     <ClCompile Include="src\VisualContext.cpp" />
     <ClCompile Include="src\Voxel.cpp" />
@@ -193,12 +202,20 @@
     <ClInclude Include="src\CameraObject.h" />
     <ClInclude Include="src\ChunkLoader.h" />
     <ClInclude Include="src\Coordinates.h" />
+    <ClInclude Include="src\CursorToggleController.h" />
     <ClInclude Include="src\Descriptor.h" />
     <ClInclude Include="src\Device.h" />
     <ClInclude Include="src\DoubleList.h" />
-    <ClInclude Include="src\FPCameraController.h" />
     <ClInclude Include="src\FPMovementController.h" />
+    <ClInclude Include="src\imconfig.h" />
+    <ClInclude Include="src\imgui.h" />
+    <ClInclude Include="src\imgui_impl_glfw.h" />
+    <ClInclude Include="src\imgui_impl_vulkan.h" />
+    <ClInclude Include="src\imgui_internal.h" />
     <ClInclude Include="src\IMovable.h" />
+    <ClInclude Include="src\imstb_rectpack.h" />
+    <ClInclude Include="src\imstb_textedit.h" />
+    <ClInclude Include="src\imstb_truetype.h" />
     <ClInclude Include="src\InputModule.h" />
     <ClInclude Include="src\IRotatable.h" />
     <ClInclude Include="src\Object.h" />
@@ -208,9 +225,9 @@
     <ClInclude Include="src\RenderSystem.h" />
     <ClInclude Include="src\SwapChain.h" />
     <ClInclude Include="src\Terrain.h" />
+    <ClInclude Include="src\UIModule.h" />
     <ClInclude Include="src\Updatable.h" />
     <ClInclude Include="src\VisualContext.h" />
-    <ClInclude Include="src\VisualModule.h" />
     <ClInclude Include="src\Voxel.h" />
     <ClInclude Include="src\VoxelRenderer.h" />
     <ClInclude Include="src\Window.h" />

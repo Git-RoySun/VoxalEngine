@@ -6,9 +6,6 @@
 #include "Updatable.h"
 #include "IRotatable.h"
 
-typedef ic::KeyEvent::IHandler IKeyHandler;
-typedef ic::MouseEvent::IHandler IMouseHandler;
-
 namespace ic {
 	class FPMovementController : public Updatable, public IKeyHandler, public IMouseHandler {
 		std::deque<glm::vec3> directionQueues[3] = {};

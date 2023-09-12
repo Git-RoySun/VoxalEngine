@@ -5,6 +5,7 @@
 
 #include "CameraObject.h"
 #include "ChunkLoader.h"
+#include "CursorToggleController.h"
 #include "FPMovementController.h"
 #include "Object.h"
 #include "VisualContext.h"
@@ -12,6 +13,7 @@
 class World {
 	vc::VisualContext vc{};
 	ic::FPMovementController camController{nullptr, nullptr};
+	ic::CursorToggleController cursorController{vc.getWindow().getGlWindow()};
 
 
 	//Should be replaced by a chunk map

@@ -19,6 +19,7 @@ namespace vc {
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
+		//Renderer renderer2{ window,device };
 		//ObjectRenderer renderSystem{ device };
 		VoxelRenderer voxelStage{ device };
 		OutlineRenderer outlineStage{ device };
@@ -45,7 +46,7 @@ namespace vc {
 		void renderFrame();
 
 		bool addInstance(Voxel::Instance instance);
-		void clearInstances();
+		//void clearInstances();
 	};
 }
 

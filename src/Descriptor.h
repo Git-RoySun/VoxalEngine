@@ -77,6 +77,7 @@ namespace vc {
 
     void resetPool();
 
+    VkDescriptorPool getVkDescriptorPool() { return descriptorPool; };
   private:
     Device& lveDevice;
     VkDescriptorPool descriptorPool;

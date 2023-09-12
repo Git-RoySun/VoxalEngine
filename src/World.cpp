@@ -1,4 +1,8 @@
 #include "World.h"
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "UIModule.h"
 #include "Updatable.h"
 
 void World::loadWorld() {//load objects
@@ -9,6 +13,11 @@ void World::setup(){
   srand(seed);
   loadWorld();
   configureControl();
+  UIModule::add([this]() {
+    auto pos = this->cameras[0].getPosition();
+    ImGui::Text("%f %f %f",pos.x,pos.y,pos.z);
+    
+  });
 }
 
 void World::configureControl(){
@@ -25,6 +34,7 @@ void World::configureControl(){
 
   ic::InputModule::addKeyListener(GLFW_KEY_F, &camController);
   ic::InputModule::addKeyListener(GLFW_KEY_SPACE, &camController);
+  ic::InputModule::addKeyListener(GLFW_KEY_LEFT_CONTROL, &cursorController);
   ic::InputModule::setDirection(GLFW_KEY_SPACE, UP);
   ic::InputModule::setDirection(GLFW_KEY_F, DOWN);
 
@@ -33,12 +43,12 @@ void World::configureControl(){
   ic::InputModule::setDirection(GLFW_KEY_S, BACK);
   ic::InputModule::setDirection(GLFW_KEY_D, RIGHT);
 
-  //this could be done in the visual context class instead
   auto window = vc.getWindow().getGlWindow();
-  glfwSetCursorPos(window, 0, 0);
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
   glfwSetKeyCallback(window, ic::InputModule::sendKeyEvent);
   glfwSetCursorPosCallback(window, ic::InputModule::sendMouseEvent);
+  ImGui_ImplGlfw_InstallCallbacks(window);
+
 }
 
 

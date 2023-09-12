@@ -84,7 +84,7 @@ namespace vc {
     PipelineFixedStageInfo configInfo{};
     auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
     pipelineConfig.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
-    pipelineConfig.rasterizationInfo.lineWidth = 2.f;
+    pipelineConfig.rasterizationInfo.lineWidth = 1.f;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;
     pipeline = std::make_unique<Pipeline>(device, "shaders/line.spv", "shaders/frag.spv", pipelineConfig, Voxel::Vertex::getBindingDescription(), Voxel::Vertex::getAttributeDescriptions());

@@ -130,6 +130,7 @@ VkResult SwapChain::submitCommandBuffers(
 }
 
 void SwapChain::createSwapChain() {
+  vkDeviceWaitIdle(device.getVkDevice());
   SwapChainSupportDetails swapChainSupport = device.getSwapChainSupport();
 
   VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -146,7 +147,7 @@ void SwapChain::createSwapChain() {
   createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
   createInfo.surface = device.surface();
 
-  createInfo.minImageCount = imageCount;
+  createInfo.minImageCount = 3;
   createInfo.imageFormat = surfaceFormat.format;
   createInfo.imageColorSpace = surfaceFormat.colorSpace;
   createInfo.imageExtent = extent;
@@ -173,8 +174,8 @@ void SwapChain::createSwapChain() {
   createInfo.clipped = VK_TRUE;
 
   createInfo.oldSwapchain = (oldSwapChain == nullptr)?VK_NULL_HANDLE: oldSwapChain->swapChain;
-
-  if (vkCreateSwapchainKHR(device.getVkDevice(), &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
+  VkResult err = vkCreateSwapchainKHR(device.getVkDevice(), &createInfo, nullptr, &swapChain);
+  if ( err != VK_SUCCESS) {
     throw std::runtime_error("failed to create swap chain!");
   }
 
