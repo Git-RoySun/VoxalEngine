@@ -212,9 +212,6 @@
     <ClInclude Include="src\ChunkLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Terrain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\imgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>

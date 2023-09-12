@@ -1,6 +1,8 @@
 #pragma once
 #include <map>
 
+#include "imgui.h"
+#include "UIModule.h"
 #include "VisualContext.h"
 
 class ChunkLoader{
@@ -15,7 +17,13 @@ class ChunkLoader{
 	static const float CHUNKSIZE;
 	static const float VOXELSIZE;
 public:
-	ChunkLoader(vc::VisualContext& vc) :vc{ vc } {};
+	ChunkLoader(vc::VisualContext& vc) :vc{ vc }
+	{
+		UIModule::add([this]()
+			{
+				ImGui::Text("Chunks: %d", chunks.size());
+			});
+	};
 	void loadChunk(int x, int z);
 	void loadAround(float x, float z);
 };

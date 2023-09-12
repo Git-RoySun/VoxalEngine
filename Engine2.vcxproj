@@ -224,7 +224,6 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\RenderSystem.h" />
     <ClInclude Include="src\SwapChain.h" />
-    <ClInclude Include="src\Terrain.h" />
     <ClInclude Include="src\UIModule.h" />
     <ClInclude Include="src\Updatable.h" />
     <ClInclude Include="src\VisualContext.h" />

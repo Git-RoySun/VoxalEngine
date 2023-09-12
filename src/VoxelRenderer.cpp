@@ -85,6 +85,7 @@ namespace vc {
   void VoxelRenderer::initPipeline(VkRenderPass renderPass) {
     PipelineFixedStageInfo configInfo{};
     auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
+    pipelineConfig.multisampleInfo.rasterizationSamples = device.getMsaaSample();
     pipelineConfig.rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;

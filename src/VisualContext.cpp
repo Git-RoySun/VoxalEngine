@@ -77,7 +77,7 @@ namespace vc {
 		init_info.DescriptorPool = descriptorPool->getVkDescriptorPool();
 		init_info.MinImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
 		init_info.ImageCount = 3;
-		//init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+		init_info.MSAASamples = device.getMsaaSample();
 		ImGui_ImplVulkan_Init(&init_info, renderer.getRenderPass());
 
 		VkCommandBuffer command_buffer = device.beginSingleTimeCommands();
