@@ -17,14 +17,13 @@ class ChunkLoader{
 	static const float CHUNKSIZE;
 	static const float VOXELSIZE;
 public:
-	ChunkLoader(vc::VisualContext& vc) :vc{ vc }
-	{
+	ChunkLoader(vc::VisualContext& vc) :vc{ vc }{
 		UIModule::add([this]()
 			{
 				ImGui::Text("Chunks: %d", chunks.size());
 			});
 	};
-	void loadChunk(int x, int z);
+	bool loadChunk(int x, int z);
 	void loadAround(float x, float z);
 };
 

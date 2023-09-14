@@ -12,7 +12,7 @@ namespace vc {
 		instanceBuffer{
 		device,
 			sizeof(Voxel::Instance),
-			1000000,
+			INSTANCEMAX,
 			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
 			1
@@ -85,6 +85,7 @@ namespace vc {
 		device.endSingleTimeCommands(command_buffer);
 		UIModule::add([this](){
 			ImGui::Text("Instance count:%d", instanceCount);
+			ImGui::Text("Mapped: %s", (instanceBuffer.getMappedMemory()==nullptr)?"false":"true");
 		});
 	}
 
@@ -101,11 +102,12 @@ namespace vc {
 	}
 
 	bool VisualContext::addInstance(Voxel::Instance instance){
-		bool result = false;
+		if (instanceCount == INSTANCEMAX)
+			return false;
 		if(instanceBuffer.getMappedMemory()==nullptr)
 			instanceBuffer.map();
 		instanceBuffer.writeToIndex(&instance, instanceCount);
-		instanceBuffer.flushIndex(instanceCount);
+		//instanceBuffer.flushIndex(instanceCount);
 		instanceCount++;
 
 		return true;//TODO return actual result when it means something (it should fail if not enough space)

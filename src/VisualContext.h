@@ -15,12 +15,11 @@ namespace vc {
 	class VisualContext {
 		static constexpr int WIDTH = 854;
 		static constexpr int HEIGHT = 480;
+		static constexpr uint32_t INSTANCEMAX = 1000000;
 
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window,device };
-		//Renderer renderer2{ window,device };
-		//ObjectRenderer renderSystem{ device };
 		VoxelRenderer voxelStage{ device };
 		OutlineRenderer outlineStage{ device };
 		//outlineRenderer
@@ -46,7 +45,7 @@ namespace vc {
 		void renderFrame();
 
 		bool addInstance(Voxel::Instance instance);
-		//void clearInstances();
+		void clearInstances() { instanceCount = 0; }
 	};
 }
 

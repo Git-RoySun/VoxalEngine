@@ -65,7 +65,7 @@ float perlin(float x, float y) {
   return value;
 }
 
-void ChunkLoader::loadChunk(int cx, int cz){
+bool ChunkLoader::loadChunk(int cx, int cz){
 	if(!chunks.contains(std::make_pair(cx,cz))){
     Chunk chunk{};
     for (int x = 0; x < CHUNKSIZE;x++) {
@@ -87,20 +87,27 @@ void ChunkLoader::loadChunk(int cx, int cz){
           	.scale = glm::vec3{ VOXELSIZE },
           };
           chunk.voxels.emplace_back(instance);
-          vc.addInstance(instance);
+          if (!vc.addInstance(instance)) return false;
         }
       }
     }
     chunks.insert(std::make_pair(std::make_pair(cx,cz),std::move(chunk)));
+    return true;
 	}
 }
 
 void ChunkLoader::loadAround(float x, float z){
   int cx = floor(x / (CHUNKSIZE*VOXELSIZE*2));
   int cz = floor(z / (CHUNKSIZE*VOXELSIZE*2));
+
   for (int x = -loadDistance/2; x <= loadDistance/2;x++) {
     for (int z = -loadDistance / 2; z <= loadDistance/2; z++) {
-    	loadChunk(cx+x, cz+z);
+    	if(!loadChunk(cx+x, cz+z)){
+        vc.clearInstances();
+        chunks = std::map<std::pair<int, int>, Chunk>{};
+        x = -loadDistance / 2;
+        z = (- loadDistance / 2)+1;
+    	}
     }
   }
 }

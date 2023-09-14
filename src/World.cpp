@@ -53,7 +53,7 @@ void World::configureControl(){
 
 
 void World::run() {
-  while (alive) {
+  while (!vc.getWindow().shouldClose()) {
     glfwPollEvents();
     auto now = std::chrono::steady_clock::now();
     std::chrono::duration<float> delta = now - last;
