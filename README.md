@@ -5,7 +5,7 @@ Voxal Engine is a voxel game engine made with Vulkan and GLFW.
 
 
 <details>
-<summary>Pictures</summary>
+<summary>More Pictures</summary>
   
 ![gallery](https://github.com/Git-RoySun/VoxalEngine/assets/25252952/214c9555-fb11-496a-82ed-9dd6e674eb99)
 </details>

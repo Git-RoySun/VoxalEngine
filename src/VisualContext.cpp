@@ -13,8 +13,16 @@ namespace vc {
 		device,
 			sizeof(Voxel::Instance),
 			INSTANCEMAX,
-			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+			1
+		},
+		stagingBuffer{
+		device,
+			sizeof(Voxel::Instance),
+			INSTANCEMAX,
+			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 			1
 		},
 		ubo{
@@ -54,7 +62,7 @@ namespace vc {
 		}
 		
 		voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
-		outlineStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
+		//outlineStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -85,7 +93,7 @@ namespace vc {
 		device.endSingleTimeCommands(command_buffer);
 		UIModule::add([this](){
 			ImGui::Text("Instance count:%d", instanceCount);
-			ImGui::Text("Mapped: %s", (instanceBuffer.getMappedMemory()==nullptr)?"false":"true");
+			ImGui::Text("Mapped: %s", (stagingBuffer.getMappedMemory()==nullptr)?"false":"true");
 		});
 	}
 
@@ -104,10 +112,10 @@ namespace vc {
 	bool VisualContext::addInstance(Voxel::Instance instance){
 		if (instanceCount == INSTANCEMAX)
 			return false;
-		if(instanceBuffer.getMappedMemory()==nullptr)
-			instanceBuffer.map();
-		instanceBuffer.writeToIndex(&instance, instanceCount);
-		//instanceBuffer.flushIndex(instanceCount);
+		if(stagingBuffer.getMappedMemory()==nullptr)
+			stagingBuffer.map();
+		stagingBuffer.writeToIndex(&instance, instanceCount);
+
 		instanceCount++;
 
 		return true;//TODO return actual result when it means something (it should fail if not enough space)
@@ -121,11 +129,12 @@ namespace vc {
 			ImGui::ShowDemoWindow();
 			ImGui::Begin("Debug window");
 			UIModule::render();
-			ImGui::End();
-			ImGui::Render();
 
-			if(instanceBuffer.getMappedMemory()!=nullptr)
-				instanceBuffer.unmap();
+			if(stagingBuffer.getMappedMemory()!=nullptr)
+				stagingBuffer.unmap();
+			device.copyBuffer(stagingBuffer.getVkBuffer(), instanceBuffer.getVkBuffer(), stagingBuffer.getInstanceSize()*instanceCount);
+
+			
 			int frameIndex = renderer.getFrameIndex();
 
 			UniformBuffer data;
@@ -147,6 +156,15 @@ namespace vc {
 				.descriptorSet = descriptorSets[frameIndex]
 			};
 
+			delta = now - start;
+			ImGui::Text("FPS: %f", (frames++)/delta.count());
+			if(delta.count()>1){
+				start = now;
+				frames = 0;
+			}
+
+			ImGui::End();
+			ImGui::Render();
 			renderer.startRenderPass(commandBuffer);
 			voxelStage.renderVoxels(frameInfo, instanceCount);
 			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);

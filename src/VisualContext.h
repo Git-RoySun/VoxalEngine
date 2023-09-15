@@ -21,21 +21,24 @@ namespace vc {
 		Device device{ window };
 		Renderer renderer{ window,device };
 		VoxelRenderer voxelStage{ device };
-		OutlineRenderer outlineStage{ device };
-		//outlineRenderer
+		//OutlineRenderer outlineStage{ device };
 
 		//data section (should probably be a separate class)
 		Buffer instanceBuffer;
+		Buffer stagingBuffer;
 		int instanceCount = 0;
+		int instancePlus = 0;
 
 		Buffer ubo;
-
 		std::unique_ptr<DescriptorPool> descriptorPool{};
 		std::unique_ptr<DescriptorSetLayout> setLayout{};
 		std::vector<VkDescriptorSet> descriptorSets{SwapChain::MAX_FRAMES_IN_FLIGHT};
 		
 		Camera* camera = nullptr;
 		std::chrono::steady_clock::time_point last;
+		std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+		long frames = 0;
+
 	public:
 		VisualContext();
 		~VisualContext();
