@@ -176,6 +176,7 @@
     <ClCompile Include="src\InputModule.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\OutlineRenderer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="src\imstb_truetype.h" />
     <ClInclude Include="src\InputModule.h" />
     <ClInclude Include="src\IRotatable.h" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\OutlineRenderer.h" />
     <ClInclude Include="src\Pipeline.h" />

@@ -1,17 +1,28 @@
 #version 450
+struct Material {
+    vec3 colour;
+    float albedo;
+    float alpha;
+};
+
 
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 worldPosition;
 layout(location = 2) in vec3 scale;
 layout(location = 3) in vec3 rotation;
-layout(location = 4) in vec3 colour;
+layout(location = 4) in uint modelId;
 
 layout(location = 0) out vec3 outColor;
+
 
 layout(set = 0, binding =0) uniform Ubo{
     mat4 view;
     vec3 lightDirection;
 } ubo;
+
+layout(set = 0, binding = 1) buffer MaterialBuffer {
+    Material materials[];
+};
 
 float c3 = cos(rotation.z);
 float s3 = sin(rotation.z);
@@ -45,5 +56,5 @@ mat4 transformMatrix = mat4(
 
 void main() {
     gl_Position = ubo.view * transformMatrix * vec4(position, 1.0);
-    outColor = (position+vec3(1,1,1))/2;
+    outColor = vec3(position+vec3(1.0))/2;//materials[modelId].colour
 }

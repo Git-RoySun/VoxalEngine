@@ -26,6 +26,7 @@ namespace vc {
 		//data section (should probably be a separate class)
 		Buffer instanceBuffer;
 		Buffer stagingBuffer;
+		Buffer materialBuffer;
 		int instanceCount = 0;
 		int instancePlus = 0;
 

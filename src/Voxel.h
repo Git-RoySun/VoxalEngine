@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 #include <glm/vec3.hpp>
 #include "Object.h"
@@ -11,17 +12,15 @@ public:
 		glm::vec3 position{};
 		alignas(16) glm::vec3 scale{ 1.f };
 		alignas(16) glm::vec3 rotation{};
-		alignas(16) glm::vec3 colour {1.f};
+		alignas(16) uint32_t materialID = 0;
 	};
 
 	struct Vertex {
-		glm::vec3 position{0.f};
-		static constexpr glm::vec3 DIRT { .6f,0.3f,0.f };
-		static constexpr glm::vec3 GRASS { 0.25f,1.f,0.01f };
-
+		glm::vec3 position{};
 		static std::vector<VkVertexInputBindingDescription> getBindingDescription();
 		static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
 	};
+
 	Voxel(Instance instance):data{instance}{};
 	Instance getInstance() { return data; };
 private:

@@ -1,4 +1,6 @@
 #include "ChunkLoader.h"
+
+#include "Material.h"
 const float ChunkLoader::CHUNKSIZE = 8;
 const float ChunkLoader::VOXELSIZE = 1.f/16.f;
 static const int HEIGHT = 3;
@@ -83,8 +85,9 @@ bool ChunkLoader::loadChunk(int cx, int cz){
         val *= 1.2;
         for (float i = (HEIGHT * VOXELSIZE) - (int)(val / VOXELSIZE) * VOXELSIZE; i > -val; i -= VOXELSIZE) {
           Voxel::Instance instance{
-            .position = glm::vec3{ xPos,i,zPos } * 2.f,
-          	.scale = glm::vec3{ VOXELSIZE },
+            .position = glm::vec3{ xPos,i,zPos } *2.f,
+            .scale = glm::vec3{ VOXELSIZE },
+            .materialID = (i - VOXELSIZE > -val) ? vc::Material::RED.getId() : vc::Material::GREEN.getId()
           };
           chunk.voxels.emplace_back(instance);
           if (!vc.addInstance(instance)) return false;

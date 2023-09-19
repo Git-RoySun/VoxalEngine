@@ -13,6 +13,6 @@ std::vector<VkVertexInputAttributeDescription> Voxel::Vertex::getAttributeDescri
 		{1,1,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Instance, position)},
 		{2,1,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Instance, scale)},
 		{3,1,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Instance, rotation) },
-		{4,1,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Instance, colour)}
+		{4,1,VK_FORMAT_R32_UINT, offsetof(Instance, materialID)},// material index
 	};
 }

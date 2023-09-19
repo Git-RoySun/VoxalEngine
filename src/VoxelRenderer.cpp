@@ -79,7 +79,6 @@ namespace vc {
 			0, nullptr);
 
 		vkCmdDrawIndexed(info.commandBuffer, indices.size(), instanceCount, 0, 0, 0);
-	
 	}
 
   void VoxelRenderer::initPipeline(VkRenderPass renderPass) {

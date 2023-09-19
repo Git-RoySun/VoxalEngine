@@ -13,14 +13,15 @@ Voxal Engine is a voxel game engine made with Vulkan and GLFW.
 ## Plan:
 - Voxel material class
 - Add collision detection and gravity/physics (through physics controller class)
-- Add sea level/ water
 - Add biomes (with better chunk class)
 - Add shading/ray-tracing
-- Remove outlines for all blocks except target
 - Make View projection far plane round (cuttoff as a spehere not a plane, so when you spin the cutoff looks identical)
 - Chunk management should be compute shaders (will need hash map in glsl)
 
 ## (Optional) Todo:
+- Make chunk loading a queue so it doesnt freeze when many are added
+- Remove outlines for all blocks except target
+- Add sea level/ water
 - Add jumping
 - Serializable input configurations
 - File loading for input configuration
