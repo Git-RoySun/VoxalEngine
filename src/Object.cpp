@@ -1,5 +1,6 @@
 #include "Object.h"
 
-id_t Object::nextId = 0;
-Object::Object(Transform transform) :instanceId{ nextId++ }, transform{ transform } {}
-
+namespace obj {
+	id_t Base::nextId = 0;
+	Base::Base(Transform transform) :instanceId{ nextId++ }, transform{ transform } {}
+}

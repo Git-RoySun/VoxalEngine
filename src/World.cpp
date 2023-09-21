@@ -1,5 +1,4 @@
 #include "World.h"
-
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "UIModule.h"
@@ -21,7 +20,7 @@ void World::setup(){
 }
 
 void World::configureControl(){
-  CameraObject* camera = &cameras.emplace_back();
+  obj::Camera* camera = &cameras.emplace_back();
   camera->setPosition({ 0.f,-0.5f,0.f });
   vc.setCamera(camera->getCamera());
   camController = ic::FPMovementController(camera,camera);

@@ -222,6 +222,7 @@
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\OutlineRenderer.h" />
+    <ClInclude Include="src\BoxCollider.h" />
     <ClInclude Include="src\Pipeline.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\RenderSystem.h" />

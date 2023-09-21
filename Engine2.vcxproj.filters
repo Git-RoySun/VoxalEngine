@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Shaders">
-      <UniqueIdentifier>{d4b3678b-a8b6-40a0-8552-6894169ec004}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\InputModule">
       <UniqueIdentifier>{2a457854-8d8f-4c7a-89d6-4516d6519d61}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,9 @@
     </Filter>
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{7861cb51-50e8-4492-ac75-fe205ec6d293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VisualContext\Shaders">
+      <UniqueIdentifier>{d4b3678b-a8b6-40a0-8552-6894169ec004}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -251,19 +251,22 @@
     <ClInclude Include="src\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\BoxCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Source Files\VisualContext\Shaders</Filter>
     </None>
     <None Include="shaders\shader.vert">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Source Files\VisualContext\Shaders</Filter>
     </None>
     <None Include="README.md">
       <Filter>Source Files</Filter>
     </None>
     <None Include="shaders\line.vert">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Source Files\VisualContext\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

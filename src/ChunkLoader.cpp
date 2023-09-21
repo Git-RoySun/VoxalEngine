@@ -83,9 +83,9 @@ bool ChunkLoader::loadChunk(int cx, int cz){
           amp /= 2;
         }
         val *= 1.2;
-        for (float i = (HEIGHT * VOXELSIZE) - (int)(val / VOXELSIZE) * VOXELSIZE; i > -val; i -= VOXELSIZE) {
+        for (float i = (1 * VOXELSIZE) - (int)(val / VOXELSIZE) * VOXELSIZE; i > -val; i -= VOXELSIZE) {
           Voxel::Instance instance{
-            .position = glm::vec3{ xPos,i,zPos } *2.f,
+            .position = glm::vec3{ xPos,i,zPos },
             .scale = glm::vec3{ VOXELSIZE },
             .materialID = (i - VOXELSIZE > -val) ? vc::Material::RED.getId() : vc::Material::GREEN.getId()
           };
@@ -98,10 +98,10 @@ bool ChunkLoader::loadChunk(int cx, int cz){
     return true;
 	}
 }
-
+ 
 void ChunkLoader::loadAround(float x, float z){
-  int cx = floor(x / (CHUNKSIZE*VOXELSIZE*2));
-  int cz = floor(z / (CHUNKSIZE*VOXELSIZE*2));
+  int cx = floor(x / (CHUNKSIZE*VOXELSIZE));
+  int cz = floor(z / (CHUNKSIZE*VOXELSIZE));
 
   for (int x = -loadDistance/2; x <= loadDistance/2;x++) {
     for (int z = -loadDistance / 2; z <= loadDistance/2; z++) {

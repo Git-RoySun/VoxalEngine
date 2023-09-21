@@ -2,11 +2,10 @@
 #include <memory>
 #include <vector>
 #include <glm/vec3.hpp>
-#include "Object.h"
 
 #include <vulkan/vulkan_core.h>
 
-class Voxel : public Object {
+class Voxel{
 public:
 	struct Instance {
 		glm::vec3 position{};

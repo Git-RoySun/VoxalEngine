@@ -56,5 +56,5 @@ mat4 transformMatrix = mat4(
 
 void main() {
     gl_Position = ubo.view * transformMatrix * vec4(position, 1.0);
-    outColor = vec3(position+vec3(1.0))/2;//materials[modelId].colour
+    outColor = position+vec3(0.5);//materials[modelId].colour
 }

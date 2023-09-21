@@ -1,29 +1,24 @@
 #pragma once
 #include <vector>
 #include <chrono>
-#include <random>
 
 #include "CameraObject.h"
 #include "ChunkLoader.h"
 #include "CursorToggleController.h"
 #include "FPMovementController.h"
-#include "Object.h"
 #include "VisualContext.h"
 
 class World {
 	vc::VisualContext vc{};
 	ic::FPMovementController camController{nullptr, nullptr};
 	ic::CursorToggleController cursorController{vc.getWindow().getGlWindow()};
-
-
-	//Should be replaced by a chunk map
+	
 	ChunkLoader loader{ vc };
-	std::vector<CameraObject> cameras{};
+	std::vector<obj::Camera> cameras{};
 	
 	std::chrono::steady_clock::time_point last;
 
-	const int seed = 1234;
-	bool alive = true;
+	const int seed = 3241561;
 	
 	void loadWorld();
 	void configureControl();

@@ -1,5 +1,5 @@
 # Voxal Engine
-Voxal Engine is a voxel game engine made with Vulkan and GLFW.
+Voxal Engine is a voxel game engine made with Vulkan and GLFW with a focus on procedural generation.
 
 ![image](https://github.com/Git-RoySun/Engine2/assets/25252952/d10aad84-218e-48dd-81e3-1516461b7aeb)
 
@@ -11,7 +11,6 @@ Voxal Engine is a voxel game engine made with Vulkan and GLFW.
 </details>
 
 ## Plan:
-- Voxel material class
 - Add collision detection and gravity/physics (through physics controller class)
 - Add biomes (with better chunk class)
 - Add shading/ray-tracing
@@ -27,6 +26,7 @@ Voxal Engine is a voxel game engine made with Vulkan and GLFW.
 - File loading for input configuration
 
 ## Done:
+- Voxel material class
 - Chunk UnLoading
 - Add multisampling
 - Integrate imgui
