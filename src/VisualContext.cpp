@@ -12,7 +12,7 @@ namespace vc {
 	VisualContext::VisualContext():
 		instanceBuffer{
 		device,
-			sizeof(Voxel::Instance),
+			sizeof(obj::Voxel::Instance),
 			INSTANCEMAX,
 			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -20,7 +20,7 @@ namespace vc {
 		},
 		stagingBuffer{
 		device,
-			sizeof(Voxel::Instance),
+			sizeof(obj::Voxel::Instance),
 			INSTANCEMAX,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -135,16 +135,11 @@ namespace vc {
 		cam->setPerspectiveProjection(glm::radians(50.f), renderer.getAspectRatio(), .1f, 35.f);
 	}
 
-	bool VisualContext::addInstance(Voxel::Instance instance){
-		if (instanceCount == INSTANCEMAX)
-			return false;
+	bool VisualContext::addInstance(obj::Voxel::Instance instance){
 		if(stagingBuffer.getMappedMemory()==nullptr)
 			stagingBuffer.map();
 		stagingBuffer.writeToIndex(&instance, instanceCount);
-
-		instanceCount++;
-
-		return true;//TODO return actual result when it means something (it should fail if not enough space)
+		return (++instanceCount < INSTANCEMAX);
 	}
 
 	void VisualContext::renderFrame(){

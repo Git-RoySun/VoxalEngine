@@ -7,7 +7,7 @@
 
 class ChunkLoader{
 	struct Chunk{
-		std::vector<Voxel> voxels{};
+		std::vector<obj::Voxel> voxels{};
 	};
 
 	vc::VisualContext& vc;

@@ -48,7 +48,7 @@ namespace vc {
 		void setCamera(Camera* cam);
 		void renderFrame();
 
-		bool addInstance(Voxel::Instance instance);
+		bool addInstance(obj::Voxel::Instance instance);
 		void clearInstances() { instanceCount = 0; }
 	};
 }

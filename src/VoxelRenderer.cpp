@@ -1,14 +1,14 @@
 #include "VoxelRenderer.h"
 
-static std::vector<Voxel::Vertex> vertices = {
-	{{-0.5f,-0.5f,-0.5f} },//left bottom far     0
-  {{-0.5f,-0.5f,0.5f} }, //left bottom close   1
-  {{-0.5f,0.5f,-0.5f} }, //left top far        2
-  {{-0.5f,0.5f,0.5f} },  //left top close      3
-  {{0.5f,-0.5f,-0.5f} }, //right bottom far    4
-  {{0.5f,-0.5f,0.5f} },  //right bottom close  5
-  {{0.5f,0.5f,-0.5f} },  //right top far       6
-  {{0.5f,0.5f,0.5f} },   //right top close     7
+static std::vector<glm::vec3> vertices = {
+	{-0.5f,-0.5f,-0.5f},//left bottom far     0
+  {-0.5f,-0.5f,0.5f}, //left bottom close   1
+  {-0.5f,0.5f,-0.5f}, //left top far        2
+  {-0.5f,0.5f,0.5f},  //left top close      3
+  {0.5f,-0.5f,-0.5f}, //right bottom far    4
+  {0.5f,-0.5f,0.5f},  //right bottom close  5
+  {0.5f,0.5f,-0.5f},  //right top far       6
+  {0.5f,0.5f,0.5f},   //right top close     7
 };
 
 static std::vector<uint32_t> indices = {0,1,3, 3,2,0, 5,4,6, 6,7,5, 1,5,7, 7,3,1, 4,0,2, 2,6,4, 3,7,6, 6,2,3, 0,4,5, 5,1,0};
@@ -88,6 +88,6 @@ namespace vc {
     pipelineConfig.rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;
-    pipeline = std::make_unique<Pipeline>(device, "shaders/vert.spv", "shaders/frag.spv", pipelineConfig, Voxel::Vertex::getBindingDescription(), Voxel::Vertex::getAttributeDescriptions());
+    pipeline = std::make_unique<Pipeline>(device, "shaders/vert.spv", "shaders/frag.spv", pipelineConfig, obj::Voxel::getBindingDescription(), obj::Voxel::getAttributeDescriptions());
   }
 }

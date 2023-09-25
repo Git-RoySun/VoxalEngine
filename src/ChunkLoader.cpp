@@ -84,7 +84,7 @@ bool ChunkLoader::loadChunk(int cx, int cz){
         }
         val *= 1.2;
         for (float i = (1 * VOXELSIZE) - (int)(val / VOXELSIZE) * VOXELSIZE; i > -val; i -= VOXELSIZE) {
-          Voxel::Instance instance{
+	        obj::Voxel::Instance instance{
             .position = glm::vec3{ xPos,i,zPos },
             .scale = glm::vec3{ VOXELSIZE },
             .materialID = (i - VOXELSIZE > -val) ? vc::Material::RED.getId() : vc::Material::GREEN.getId()
