@@ -5,9 +5,6 @@
 
 #include "Device.h"
 
-// vulkan headers
-#include <vulkan/vulkan.h>
-
 // std lib headers
 #include <string>
 #include <vector>

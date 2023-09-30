@@ -6,6 +6,9 @@
 #include <set>
 #include <unordered_set>
 
+#include "imgui.h"
+#include "imgui_impl_vulkan.h"
+
 namespace vc {
 
 // local callback functions
@@ -84,6 +87,7 @@ VkSampleCountFlagBits Device::getMaxUsableSampleCount() {
 }
 
 void Device::createInstance() {
+  VkResult result = volkInitialize();
   if (enableValidationLayers && !checkValidationLayerSupport()) {
     throw std::runtime_error("validation layers requested, but not available!");
   }
@@ -119,7 +123,11 @@ void Device::createInstance() {
   if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
     throw std::runtime_error("failed to create instance!");
   }
-
+;
+  volkLoadInstance(instance);
+	ImGui_ImplVulkan_LoadFunctions([](const char* function_name, void* vulkan_instance) {
+    return vkGetInstanceProcAddr(*(reinterpret_cast<VkInstance*>(vulkan_instance)), function_name);
+    }, &instance);
   hasGflwRequiredInstanceExtensions();
 }
 
