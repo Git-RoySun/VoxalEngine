@@ -6,9 +6,14 @@
 
 namespace vc {
 	Renderer::Renderer(Window& _window, Device& _device) : window{ _window }, device{ _device } {
+	};
+
+	void Renderer::init(){
 		initSwapChain();
 		initCommandBuffer();
-	};
+	}
+
+
 
 	Renderer::~Renderer() { freeCommandBuffers(); };
 

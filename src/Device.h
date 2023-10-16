@@ -22,11 +22,6 @@ struct QueueFamilyIndices {
 
 class Device {
  public:
-#ifdef NDEBUG
-  const bool enableValidationLayers = false;
-#else
-  const bool enableValidationLayers = true;
-#endif
   Device(Window &window);
   ~Device();
 
@@ -43,16 +38,14 @@ class Device {
   VkSurfaceKHR surface() { return surface_; }
   VkQueue graphicsQueue() { return graphicsQueue_; }
   VkQueue presentQueue() { return presentQueue_; }
-  VkSampleCountFlagBits getMsaaSample() { return msaaSamples; }
 
-
+  VkSampleCountFlagBits getMaxUsableSampleCount();
   SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
   QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
   VkFormat findSupportedFormat(
       const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
-  // Buffer Helper Functions
   void createBuffer(
       VkDeviceSize size,
       VkBufferUsageFlags usage,
@@ -73,6 +66,9 @@ class Device {
 
   VkPhysicalDeviceProperties properties;
 
+  void* addDeviceFeat(void* addr);
+  void addExtension(const char* name);
+	void init();
  private:
   void createInstance();
   void setupDebugMessenger();
@@ -90,22 +86,21 @@ class Device {
   void hasGflwRequiredInstanceExtensions();
   bool checkDeviceExtensionSupport(VkPhysicalDevice device);
   SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-  VkSampleCountFlagBits getMaxUsableSampleCount();
 
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
   Window &window;
   VkCommandPool commandPool;
-  VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+  void* devicepNext;
 
   VkDevice device_;
   VkSurfaceKHR surface_;
   VkQueue graphicsQueue_;
   VkQueue presentQueue_;
 
-  const std::vector<const char *> validationLayers = {"VK_LAYER_KHRONOS_validation"};
-	const std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME,VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME,VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME,VK_KHR_SPIRV_1_4_EXTENSION_NAME ,VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME ,VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME, VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME };// Required by ray tracing pipeline
+  std::vector<const char *> validationLayers = {"VK_LAYER_KHRONOS_validation" };
+	std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME }; /*VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME, VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME, VK_KHR_SPIRV_1_4_EXTENSION_NAME, VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME, VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME, VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME*/
 
 };
 

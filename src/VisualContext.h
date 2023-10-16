@@ -19,18 +19,18 @@ namespace vc {
 
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
-		Renderer renderer{ window,device };
+		Renderer renderer{ window, device };
 		VoxelRenderer voxelStage{ device };
 		//OutlineRenderer outlineStage{ device };
 
 		//data section (should probably be a separate class)
-		Buffer instanceBuffer;
-		Buffer stagingBuffer;
-		Buffer materialBuffer;
+		std::unique_ptr<Buffer> instanceBuffer;
+		std::unique_ptr<Buffer> stagingBuffer;
+		std::unique_ptr<Buffer> materialBuffer;
 		int instanceCount = 0;
 		int instancePlus = 0;
 
-		Buffer ubo;
+		std::unique_ptr<Buffer> ubo;
 		std::unique_ptr<DescriptorPool> descriptorPool{};
 		std::unique_ptr<DescriptorSetLayout> setLayout{};
 		std::vector<VkDescriptorSet> descriptorSets{SwapChain::MAX_FRAMES_IN_FLIGHT};

@@ -38,7 +38,7 @@ namespace vc {
 		RenderSystem(const RenderSystem&) = delete;
 		RenderSystem& operator=(const RenderSystem&) = delete;
 
-		void init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass);
+		virtual void init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass);
 	};
 }
 

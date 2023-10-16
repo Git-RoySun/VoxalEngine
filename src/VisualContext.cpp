@@ -9,39 +9,43 @@
 #include "UIModule.h"
 
 namespace vc {
-	VisualContext::VisualContext():
-		instanceBuffer{
-		device,
+	VisualContext::VisualContext(){
+		device.init();
+		renderer.init();
+		instanceBuffer = std::make_unique<Buffer>(
+			device,
 			sizeof(obj::Voxel::Instance),
 			INSTANCEMAX,
-			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 			1
-		},
-		stagingBuffer{
-		device,
+		);
+
+		stagingBuffer = std::make_unique<Buffer>(
+			device,
 			sizeof(obj::Voxel::Instance),
 			INSTANCEMAX,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 			1
-		},
-		materialBuffer{
-		device,
+		);
+		materialBuffer = std::make_unique<Buffer>(
+			device,
 			sizeof(Material::Data),
 			static_cast<uint32_t>(Material::MATERIALS.size()),
 			VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 			1
-		},
-		ubo{
-		device,
+		);
+
+		ubo = std::make_unique<Buffer>(
+			device,
 			sizeof(UniformBuffer),
 			SwapChain::MAX_FRAMES_IN_FLIGHT,
 			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
 			device.properties.limits.minUniformBufferOffsetAlignment
-		} {
+		);
 		Buffer msBuffer{
 		device,
 			sizeof(Material),
@@ -56,7 +60,7 @@ namespace vc {
 		}
 		msBuffer.map();
 		msBuffer.writeToBuffer((void*)mats.data());
-		device.copyBuffer(msBuffer.getVkBuffer(), materialBuffer.getVkBuffer(), sizeof(mats[0]) * mats.size());
+		device.copyBuffer(msBuffer.getVkBuffer(), materialBuffer->getVkBuffer(), sizeof(mats[0]) * mats.size());
 
 		descriptorPool = DescriptorPool::Builder(device)
 			.setMaxSets(3)
@@ -72,21 +76,21 @@ namespace vc {
 			.addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 20)
 			.addPoolSize(VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 20)
 			.build();
-		ubo.map();
+		ubo->map();
 
 		setLayout = DescriptorSetLayout::Builder(device)
 			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
 			.addBinding(1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
 			.build();
 		for (int i = 0; i < descriptorSets.size(); ++i) {
-			auto uboInfo = ubo.descriptorInfo();
-			auto matInfo = materialBuffer.descriptorInfo();
+			auto uboInfo = ubo->descriptorInfo();
+			auto matInfo = materialBuffer->descriptorInfo();
 			DescriptorWriter(*setLayout, *descriptorPool)
 				.writeBuffer(0, &uboInfo)
 				.writeBuffer(1, &matInfo)
 				.build(descriptorSets[i]);
 		}
-		
+
 		voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 		//outlineStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 
@@ -111,7 +115,7 @@ namespace vc {
 		init_info.DescriptorPool = descriptorPool->getVkDescriptorPool();
 		init_info.MinImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
 		init_info.ImageCount = 3;
-		init_info.MSAASamples = device.getMsaaSample();
+		init_info.MSAASamples = device.getMaxUsableSampleCount();
 		ImGui_ImplVulkan_Init(&init_info, renderer.getRenderPass());
 
 		VkCommandBuffer command_buffer = device.beginSingleTimeCommands();
@@ -119,7 +123,7 @@ namespace vc {
 		device.endSingleTimeCommands(command_buffer);
 		UIModule::add([this](){
 			ImGui::Text("Instance count:%d", instanceCount);
-			ImGui::Text("Mapped: %s", (stagingBuffer.getMappedMemory()==nullptr)?"false":"true");
+			ImGui::Text("Mapped: %s", (stagingBuffer->getMappedMemory()==nullptr)?"false":"true");
 		});
 	}
 
@@ -136,9 +140,9 @@ namespace vc {
 	}
 
 	bool VisualContext::addInstance(obj::Voxel::Instance instance){
-		if(stagingBuffer.getMappedMemory()==nullptr)
-			stagingBuffer.map();
-		stagingBuffer.writeToIndex(&instance, instanceCount);
+		if(stagingBuffer->getMappedMemory()==nullptr)
+			stagingBuffer->map();
+		stagingBuffer->writeToIndex(&instance, instanceCount);
 		return (++instanceCount < INSTANCEMAX);
 	}
 
@@ -151,17 +155,17 @@ namespace vc {
 			ImGui::Begin("Debug window");
 			UIModule::render();
 
-			if(stagingBuffer.getMappedMemory()!=nullptr)
-				stagingBuffer.unmap();
-			device.copyBuffer(stagingBuffer.getVkBuffer(), instanceBuffer.getVkBuffer(), stagingBuffer.getInstanceSize()*instanceCount);
+			if(stagingBuffer->getMappedMemory()!=nullptr)
+				stagingBuffer->unmap();
+			device.copyBuffer(stagingBuffer->getVkBuffer(), instanceBuffer->getVkBuffer(), stagingBuffer->getInstanceSize()*instanceCount);
 
 			
 			int frameIndex = renderer.getFrameIndex();
 
 			UniformBuffer data;
 			data.projectionView = camera->getProjection() * camera->getView();
-			ubo.writeToIndex(&data, frameIndex);
-			ubo.flushIndex(frameIndex);
+			ubo->writeToIndex(&data, frameIndex);
+			ubo->flushIndex(frameIndex);
 
 			auto now = std::chrono::steady_clock::now();
 			std::chrono::duration<float> delta = now - last;
@@ -172,7 +176,7 @@ namespace vc {
 				.frameIndex = frameIndex,
 				.frameTime = delta.count(),
 				.commandBuffer = commandBuffer,
-				.instanceBuffer = instanceBuffer.getVkBuffer(),
+				.instanceBuffer = instanceBuffer->getVkBuffer(),
 				.camera = *camera,
 				.descriptorSet = descriptorSets[frameIndex]
 			};

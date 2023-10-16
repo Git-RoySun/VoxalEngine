@@ -17,7 +17,8 @@ static const uint32_t vertexCount = static_cast<uint32_t> (vertices.size());
 static const uint32_t indexCount = static_cast<uint32_t> (indices.size());
 
 namespace vc {
-	VoxelRenderer::VoxelRenderer(Device& device):RenderSystem(device){
+	VoxelRenderer::VoxelRenderer(Device& device):RenderSystem(device){}
+  void VoxelRenderer::init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass){
     vertexBuffer = std::make_unique<Buffer>(
       device,
       sizeof(vertices[0]),
@@ -35,15 +36,15 @@ namespace vc {
     );
 
     Buffer vertexStager{
-		device,
-		  sizeof(vertices[0]),
+    device,
+      sizeof(vertices[0]),
       vertexCount,
-		  VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-		  VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+      VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
     };
 
     Buffer indexStager{
-    	device,
+      device,
       sizeof(indices[0]),
       indexCount,
       VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
@@ -56,8 +57,10 @@ namespace vc {
     vertexStager.writeToBuffer((void*)vertices.data());
     indexStager.writeToBuffer((void*)indices.data());
 
-    device.copyBuffer(vertexStager.getVkBuffer(), vertexBuffer->getVkBuffer(), sizeof(vertices[0]) *vertices.size());
-    device.copyBuffer(indexStager.getVkBuffer(), indexBuffer->getVkBuffer(), sizeof(indices[0]) *indices.size());
+    device.copyBuffer(vertexStager.getVkBuffer(), vertexBuffer->getVkBuffer(), sizeof(vertices[0]) * vertices.size());
+    device.copyBuffer(indexStager.getVkBuffer(), indexBuffer->getVkBuffer(), sizeof(indices[0]) * indices.size());
+
+    RenderSystem::init(setLayout, renderPass);
 	}
 
 	void VoxelRenderer::renderVoxels(FrameInfo info, int instanceCount) {
@@ -84,7 +87,7 @@ namespace vc {
   void VoxelRenderer::initPipeline(VkRenderPass renderPass) {
     PipelineFixedStageInfo configInfo{};
     auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
-    pipelineConfig.multisampleInfo.rasterizationSamples = device.getMsaaSample();
+    pipelineConfig.multisampleInfo.rasterizationSamples = device.getMaxUsableSampleCount();
     pipelineConfig.rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;

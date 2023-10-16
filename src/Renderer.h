@@ -38,6 +38,7 @@ namespace vc {
 		Renderer& operator=(const Renderer&) = delete;
 
 
+		void init();
 		VkCommandBuffer startFrame();
 		void endFrame();
 		void startRenderPass(VkCommandBuffer commandBuffer);

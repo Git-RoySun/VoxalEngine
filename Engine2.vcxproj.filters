@@ -144,6 +144,9 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\VisualContext</Filter>
     </ClCompile>
+    <ClCompile Include="src\volk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pipeline.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BoxCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\volk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
