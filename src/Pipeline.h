@@ -40,6 +40,8 @@ namespace vc {
 		static PipelineFixedStageInfo defaultPipelineInfo(PipelineFixedStageInfo& configInfo);
 
 		void bind(VkCommandBuffer commandBuffer);
+		VkPipeline getVkPipeline() { return vkPipeline; };
+
 	};
 }
 

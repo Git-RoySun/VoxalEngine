@@ -20,6 +20,7 @@ struct Instance {
   uint matId;
 };
 
+layout(binding = 1, set = 0, rgba8) uniform image2D image;
 layout(set = 0, binding = 3) buffer InstanceBuffer { Instance instances[]; };
 
 float hitAabb(const Aabb aabb, const Ray r){
@@ -34,6 +35,8 @@ float hitAabb(const Aabb aabb, const Ray r){
 }
 
 void main(){
+	imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(1,0,0, 0.0));
+
   Instance instance = instances[gl_PrimitiveID];
   Ray ray;
   ray.origin    = gl_WorldRayOriginEXT;

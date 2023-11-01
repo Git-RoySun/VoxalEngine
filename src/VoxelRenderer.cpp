@@ -1,52 +1,36 @@
 #include "VoxelRenderer.h"
 
-static std::vector<glm::vec3> vertices = {
-	{-0.5f,-0.5f,-0.5f},//left bottom far     0
-  {-0.5f,-0.5f,0.5f}, //left bottom close   1
-  {-0.5f,0.5f,-0.5f}, //left top far        2
-  {-0.5f,0.5f,0.5f},  //left top close      3
-  {0.5f,-0.5f,-0.5f}, //right bottom far    4
-  {0.5f,-0.5f,0.5f},  //right bottom close  5
-  {0.5f,0.5f,-0.5f},  //right top far       6
-  {0.5f,0.5f,0.5f},   //right top close     7
-};
-
-static std::vector<uint32_t> indices = {0,1,3, 3,2,0, 5,4,6, 6,7,5, 1,5,7, 7,3,1, 4,0,2, 2,6,4, 3,7,6, 6,2,3, 0,4,5, 5,1,0};
-
-static const uint32_t vertexCount = static_cast<uint32_t> (vertices.size());
-static const uint32_t indexCount = static_cast<uint32_t> (indices.size());
-
 namespace vc {
 	VoxelRenderer::VoxelRenderer(Device& device):RenderSystem(device){}
   void VoxelRenderer::init(VkDescriptorSetLayout setLayout, VkRenderPass renderPass){
     vertexBuffer = std::make_unique<Buffer>(
       device,
-      sizeof(vertices[0]),
-      vertexCount,
+      sizeof(obj::Voxel::Vertices[0]),
+      obj::Voxel::VertexCount,
       VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
       VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
     );
 
     indexBuffer = std::make_unique<Buffer>(
       device,
-      sizeof(indices[0]),
-      indexCount,
+      sizeof(obj::Voxel::Indices[0]),
+      obj::Voxel::IndexCount,
       VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
       VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
     );
 
     Buffer vertexStager{
     device,
-      sizeof(vertices[0]),
-      vertexCount,
+      sizeof(obj::Voxel::Vertices[0]),
+      obj::Voxel::VertexCount,
       VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
     };
 
     Buffer indexStager{
       device,
-      sizeof(indices[0]),
-      indexCount,
+      sizeof(obj::Voxel::Indices[0]),
+      obj::Voxel::IndexCount,
       VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
     };
@@ -54,11 +38,11 @@ namespace vc {
     vertexStager.map();
     indexStager.map();
 
-    vertexStager.writeToBuffer((void*)vertices.data());
-    indexStager.writeToBuffer((void*)indices.data());
+    vertexStager.writeToBuffer((void*)obj::Voxel::Vertices.data());
+    indexStager.writeToBuffer((void*)obj::Voxel::Indices.data());
 
-    device.copyBuffer(vertexStager.getVkBuffer(), vertexBuffer->getVkBuffer(), sizeof(vertices[0]) * vertices.size());
-    device.copyBuffer(indexStager.getVkBuffer(), indexBuffer->getVkBuffer(), sizeof(indices[0]) * indices.size());
+    device.copyBuffer(vertexStager.getVkBuffer(), vertexBuffer->getVkBuffer(), sizeof(obj::Voxel::Vertices[0]) * obj::Voxel::Vertices.size());
+    device.copyBuffer(indexStager.getVkBuffer(), indexBuffer->getVkBuffer(), sizeof(obj::Voxel::Indices[0]) * obj::Voxel::Indices.size());
 
     RenderSystem::init(setLayout, renderPass);
 	}
@@ -81,13 +65,13 @@ namespace vc {
 			&info.descriptorSet,
 			0, nullptr);
 
-		vkCmdDrawIndexed(info.commandBuffer, indices.size(), instanceCount, 0, 0, 0);
+		vkCmdDrawIndexed(info.commandBuffer, obj::Voxel::Indices.size(), instanceCount, 0, 0, 0);
 	}
 
   void VoxelRenderer::initPipeline(VkRenderPass renderPass) {
     PipelineFixedStageInfo configInfo{};
     auto pipelineConfig = Pipeline::defaultPipelineInfo(configInfo);
-    pipelineConfig.multisampleInfo.rasterizationSamples = device.getMaxUsableSampleCount();
+    pipelineConfig.multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
     pipelineConfig.rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = pipelineLayout;

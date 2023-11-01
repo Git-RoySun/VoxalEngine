@@ -105,9 +105,6 @@
     <ClCompile Include="src\Object.cpp">
       <Filter>Source Files\World\Object</Filter>
     </ClCompile>
-    <ClCompile Include="src\Voxel.cpp">
-      <Filter>Source Files\VisualContext</Filter>
-    </ClCompile>
     <ClCompile Include="src\ChunkLoader.cpp">
       <Filter>Source Files\World\Procedural</Filter>
     </ClCompile>
@@ -146,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="src\volk.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VoxelRayTracer.cpp">
+      <Filter>Source Files\VisualContext\Render Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Voxel.cpp">
+      <Filter>Source Files\World\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +263,9 @@
     <ClInclude Include="src\volk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\VoxelRayTracer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag">
@@ -272,6 +278,18 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="shaders\line.vert">
+      <Filter>Source Files\VisualContext\Shaders</Filter>
+    </None>
+    <None Include="shaders\anyhit.rahit">
+      <Filter>Source Files\VisualContext\Shaders</Filter>
+    </None>
+    <None Include="shaders\closesthit.rchit">
+      <Filter>Source Files\VisualContext\Shaders</Filter>
+    </None>
+    <None Include="shaders\miss.rmiss">
+      <Filter>Source Files\VisualContext\Shaders</Filter>
+    </None>
+    <None Include="shaders\raygen.rgen">
       <Filter>Source Files\VisualContext\Shaders</Filter>
     </None>
   </ItemGroup>

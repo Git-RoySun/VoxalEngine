@@ -12,7 +12,7 @@ class ChunkLoader{
 
 	vc::VisualContext& vc;
 	std::map<std::pair<int, int>, Chunk> chunks{};
-	int loadDistance = 48;
+	int loadDistance = 1;
 
 	static const float CHUNKSIZE;
 	static const float VOXELSIZE;

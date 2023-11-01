@@ -4,6 +4,7 @@
 #include "Descriptor.h"
 #include "OutlineRenderer.h"
 #include "Renderer.h"
+#include "VoxelRayTracer.h"
 #include "VoxelRenderer.h"
 
 namespace vc {
@@ -20,7 +21,8 @@ namespace vc {
 		Window window{ WIDTH,HEIGHT, "Window" };
 		Device device{ window };
 		Renderer renderer{ window, device };
-		VoxelRenderer voxelStage{ device };
+		//VoxelRenderer voxelStage{ device };
+		VoxelRayTracer voxelRT{ device };
 		//OutlineRenderer outlineStage{ device };
 
 		//data section (should probably be a separate class)

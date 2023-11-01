@@ -12,6 +12,8 @@ Voxal Engine is a voxel game engine made with Vulkan and GLFW with a focus on pr
 
 ## Plan:
 - Add collision detection and gravity/physics (through physics controller class)
+- Add Sound
+- Add ui wrapper class
 - Add biomes (with better chunk class)
 - Add shading/ray-tracing
 - Make View projection far plane round (cuttoff as a spehere not a plane, so when you spin the cutoff looks identical)

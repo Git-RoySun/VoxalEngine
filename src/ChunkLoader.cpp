@@ -113,4 +113,9 @@ void ChunkLoader::loadAround(float x, float z){
     	}
     }
   }
+  obj::Voxel::Instance instance{
+  .position = glm::vec3{ 0,0,0,},
+  .scale = glm::vec3{ 2 },
+  .materialID = vc::Material::RED.getId()};
+  vc.addInstance(instance);
 }

@@ -16,7 +16,7 @@ namespace vc {
 			device,
 			sizeof(obj::Voxel::Instance),
 			INSTANCEMAX,
-			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 			1
 		);
@@ -46,6 +46,7 @@ namespace vc {
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
 			device.properties.limits.minUniformBufferOffsetAlignment
 		);
+
 		Buffer msBuffer{
 		device,
 			sizeof(Material),
@@ -54,6 +55,7 @@ namespace vc {
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 			1
 		};
+
 		std::vector<Material::Data> mats{};
 		for(auto i:Material::MATERIALS){
 			mats.emplace_back(i.getData());
@@ -91,7 +93,8 @@ namespace vc {
 				.build(descriptorSets[i]);
 		}
 
-		voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
+		voxelRT.init(renderer.getSwapChain(), *instanceBuffer, *materialBuffer);
+		//voxelStage.init(setLayout->getDescriptorSetLayout(), renderer.getSwapChain().getRenderPass());
 		//outlineStage.init(setLayout->getDescriptorSetLayout(), renderer.getRenderPass());
 
 		IMGUI_CHECKVERSION();
@@ -110,13 +113,14 @@ namespace vc {
 		init_info.Instance = device.getInstance();
 		init_info.PhysicalDevice = device.getPhysivcalDevice();
 		init_info.Device = device.getVkDevice();
+
 		init_info.QueueFamily = device.findPhysicalQueueFamilies().graphicsFamily;
 		init_info.Queue = device.graphicsQueue();
 		init_info.DescriptorPool = descriptorPool->getVkDescriptorPool();
 		init_info.MinImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
 		init_info.ImageCount = 3;
-		init_info.MSAASamples = device.getMaxUsableSampleCount();
-		ImGui_ImplVulkan_Init(&init_info, renderer.getRenderPass());
+		init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+		ImGui_ImplVulkan_Init(&init_info, renderer.getSwapChain().getRenderPass());
 
 		VkCommandBuffer command_buffer = device.beginSingleTimeCommands();
 		ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
@@ -148,12 +152,12 @@ namespace vc {
 
 	void VisualContext::renderFrame(){
 		if (auto commandBuffer = renderer.startFrame()) {
-			ImGui_ImplVulkan_NewFrame();
+		/*	ImGui_ImplVulkan_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 			ImGui::ShowDemoWindow();
 			ImGui::Begin("Debug window");
-			UIModule::render();
+			UIModule::render();*/
 
 			if(stagingBuffer->getMappedMemory()!=nullptr)
 				stagingBuffer->unmap();
@@ -182,20 +186,22 @@ namespace vc {
 			};
 
 			delta = now - start;
-			ImGui::Text("FPS: %f", (frames++)/delta.count());
+			//ImGui::Text("FPS: %f", (frames++)/delta.count());
 			if(delta.count()>1){
 				start = now;
 				frames = 0;
 			}
 
-			ImGui::End();
-			ImGui::Render();
-			renderer.startRenderPass(commandBuffer);
-			voxelStage.renderVoxels(frameInfo, instanceCount);
-			//outlineStage.renderOutlines(frameInfo, instanceCount);
-			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
-			renderer.endRenderPass(commandBuffer);
+			//ImGui::End();
+			//ImGui::Render();
+			//renderer.startRenderPass(commandBuffer);
+			//voxelStage.renderVoxels(frameInfo, instanceCount);
+			//ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
+			//renderer.endRenderPass(commandBuffer);
+
+			voxelRT.render(frameInfo,renderer.getSwapChain(), *instanceBuffer, *materialBuffer);
 			renderer.endFrame();
+
 		}
 	}
 }

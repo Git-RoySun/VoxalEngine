@@ -189,13 +189,18 @@
     <ClCompile Include="src\VisualContext.cpp" />
     <ClCompile Include="src\volk.c" />
     <ClCompile Include="src\Voxel.cpp" />
+    <ClCompile Include="src\VoxelRayTracer.cpp" />
     <ClCompile Include="src\VoxelRenderer.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+    <None Include="shaders\anyhit.rahit" />
+    <None Include="shaders\closesthit.rchit" />
     <None Include="shaders\line.vert" />
+    <None Include="shaders\miss.rmiss" />
+    <None Include="shaders\raygen.rgen" />
     <None Include="shaders\shader.frag" />
     <None Include="shaders\shader.vert" />
   </ItemGroup>
@@ -234,6 +239,7 @@
     <ClInclude Include="src\VisualContext.h" />
     <ClInclude Include="src\volk.h" />
     <ClInclude Include="src\Voxel.h" />
+    <ClInclude Include="src\VoxelRayTracer.h" />
     <ClInclude Include="src\VoxelRenderer.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\World.h" />

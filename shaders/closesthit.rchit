@@ -59,7 +59,7 @@ void main(){
   const Material mat = materials[instances[gl_InstanceID].matId];
 
   // Diffuse
-  float diffuse     = max(dot(normal, L), 0.0);
+  float diffuse     = (dot(normal, L)+1)/2;
   float attenuation = 0.3;
 
   // Tracing shadow ray only if the light is visible from the surface
@@ -81,6 +81,7 @@ void main(){
                 0            // payload (location = 1)
     );
   }
+  vec3 colour = mat.colour;
 
-  hitValue = vec3(lightIntensity * attenuation * diffuse * mat.colour);
+  hitValue = vec3(lightIntensity * attenuation * diffuse * colour);
 }

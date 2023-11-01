@@ -119,6 +119,7 @@ namespace vc {
 			.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
 			.renderPass = swapChain->getRenderPass(),
 			.framebuffer = swapChain->getFrameBuffer(imageIndex),
+
 			.renderArea = {
 				.offset = {0,0},
 				.extent = swapChain->getSwapChainExtent()

@@ -22,7 +22,7 @@ namespace vc {
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 		void* pUserData) {
-		std::cerr << "[Validation Layer] " << pCallbackData->pMessage << "\n" << std::endl;
+		std::cerr <<pCallbackData->pMessage << "\n" << std::endl;
 		return VK_FALSE;
 	}
 
@@ -81,7 +81,7 @@ namespace vc {
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pEngineName = "Voxal Engine";
 		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.apiVersion = VK_API_VERSION_1_0;
+		appInfo.apiVersion = VK_API_VERSION_1_3;
 
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -159,6 +159,11 @@ namespace vc {
 			queueCreateInfos.push_back(queueCreateInfo);
 		}
 
+		VkPhysicalDeviceFeatures enabledFeatures{
+			.samplerAnisotropy = true,
+			.shaderInt64 = true
+		};
+
 		VkDeviceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		createInfo.pNext = devicepNext;
@@ -166,6 +171,16 @@ namespace vc {
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
 		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+		createInfo.pEnabledFeatures = &enabledFeatures;
+
+		VkPhysicalDeviceFeatures2 physicalDeviceFeatures2{};
+		if (devicepNext) {
+			physicalDeviceFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+			physicalDeviceFeatures2.features = enabledFeatures;
+			physicalDeviceFeatures2.pNext = devicepNext;
+			createInfo.pEnabledFeatures = nullptr;
+			createInfo.pNext = &physicalDeviceFeatures2;
+		}
 
 		// might not really be necessary anymore because device specific validation layers
 		// have been deprecated
@@ -434,6 +449,16 @@ namespace vc {
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
+
+		VkMemoryAllocateFlagsInfo allocateFlags{
+			.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO
+		};
+
+		if(usage & VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT){
+			allocateFlags.flags = VK_MEMORY_ALLOCATE_DEVICE_ADDRESS_BIT;
+			allocInfo.pNext = &allocateFlags;
+		}
+
 		if (vkAllocateMemory(device_, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
 			throw std::runtime_error("failed to allocate buffer memory!");
 		}
@@ -460,17 +485,22 @@ namespace vc {
 	}
 
 	void Device::endSingleTimeCommands(VkCommandBuffer commandBuffer) {
-		vkEndCommandBuffer(commandBuffer);
-
+		auto result = vkEndCommandBuffer(commandBuffer);
+		
 		VkSubmitInfo submitInfo{};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &commandBuffer;
 
-		vkQueueSubmit(graphicsQueue_, 1, &submitInfo, VK_NULL_HANDLE);
-		vkQueueWaitIdle(graphicsQueue_);
+		VkFenceCreateInfo fenceCreateInfo = { VK_STRUCTURE_TYPE_FENCE_CREATE_INFO };
+		VkFence fence;
+		result = vkCreateFence(device_, &fenceCreateInfo, NULL, &fence);
+
+		result = vkQueueSubmit(graphicsQueue_, 1, &submitInfo, fence);
+		result = vkWaitForFences(device_, 1, &fence, VK_TRUE, 10000000);
 
 		vkFreeCommandBuffers(device_, commandPool, 1, &commandBuffer);
+		vkDestroyFence(device_, fence, nullptr);
 	}
 
 	void Device::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {

@@ -1,11 +1,15 @@
 #include "World.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
+#include "Material.h"
 #include "UIModule.h"
 #include "Updatable.h"
 
 void World::loadWorld() {//load objects
-  loader.loadAround(0, 0);
+  //loader.loadAround(0, 0);
+  vc.addInstance({ .position = {0.f,0.f,8.f}, .materialID = vc::Material::GREEN.getId() });
+  //vc.addInstance({ .position = {2.f,0.f,0.f}, .materialID = vc::Material::GREEN.getId() });
+  //vc.addInstance({ .position = {5.f,0.f,0.f} });
 }
 
 void World::setup(){
@@ -59,7 +63,7 @@ void World::run() {
     last = now;
     
     Updatable::updateAll(delta.count());
-    loader.loadAround(cameras[0].getPosition().x, cameras[0].getPosition().z);
+    //loader.loadAround(cameras[0].getPosition().x, cameras[0].getPosition().z);
     vc.renderFrame();
   }
 };

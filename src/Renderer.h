@@ -50,7 +50,7 @@ namespace vc {
 		};
 
 		FrameStatus getFrameStatus() const { return frameStatus; };
-		VkRenderPass getRenderPass() const { return swapChain->getRenderPass(); };
+		SwapChain& getSwapChain() const { return *swapChain; };
 		VkCommandBuffer getActiveCommandBuffer() const {
 			assert(frameStatus == ACTIVE && "Cannot get active command buffer when frame is not active!");
 			return commandBuffers[frameIndex];
