@@ -164,7 +164,7 @@
     <ClInclude Include="src\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pipeline.h">
+    <ClInclude Include="src\RasterizationPipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -256,11 +256,11 @@
     <ClCompile Include="src\Observer.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pipeline.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Chunk.cpp">
       <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RasterizationPipeline.cpp">
+      <Filter>Source Files\Graphics\Pipelines</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

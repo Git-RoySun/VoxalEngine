@@ -81,9 +81,5 @@ namespace gm {
     void endInstantCommands(VkCommandBuffer commandBuffer);
 
     //TODO: Add submit to queue functions
-    //TODO: Move these to the buffer class
-    /*void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount);
-    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);*/
 	};
 }

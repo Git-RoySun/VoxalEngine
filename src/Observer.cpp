@@ -3,8 +3,15 @@
 #include "World.h"
 
 Observer::Observer(World* world, glm::ivec2 pos, int renderDistance):world{world}, renderDistance{ renderDistance } {
-	/*currentChunkPos = glm::ivec2{ -renderDistance,-renderDistance };
-	move(pos);*/
+	currentChunkPos = glm::ivec2{ -renderDistance,-renderDistance };
+	changed = true;
+	for (int x = -renderDistance; x <= renderDistance;x++) {
+		std::deque<std::shared_ptr<Chunk>> row{};
+		for (int y = -renderDistance; y <= renderDistance; y++) {
+			row.emplace_back(world->getChunk({x,y}));
+		}
+		chunks.emplace_back(row);
+	}
 }
 
 std::vector<obj::Voxel::Instance> Observer::getData() const {
@@ -19,8 +26,8 @@ std::vector<obj::Voxel::Instance> Observer::getData() const {
 	return instances;
 }
 
-void Observer::move(glm::ivec2 pos){
-	auto direction = pos - currentChunkPos;
+void Observer::move(glm::vec2 pos){
+	auto direction = glm::ivec2(pos/static_cast<float>(World::CHUNKSIZE)) - currentChunkPos;
 	if(direction.x!=0){
 		changed = true;
 		for(int i = 1;i<=glm::abs(direction.x)&&i<=renderDistance*2+1;i++){

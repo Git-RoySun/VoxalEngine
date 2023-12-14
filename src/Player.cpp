@@ -2,9 +2,12 @@
 
 #include "Graphic.h"
 #include "imgui.h"
+#include "Window.h"
 #include "glm/gtx/string_cast.hpp"
 
 Player::Player(obj::Transform transform, World* world) : Base{ transform }, Observer{world,transform.position} {
+	auto extent = gm::Module::getInstance().getWindow().getExtent();
+	getCamera().setPerspectiveProjection(glm::radians(50.f), (float)extent.width/extent.height, .1f, 35.f);
 	setPosition(transform.position);
 	setRotation(transform.rotation);
 }

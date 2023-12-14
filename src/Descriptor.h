@@ -7,7 +7,6 @@
 #include <vector>
 
 namespace gm {
-
   class DescriptorSetLayout {
   public:
     class Builder {

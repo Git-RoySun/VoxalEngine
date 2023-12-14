@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "Player.h"
 #include "Input.h"
+#include "Rasterizer.h"
 #include "UI.h"
 
 class Client{
@@ -21,11 +22,13 @@ class Client{
 	im::CursorToggleController cursorToggleController{ graphics.getWindow().getGlWindow() };
 
 	gm::Gui gui{};
+	gm::Rasterizer rasterizer{};
 
 	void render(){
 		auto& window = graphics.getWindow();
 		if (const auto commandBuffer = window.startFrame()) {
 			window.startRenderPass(commandBuffer);
+			rasterizer.render({commandBuffer, &player, 0, 0});
 			gui.render(commandBuffer);
 			window.endRenderPass(commandBuffer);
 			window.endFrame();
@@ -51,4 +54,5 @@ public:
 int main(){
 	Client app{};
 	app.run();
+	gm::Rasterizer::cleanup();
 }

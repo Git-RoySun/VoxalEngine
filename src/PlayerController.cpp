@@ -13,11 +13,15 @@ namespace im{
 		inputs.mapKey(Configurations::rightKey, GLFW_PRESS, 0, [this]() { this->addDirection(RIGHT); });
 		inputs.mapKey(Configurations::frontKey, GLFW_PRESS, 0, [this]() { this->addDirection(FRONT); });
 		inputs.mapKey(Configurations::backKey, GLFW_PRESS, 0, [this]() { this->addDirection(BACK); });
+		inputs.mapKey(Configurations::upKey, GLFW_PRESS, 0, [this]() { this->addDirection(UP); });
+		inputs.mapKey(Configurations::downKey, GLFW_PRESS, 0, [this]() { this->addDirection(DOWN); });
 
 		inputs.mapKey(Configurations::leftKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(LEFT); });
 		inputs.mapKey(Configurations::rightKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(RIGHT); });
 		inputs.mapKey(Configurations::frontKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(FRONT); });
 		inputs.mapKey(Configurations::backKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(BACK); });
+		inputs.mapKey(Configurations::upKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(UP); });
+		inputs.mapKey(Configurations::downKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(DOWN); });
 	}
 
 	void PlayerController::addDirection(DIRECTION_TITLE dir){
@@ -48,7 +52,7 @@ namespace im{
 		static_cast<obj::Dynamic*>(target)->move(glm::normalize(step) * delta);
 	}
 
-	void PlayerController::onEvent(double y, double x){
+	void PlayerController::onEvent(double x, double y){
 		static_cast<Player*>(target)->setRotation({ -y / sensibility,x / sensibility,0.f });
 	}
 

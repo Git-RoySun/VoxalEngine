@@ -20,7 +20,7 @@ class Observer{
 	std::deque<std::deque<std::shared_ptr<Chunk>>> chunks;
 	std::deque<std::shared_ptr<Chunk>> getCol(int x);
 protected:
-	void move(glm::ivec2 pos);
+	void move(glm::vec2 pos);
 public:
 	Observer(World* world, glm::ivec2 pos = {0,0}, int renderDistance = 1);
 	std::vector<obj::Voxel::Instance> getData() const;

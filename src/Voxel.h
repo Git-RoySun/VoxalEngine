@@ -13,8 +13,8 @@ namespace obj{
 	private:
 		uint32_t materialID;
 	public:
-		Voxel(Transform transform = {}, uint32_t matId = 0);
-		Instance toInstance() const { return Instance{ transform.position, transform.scale.x, transform.rotation, materialID }; }
+		Voxel(Transform transform = {}, uint32_t matId = 0):Base{transform}, materialID{matId} {};
+		Instance toInstance() const { return Instance{ transform.position, 1, transform.rotation, materialID }; }
 	};
 }
 

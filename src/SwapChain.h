@@ -1,16 +1,15 @@
 #pragma once
-#include "volk.h"
 
 #include <vector>
 #include <memory>
+#include "Device.h"
 
 namespace gm {
-  class Device;
   class SwapChain {
   public:
     static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
-    SwapChain(Device* deviceRef, VkExtent2D windowExtent, VkSurfaceKHR surface, std::shared_ptr<SwapChain> previous = nullptr);
+    SwapChain(Device& deviceRef, VkExtent2D windowExtent, VkSurfaceKHR surface, std::shared_ptr<SwapChain> previous = nullptr);
     ~SwapChain();
 
     SwapChain(const SwapChain&) = delete;
@@ -71,7 +70,7 @@ namespace gm {
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
 
-    Device* device;
+    Device& device;
 
     VkSwapchainKHR swapChain;
     std::shared_ptr<SwapChain> oldSwapChain = nullptr;

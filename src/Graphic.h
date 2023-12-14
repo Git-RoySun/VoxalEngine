@@ -17,6 +17,14 @@ namespace gm{
 	class Window;
 	class Buffer;
 
+	struct Frame{
+		VkCommandBuffer commandBuffer;
+		Observer* observer;
+		uint32_t time;
+
+		uint8_t frame;
+	};
+
 	class Module {
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debugMessenger;

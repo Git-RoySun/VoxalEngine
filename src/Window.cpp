@@ -63,11 +63,11 @@ namespace gm{
 		vkDeviceWaitIdle(device->getVkDevice());
 		if (swapChain) {
 			std::shared_ptr<SwapChain> oldSwapChain = std::move(swapChain);
-			swapChain = std::make_unique<SwapChain>(device, extent , surface, oldSwapChain);
+			swapChain = std::make_unique<SwapChain>(*device, extent , surface, oldSwapChain);
 			assert(oldSwapChain->compareSwapFormat(*swapChain) && "Swap chain image format has changed!");
 		}
 		else
-			swapChain = std::make_unique<SwapChain>(device, extent, surface);
+			swapChain = std::make_unique<SwapChain>(*device, extent, surface);
 	}
 
 	void Window::initCommandBuffer() {
@@ -80,6 +80,21 @@ namespace gm{
 		};
 
 		VK_CHECK_RESULT(vkAllocateCommandBuffers(device->getVkDevice(), &allocInfo, commandBuffers.data()), "Failed to allocate command buffers!")
+
+			VkViewport viewport{
+		.x = 0.0f,
+		.y = 0.0f,
+		.width = static_cast<float>(swapChain->getSwapChainExtent().width),
+		.height = static_cast<float>(swapChain->getSwapChainExtent().height),
+		.minDepth = 0.0f,
+		.maxDepth = 1.0f,
+		};
+
+		VkRect2D scissor{ {0,0}, swapChain->getSwapChainExtent() };
+		auto commandBuffer = device->beginInstantCommands();
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+		device->endInstantCommands(commandBuffer);
 	};
 
 	void Window::freeCommandBuffers() {
@@ -127,12 +142,12 @@ namespace gm{
 		assert(frameInFlight && "Cannot start render pass when frame is not already active/started!");
 		assert(commandBuffer == getActiveCommandBuffer() && "Cannot start render pass on command buffer from another frame!");
 
-		VkClearValue clearValues[2] = {
+		constexpr VkClearValue clearValues[2] = {
 			{.color = {1.0f, 0.f, 1.0f, 0.0f}},
 			{.depthStencil = {1.0f, 0}}
 		};
 
-		VkRenderPassBeginInfo renderPassInfo = {
+		const VkRenderPassBeginInfo renderPassInfo = {
 			.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
 			.renderPass = swapChain->getRenderPass(),
 			.framebuffer = swapChain->getFrameBuffer(imageIndex),
@@ -145,6 +160,7 @@ namespace gm{
 		};
 
 		vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
 
 		VkViewport viewport{
 			.x = 0.0f,

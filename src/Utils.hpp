@@ -4,6 +4,7 @@
 #include <cassert>
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include <vulkan/vk_enum_string_helper.h>
 
 #define VK_CHECK_RESULT(f, msg){\
@@ -54,5 +55,20 @@ public:
 		std::chrono::duration<float> delta = now - timer.start;
 		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
 		std::cout <<std::format("[Timer]: {} took {} ms", timer.process, time) << std::endl;
+	}
+
+
+	static std::vector<char> readFile(const std::string& filePath){
+		std::ifstream file{ filePath, std::ios::ate | std::ios::binary };
+		//^ this line will call abort (crash) if file is invalid and not throw an error
+		if (!file.is_open()) {
+			throw std::runtime_error("Pipeline failed to open file " + filePath);
+		}
+		size_t fileSize = static_cast<size_t>(file.tellg());
+		std::vector<char> buffer(fileSize);
+		file.seekg(0);
+		file.read(buffer.data(), fileSize);
+		file.close();
+		return buffer;
 	}
 };

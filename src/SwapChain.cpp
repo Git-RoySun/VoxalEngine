@@ -6,7 +6,7 @@
 #include "Utils.hpp"
 
 namespace gm {
-  SwapChain::SwapChain(Device* deviceRef, VkExtent2D windowExtent, VkSurfaceKHR surface, std::shared_ptr<SwapChain> previous) : device{ deviceRef }, oldSwapChain{ previous } {
+  SwapChain::SwapChain(Device& deviceRef, VkExtent2D windowExtent, VkSurfaceKHR surface, std::shared_ptr<SwapChain> previous) : device{ deviceRef }, oldSwapChain{ previous } {
     createSwapChain(surface, windowExtent);
     createImageViews();
     createRenderPass();
@@ -18,51 +18,51 @@ namespace gm {
 
   SwapChain::~SwapChain() {
     for (auto imageView : swapChainImageViews) {
-      vkDestroyImageView(device->getVkDevice(), imageView, nullptr);
+      vkDestroyImageView(device.getVkDevice(), imageView, nullptr);
     }
     swapChainImageViews.clear();
 
     if (swapChain != nullptr) {
-      vkDestroySwapchainKHR(device->getVkDevice(), swapChain, nullptr);
+      vkDestroySwapchainKHR(device.getVkDevice(), swapChain, nullptr);
       swapChain = nullptr;
     }
 
     for (int i = 0; i < depthImages.size(); i++) {
-      vkDestroyImageView(device->getVkDevice(), depthImageViews[i], nullptr);
-      vkDestroyImage(device->getVkDevice(), depthImages[i], nullptr);
-      vkFreeMemory(device->getVkDevice(), depthImageMemorys[i], nullptr);
+      vkDestroyImageView(device.getVkDevice(), depthImageViews[i], nullptr);
+      vkDestroyImage(device.getVkDevice(), depthImages[i], nullptr);
+      vkFreeMemory(device.getVkDevice(), depthImageMemorys[i], nullptr);
     }
 
     for (int i = 0; i < colorImages.size(); i++) {
-      vkDestroyImageView(device->getVkDevice(), colorImageViews[i], nullptr);
-      vkDestroyImage(device->getVkDevice(), colorImages[i], nullptr);
-      vkFreeMemory(device->getVkDevice(), colorImageMemorys[i], nullptr);
+      vkDestroyImageView(device.getVkDevice(), colorImageViews[i], nullptr);
+      vkDestroyImage(device.getVkDevice(), colorImages[i], nullptr);
+      vkFreeMemory(device.getVkDevice(), colorImageMemorys[i], nullptr);
     }
 
     for (auto framebuffer : swapChainFramebuffers) {
-      vkDestroyFramebuffer(device->getVkDevice(), framebuffer, nullptr);
+      vkDestroyFramebuffer(device.getVkDevice(), framebuffer, nullptr);
     }
 
-    vkDestroyRenderPass(device->getVkDevice(), renderPass, nullptr);
+    vkDestroyRenderPass(device.getVkDevice(), renderPass, nullptr);
 
     // cleanup synchronization objects
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-      vkDestroySemaphore(device->getVkDevice(), renderFinishedSemaphores[i], nullptr);
-      vkDestroySemaphore(device->getVkDevice(), imageAvailableSemaphores[i], nullptr);
-      vkDestroyFence(device->getVkDevice(), inFlightFences[i], nullptr);
+      vkDestroySemaphore(device.getVkDevice(), renderFinishedSemaphores[i], nullptr);
+      vkDestroySemaphore(device.getVkDevice(), imageAvailableSemaphores[i], nullptr);
+      vkDestroyFence(device.getVkDevice(), inFlightFences[i], nullptr);
     }
   }
 
   VkResult SwapChain::acquireNextImage(uint32_t* imageIndex) {
     vkWaitForFences(
-      device->getVkDevice(),
+      device.getVkDevice(),
       1,
       &inFlightFences[currentFrame],
       VK_TRUE,
       std::numeric_limits<uint64_t>::max());
 
     VkResult result = vkAcquireNextImageKHR(
-      device->getVkDevice(),
+      device.getVkDevice(),
       swapChain,
       std::numeric_limits<uint64_t>::max(),
       imageAvailableSemaphores[currentFrame],  // must be a not signaled semaphore
@@ -75,7 +75,7 @@ namespace gm {
   VkResult SwapChain::submitCommandBuffers(
     const VkCommandBuffer* buffers, uint32_t* imageIndex) {
     if (imagesInFlight[*imageIndex] != VK_NULL_HANDLE) {
-      vkWaitForFences(device->getVkDevice(), 1, &imagesInFlight[*imageIndex], VK_TRUE, UINT64_MAX);
+      vkWaitForFences(device.getVkDevice(), 1, &imagesInFlight[*imageIndex], VK_TRUE, UINT64_MAX);
     }
     imagesInFlight[*imageIndex] = inFlightFences[currentFrame];
 
@@ -95,8 +95,8 @@ namespace gm {
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
 
-    vkResetFences(device->getVkDevice(), 1, &inFlightFences[currentFrame]);
-    VK_CHECK_RESULT(vkQueueSubmit(device->getQueueFamilies().graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]), "Failed to submit draw command buffer!")
+    vkResetFences(device.getVkDevice(), 1, &inFlightFences[currentFrame]);
+    VK_CHECK_RESULT(vkQueueSubmit(device.getQueueFamilies().graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]), "Failed to submit draw command buffer!")
     
 
     VkPresentInfoKHR presentInfo = {};
@@ -111,7 +111,7 @@ namespace gm {
 
     presentInfo.pImageIndices = imageIndex;
 
-    auto result = vkQueuePresentKHR(device->getQueueFamilies().presentQueue, &presentInfo);
+    auto result = vkQueuePresentKHR(device.getQueueFamilies().presentQueue, &presentInfo);
 
     currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
@@ -119,8 +119,8 @@ namespace gm {
   }
 
   void SwapChain::createSwapChain(VkSurfaceKHR surface, VkExtent2D windowExtent) {
-    vkDeviceWaitIdle(device->getVkDevice());
-    Device::SwapChainSupportDetails swapChainSupport = Device::querySwapChainSupport(device->getPhysicalDevice(), surface);
+    vkDeviceWaitIdle(device.getVkDevice());
+    Device::SwapChainSupportDetails swapChainSupport = Device::querySwapChainSupport(device.getPhysicalDevice(), surface);
 
     VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
     VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
@@ -142,7 +142,7 @@ namespace gm {
     createInfo.imageArrayLayers = 1;
     createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-    Device::QueueFamily indices = device->getQueueFamilies();
+    Device::QueueFamily indices = device.getQueueFamilies();
     uint32_t queueFamilyIndices[] = { indices.graphicsFamily, indices.presentFamily };
 
     if (indices.graphicsFamily != indices.presentFamily) {
@@ -163,7 +163,7 @@ namespace gm {
     createInfo.clipped = VK_TRUE;
 
     createInfo.oldSwapchain = (oldSwapChain == nullptr) ? VK_NULL_HANDLE : oldSwapChain->swapChain;
-    VkResult err = vkCreateSwapchainKHR(device->getVkDevice(), &createInfo, nullptr, &swapChain);
+    VkResult err = vkCreateSwapchainKHR(device.getVkDevice(), &createInfo, nullptr, &swapChain);
     if (err != VK_SUCCESS) {
       throw std::runtime_error("failed to create swap chain!");
     }
@@ -172,9 +172,9 @@ namespace gm {
     // allowed to create a swap chain with more. That's why we'll first query the final number of
     // images with vkGetSwapchainImagesKHR, then resize the container and finally call it again to
     // retrieve the handles.
-    vkGetSwapchainImagesKHR(device->getVkDevice(), swapChain, &imageCount, nullptr);
+    vkGetSwapchainImagesKHR(device.getVkDevice(), swapChain, &imageCount, nullptr);
     swapChainImages.resize(imageCount);
-    vkGetSwapchainImagesKHR(device->getVkDevice(), swapChain, &imageCount, swapChainImages.data());
+    vkGetSwapchainImagesKHR(device.getVkDevice(), swapChain, &imageCount, swapChainImages.data());
 
     swapChainImageFormat = surfaceFormat.format;
     swapChainExtent = extent;
@@ -194,7 +194,7 @@ namespace gm {
       viewInfo.subresourceRange.baseArrayLayer = 0;
       viewInfo.subresourceRange.layerCount = 1;
 
-      if (vkCreateImageView(device->getVkDevice(), &viewInfo, nullptr, &swapChainImageViews[i]) !=
+      if (vkCreateImageView(device.getVkDevice(), &viewInfo, nullptr, &swapChainImageViews[i]) !=
         VK_SUCCESS) {
         throw std::runtime_error("failed to create texture image view!");
       }
@@ -204,7 +204,7 @@ namespace gm {
   void SwapChain::createRenderPass() {
     VkAttachmentDescription colorAttachment = {};
     colorAttachment.format = getSwapChainImageFormat();
-    colorAttachment.samples = device->getMsaaSample();
+    colorAttachment.samples = device.getMsaaSample();
     colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
     colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -218,7 +218,7 @@ namespace gm {
 
     VkAttachmentDescription depthAttachment{};
     depthAttachment.format = findDepthFormat();
-    depthAttachment.samples = device->getMsaaSample();
+    depthAttachment.samples = device.getMsaaSample();
     depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
     depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -272,7 +272,7 @@ namespace gm {
     renderPassInfo.dependencyCount = 1;
     renderPassInfo.pDependencies = &dependency;
 
-    if (vkCreateRenderPass(device->getVkDevice(), &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
+    if (vkCreateRenderPass(device.getVkDevice(), &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
       throw std::runtime_error("failed to create render pass!");
     }
   }
@@ -296,7 +296,7 @@ namespace gm {
       framebufferInfo.layers = 1;
 
       if (vkCreateFramebuffer(
-        device->getVkDevice(),
+        device.getVkDevice(),
         &framebufferInfo,
         nullptr,
         &swapChainFramebuffers[i]) != VK_SUCCESS) {
@@ -327,14 +327,14 @@ namespace gm {
       imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
       imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
       imageInfo.usage = VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-      imageInfo.samples = device->getMsaaSample();
+      imageInfo.samples = device.getMsaaSample();
       imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
       imageInfo.flags = 0;
 
       {
-        VK_CHECK_RESULT(vkCreateImage(device->getVkDevice(), &imageInfo, nullptr, &colorImages[i]), "Failed to create image!")
-          VkMemoryRequirements memRequirements; vkGetImageMemoryRequirements(device->getVkDevice(), colorImages[i], &memRequirements);
-        VkPhysicalDeviceMemoryProperties memProperties; vkGetPhysicalDeviceMemoryProperties(device->getPhysicalDevice(), &memProperties);
+        VK_CHECK_RESULT(vkCreateImage(device.getVkDevice(), &imageInfo, nullptr, &colorImages[i]), "Failed to create image!")
+          VkMemoryRequirements memRequirements; vkGetImageMemoryRequirements(device.getVkDevice(), colorImages[i], &memRequirements);
+        VkPhysicalDeviceMemoryProperties memProperties; vkGetPhysicalDeviceMemoryProperties(device.getPhysicalDevice(), &memProperties);
 
         uint32_t memType = 0;
         for (uint32_t x = 0; x < memProperties.memoryTypeCount; x++) {
@@ -351,8 +351,8 @@ namespace gm {
           .memoryTypeIndex = memType,
         };
 
-        VK_CHECK_RESULT(vkAllocateMemory(device->getVkDevice(), &allocInfo, nullptr, &colorImageMemorys[i]), "Failed to allocate image memory!")
-          VK_CHECK_RESULT(vkBindImageMemory(device->getVkDevice(), colorImages[i], colorImageMemorys[i], 0), "Failed to bind image memory!")
+        VK_CHECK_RESULT(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &colorImageMemorys[i]), "Failed to allocate image memory!")
+          VK_CHECK_RESULT(vkBindImageMemory(device.getVkDevice(), colorImages[i], colorImageMemorys[i], 0), "Failed to bind image memory!")
       }
 
       VkImageViewCreateInfo viewInfo{};
@@ -366,7 +366,7 @@ namespace gm {
       viewInfo.subresourceRange.baseArrayLayer = 0;
       viewInfo.subresourceRange.layerCount = 1;
 
-      if (vkCreateImageView(device->getVkDevice(), &viewInfo, nullptr, &colorImageViews[i]) != VK_SUCCESS) {
+      if (vkCreateImageView(device.getVkDevice(), &viewInfo, nullptr, &colorImageViews[i]) != VK_SUCCESS) {
         throw std::runtime_error("failed to create texture image view!");
       }
     }
@@ -394,14 +394,14 @@ namespace gm {
       imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
       imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
       imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-      imageInfo.samples = device->getMsaaSample();
+      imageInfo.samples = device.getMsaaSample();
       imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
       imageInfo.flags = 0;
 
       {
-        VK_CHECK_RESULT(vkCreateImage(device->getVkDevice(), &imageInfo, nullptr, &depthImages[i]), "Failed to create image!")
-          VkMemoryRequirements memRequirements; vkGetImageMemoryRequirements(device->getVkDevice(), depthImages[i], &memRequirements);
-        VkPhysicalDeviceMemoryProperties memProperties; vkGetPhysicalDeviceMemoryProperties(device->getPhysicalDevice(), &memProperties);
+        VK_CHECK_RESULT(vkCreateImage(device.getVkDevice(), &imageInfo, nullptr, &depthImages[i]), "Failed to create image!")
+          VkMemoryRequirements memRequirements; vkGetImageMemoryRequirements(device.getVkDevice(), depthImages[i], &memRequirements);
+        VkPhysicalDeviceMemoryProperties memProperties; vkGetPhysicalDeviceMemoryProperties(device.getPhysicalDevice(), &memProperties);
 
         uint32_t memType = 0;
         for (uint32_t x = 0; x < memProperties.memoryTypeCount; x++) {
@@ -418,8 +418,8 @@ namespace gm {
           .memoryTypeIndex = memType,
         };
 
-        VK_CHECK_RESULT(vkAllocateMemory(device->getVkDevice(), &allocInfo, nullptr, &depthImageMemorys[i]), "Failed to allocate image memory!")
-          VK_CHECK_RESULT(vkBindImageMemory(device->getVkDevice(), depthImages[i], depthImageMemorys[i], 0), "Failed to bind image memory!")
+        VK_CHECK_RESULT(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &depthImageMemorys[i]), "Failed to allocate image memory!")
+          VK_CHECK_RESULT(vkBindImageMemory(device.getVkDevice(), depthImages[i], depthImageMemorys[i], 0), "Failed to bind image memory!")
       }
 
       VkImageViewCreateInfo viewInfo{};
@@ -433,7 +433,7 @@ namespace gm {
       viewInfo.subresourceRange.baseArrayLayer = 0;
       viewInfo.subresourceRange.layerCount = 1;
 
-      if (vkCreateImageView(device->getVkDevice(), &viewInfo, nullptr, &depthImageViews[i]) != VK_SUCCESS) {
+      if (vkCreateImageView(device.getVkDevice(), &viewInfo, nullptr, &depthImageViews[i]) != VK_SUCCESS) {
         throw std::runtime_error("failed to create texture image view!");
       }
     }
@@ -453,11 +453,11 @@ namespace gm {
     fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-      if (vkCreateSemaphore(device->getVkDevice(), &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) !=
+      if (vkCreateSemaphore(device.getVkDevice(), &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) !=
         VK_SUCCESS ||
-        vkCreateSemaphore(device->getVkDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) !=
+        vkCreateSemaphore(device.getVkDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) !=
         VK_SUCCESS ||
-        vkCreateFence(device->getVkDevice(), &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
+        vkCreateFence(device.getVkDevice(), &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
         throw std::runtime_error("failed to create synchronization objects for a frame!");
       }
     }
@@ -484,13 +484,6 @@ namespace gm {
       }
     }
 
-    // for (const auto &availablePresentMode : availablePresentModes) {
-    //   if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-    //     std::cout << "Present mode: Immediate" << std::endl;
-    //     return availablePresentMode;
-    //   }
-    // }
-
     std::cout << "Present mode: V-Sync" << std::endl;
     return VK_PRESENT_MODE_FIFO_KHR;
   }
@@ -514,7 +507,7 @@ namespace gm {
 
   VkFormat SwapChain::findDepthFormat() {
     for (VkFormat format : { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT }) {
-      VkFormatProperties props; vkGetPhysicalDeviceFormatProperties(device->getPhysicalDevice(), format, &props);
+      VkFormatProperties props; vkGetPhysicalDeviceFormatProperties(device.getPhysicalDevice(), format, &props);
       if ((props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) == VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
         return format;
       }
