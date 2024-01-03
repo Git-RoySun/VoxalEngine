@@ -12,21 +12,21 @@
 #include "Rasterizer.h"
 #include "UI.h"
 
-class Client{
+class Client {
 	gm::Module& graphics = gm::Module::getInstance();
 	im::Module& inputs = im::Module::getInstance();
 
 	World world{}; //TODO could be fetched from server for multiplayer or from local file system or generated on the spot
-	Player player{ {} , &world };
-	im::PlayerController playerController{ &player };
-	im::CursorToggleController cursorToggleController{ graphics.getWindow().getGlWindow() };
+	Player player{{}, &world};
+	im::PlayerController playerController{&player};
+	im::CursorToggleController cursorToggleController{graphics.getWindow().getGlWindow()};
 
 	gm::Gui gui{};
 	gm::Rasterizer rasterizer{};
 
-	void render(){
+	void render() {
 		auto& window = graphics.getWindow();
-		if (const auto commandBuffer = window.startFrame()) {
+		if(const auto commandBuffer = window.startFrame()) {
 			window.startRenderPass(commandBuffer);
 			rasterizer.render({commandBuffer, &player, 0, 0});
 			gui.render(commandBuffer);
@@ -34,16 +34,17 @@ class Client{
 			window.endFrame();
 		}
 	}
+
 public:
-	Client(){
-		auto debugWindow = new gm::Container{ "Debug Window", {} };
+	Client() {
+		auto debugWindow = new gm::Container{"Debug Window", {}};
 		gui.addWidget(debugWindow);
-		debugWindow->addWidget([this]() {ImGui::Text(glm::to_string(player.getPosition()).c_str()); });
-		debugWindow->addWidget([this]() {ImGui::Text(glm::to_string(player.getRotation()).c_str()); });
+		debugWindow->addWidget([this]() { ImGui::Text(glm::to_string(player.getPosition()).c_str()); });
+		debugWindow->addWidget([this]() { ImGui::Text(glm::to_string(player.getRotation()).c_str()); });
 	}
 
-	void run(){
-		while (!glfwWindowShouldClose(graphics.getWindow().getGlWindow())){
+	void run() {
+		while(!glfwWindowShouldClose(graphics.getWindow().getGlWindow())) {
 			glfwPollEvents();
 			world.update();
 			render();
@@ -51,7 +52,7 @@ public:
 	}
 };
 
-int main(){
+int main() {
 	Client app{};
 	app.run();
 	gm::Rasterizer::cleanup();

@@ -31,9 +31,9 @@
             tag##ENUM_NAME index){ return gs_##ENUM_NAME [index]; }
 #endif
 
-struct debugTimer{
+struct debugTimer {
 	std::string process;
-	std::chrono::steady_clock::time_point start= std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 };
 
 class Utils {
@@ -46,22 +46,22 @@ public:
 		std::cout << "[INFO]: " << msg << std::endl;
 	}
 
-	static debugTimer startTimer(std::string process){
-		return debugTimer{ process };
+	static debugTimer startTimer(std::string process) {
+		return debugTimer{process};
 	}
 
-	static void endTimer(debugTimer& timer){
+	static void endTimer(debugTimer& timer) {
 		auto now = std::chrono::steady_clock::now();
 		std::chrono::duration<float> delta = now - timer.start;
 		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
-		std::cout <<std::format("[Timer]: {} took {} ms", timer.process, time) << std::endl;
+		std::cout << std::format("[Timer]: {} took {} ms", timer.process, time) << std::endl;
 	}
 
 
-	static std::vector<char> readFile(const std::string& filePath){
-		std::ifstream file{ filePath, std::ios::ate | std::ios::binary };
+	static std::vector<char> readFile(const std::string& filePath) {
+		std::ifstream file{filePath, std::ios::ate | std::ios::binary};
 		//^ this line will call abort (crash) if file is invalid and not throw an error
-		if (!file.is_open()) {
+		if(!file.is_open()) {
 			throw std::runtime_error("Pipeline failed to open file " + filePath);
 		}
 		size_t fileSize = static_cast<size_t>(file.tellg());

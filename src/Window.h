@@ -6,7 +6,9 @@
 #include <vector>
 #include <memory>
 
-namespace im{class Module;}
+namespace im {
+	class Module;
+}
 
 namespace gm {
 	class Device;
@@ -45,7 +47,7 @@ namespace gm {
 		static std::vector<const char*> getRequiredExtensions();
 		Window(VkInstance instance);
 		~Window();
-		VkExtent2D getExtent() const { return { static_cast<uint32_t>(width),static_cast<uint32_t>(height) }; }
+		VkExtent2D getExtent() const { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }
 		GLFWwindow* getGlWindow() const { return glWindow; }
 		VkSurfaceKHR getSurface() const { return surface; }
 
@@ -59,5 +61,4 @@ namespace gm {
 
 		SwapChain& getSwapChain() const { return *swapChain; }
 	};
-
 }

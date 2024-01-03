@@ -4,8 +4,8 @@
 #include "volk.h"
 
 
-namespace gm{
-	class RasterizationPipeline{
+namespace gm {
+	class RasterizationPipeline {
 		static std::vector<VkVertexInputBindingDescription> bindings;
 		static std::vector<VkVertexInputAttributeDescription> attributes;
 
@@ -14,6 +14,7 @@ namespace gm{
 		VkShaderModule fragShader;
 
 		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
+
 	public:
 		struct FixedStageInfo {
 			VkPipelineViewportStateCreateInfo viewportInfo;
@@ -40,5 +41,3 @@ namespace gm{
 		VkPipeline getVkPipeline() { return vkPipeline; }
 	};
 }
-
-

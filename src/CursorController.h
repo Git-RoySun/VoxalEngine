@@ -3,8 +3,9 @@
 #include "Window.h"
 
 namespace im {
-	class CursorToggleController{
+	class CursorToggleController {
 		GLFWwindow* window;
+
 	public:
 		CursorToggleController(GLFWwindow* window);
 		void toggleCursor();

@@ -11,7 +11,7 @@
 namespace gm {
 	class Buffer;
 
-	class Rasterizer{
+	class Rasterizer {
 		struct PushConstant {
 			glm::mat4 transform;
 			uint32_t time;
@@ -31,6 +31,7 @@ namespace gm {
 		void initPipelineLayout();
 		void initPipeline();
 		void bindInstances(std::vector<obj::Voxel::Instance> voxels);
+
 	public:
 		Rasterizer();
 

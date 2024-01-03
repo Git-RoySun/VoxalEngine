@@ -135,8 +135,7 @@ void volkLoadDeviceTable(struct VolkDeviceTable* table, VkDevice device);
 /**
  * Device-specific function pointer table
  */
-struct VolkDeviceTable
-{
+struct VolkDeviceTable {
 	/* VOLK_GENERATE_DEVICE_TABLE */
 #if defined(VK_VERSION_1_0)
 	PFN_vkAllocateCommandBuffers vkAllocateCommandBuffers;

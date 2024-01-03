@@ -4,12 +4,15 @@
 
 #include "Voxel.h"
 class Observer;
-class Chunk {//TODO should be serializable
+
+class Chunk {
+	//TODO should be serializable
 	glm::ivec2 position;
 	std::vector<obj::Voxel> voxels{};
 	std::vector<Observer*> observers{};
 
 	void notifyObservers();
+
 public:
 	class Builder {
 	public:
@@ -18,6 +21,6 @@ public:
 
 	Chunk(glm::ivec2 pos);
 	void addObserver(Observer* o) { observers.emplace_back(o); }
-	void removeObserver(Observer* o) { observers.erase(std::ranges::find(observers,o)); }
+	void removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
 	const std::vector<obj::Voxel>& getVoxels() const { return voxels; }
 };

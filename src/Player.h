@@ -5,8 +5,8 @@
 #include "Observer.h"
 #include "Rotary.h"
 
-class Player:public Observer, public obj::Base, public obj::Dynamic, public obj::Rotary{
-	float speed = 7;//TODO add attribute system
+class Player: public Observer, public obj::Base, public obj::Dynamic, public obj::Rotary {
+	float speed = 7; //TODO add attribute system
 public:
 	Player(obj::Transform transform, World* world);
 
@@ -18,4 +18,3 @@ public:
 	void setRotation(glm::vec3 rotation) override;
 	glm::vec3 getRotation() override { return transform.rotation; }
 };
-

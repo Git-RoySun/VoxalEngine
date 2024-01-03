@@ -12,12 +12,13 @@
 #endif
 
 class Observer;
-namespace gm{
+
+namespace gm {
 	class Device;
 	class Window;
 	class Buffer;
 
-	struct Frame{
+	struct Frame {
 		VkCommandBuffer commandBuffer;
 		Observer* observer;
 		uint32_t time;
@@ -37,14 +38,14 @@ namespace gm{
 
 		Module();
 		~Module();
+
 	public:
 		static Module& getInstance();
 		void addExtension(const char* name) { instanceExtensions.push_back(name); }
-		void addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(),names.begin(),names.end()); }
+		void addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(), names.begin(), names.end()); }
 
 		const VkInstance& getVkInstance() const { return instance; }
 		Window& getWindow() const { return *window; }
 		Device& getDevice() const { return *device; }
-
 	};
 }

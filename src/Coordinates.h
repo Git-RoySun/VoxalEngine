@@ -20,17 +20,6 @@ enum AXIS {
 
 constexpr int DIRECTION_PER_AXIS = 2;
 
-const glm::vec3 BASIS[NUM_AXIS] = {
-	{1.f,0.f,0.f},
-	{0.f,1.f,0.f},
-	{0.f,0.f,1.f},
-};
+const glm::vec3 BASIS[NUM_AXIS] = {{1.f, 0.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, 0.f, 1.f},};
 
-const glm::vec3 DIRECTIONS[NUM_DIRECTION_TITLE] = {
-	-BASIS[HORIZONTAL],
-	BASIS[HORIZONTAL],
-	BASIS[VERTICAL],
-	-BASIS[VERTICAL],
-	BASIS[DEPTH],
-	-BASIS[DEPTH],
-};
+const glm::vec3 DIRECTIONS[NUM_DIRECTION_TITLE] = {-BASIS[HORIZONTAL], BASIS[HORIZONTAL], BASIS[VERTICAL], -BASIS[VERTICAL], BASIS[DEPTH], -BASIS[DEPTH],};

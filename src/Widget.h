@@ -1,8 +1,7 @@
 #pragma once
-namespace gm{
+namespace gm {
 	class Widget {
 	public:
 		virtual void render() = 0;
 	};
 }
-

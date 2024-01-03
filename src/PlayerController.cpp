@@ -5,8 +5,8 @@
 #include "Rotary.h"
 #include "Player.h"
 
-namespace im{
-	PlayerController::PlayerController(Player* target): target{ target } {
+namespace im {
+	PlayerController::PlayerController(Player* target): target{target} {
 		auto inputs = Module::getInstance();
 		inputs.addMouseListener(this);
 		inputs.mapKey(Configurations::leftKey, GLFW_PRESS, 0, [this]() { this->addDirection(LEFT); });
@@ -24,36 +24,28 @@ namespace im{
 		inputs.mapKey(Configurations::downKey, GLFW_RELEASE, 0, [this]() { this->removeDirection(DOWN); });
 	}
 
-	void PlayerController::addDirection(DIRECTION_TITLE dir){
+	void PlayerController::addDirection(DIRECTION_TITLE dir) {
 		auto axis = dir / DIRECTION_PER_AXIS;
 		auto vec = DIRECTIONS[dir];
 		directionQueues[axis].emplace_back(std::move(vec));
 		queueUpdate();
 	}
 
-	void PlayerController::removeDirection(DIRECTION_TITLE dir){
+	void PlayerController::removeDirection(DIRECTION_TITLE dir) {
 		auto axis = dir / DIRECTION_PER_AXIS;
 		auto vec = DIRECTIONS[dir];
 
-		directionQueues[axis].erase(std::remove(
-			directionQueues[axis].begin(),
-			directionQueues[axis].end(), vec),
-			directionQueues[axis].end());
+		directionQueues[axis].erase(std::remove(directionQueues[axis].begin(), directionQueues[axis].end(), vec), directionQueues[axis].end());
 
-		if (directionQueues[0].size() + directionQueues[1].size() + directionQueues[2].size() == 0)
-			unqueuUpdate();
+		if(directionQueues[0].size() + directionQueues[1].size() + directionQueues[2].size() == 0) unqueuUpdate();
 	}
 
-	void PlayerController::update(float delta){
-		glm::vec3 step =
-			((directionQueues[0].empty()) ? glm::vec3{ 0.f } : directionQueues[0].back()) +
-			((directionQueues[1].empty()) ? glm::vec3{ 0.f } : directionQueues[1].back()) +
-			((directionQueues[2].empty()) ? glm::vec3{ 0.f } : directionQueues[2].back());
+	void PlayerController::update(float delta) {
+		glm::vec3 step = ((directionQueues[0].empty()) ? glm::vec3{0.f} : directionQueues[0].back()) + ((directionQueues[1].empty()) ? glm::vec3{0.f} : directionQueues[1].back()) + ((directionQueues[2].empty()) ? glm::vec3{0.f} : directionQueues[2].back());
 		static_cast<obj::Dynamic*>(target)->move(glm::normalize(step) * delta);
 	}
 
-	void PlayerController::onEvent(double x, double y){
-		static_cast<Player*>(target)->setRotation({ -y / sensibility,x / sensibility,0.f });
+	void PlayerController::onEvent(double x, double y) {
+		static_cast<Player*>(target)->setRotation({-y / sensibility, x / sensibility, 0.f});
 	}
-
 }

@@ -3,13 +3,13 @@
 #include <memory>
 #include <vector>
 
-namespace gm{
+namespace gm {
 	class DescriptorPool;
 	class Device;
 	class Window;
 	class Widget;
 
-	class Gui{
+	class Gui {
 		std::unique_ptr<DescriptorPool> descriptorPool{};
 		std::vector<std::unique_ptr<Widget>> widgets{};
 		//TODO the vector of unique ptr makes it unintuitive to use
@@ -20,4 +20,3 @@ namespace gm{
 		void render(VkCommandBuffer commandBuffer);
 	};
 }
-

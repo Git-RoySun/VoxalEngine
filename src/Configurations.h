@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
-class Configurations{
+class Configurations {
 public:
 	static int leftKey;
 	static int rightKey;
@@ -13,4 +13,3 @@ public:
 	static int cursorToggleKey;
 	static bool cursorToggle;
 };
-
