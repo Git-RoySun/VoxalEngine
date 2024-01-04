@@ -1,7 +1,6 @@
 // This File is not meant to be a part of the engine, but is used for testing and can serve as an example usage
 #include <glm/gtx/string_cast.hpp>
 
-#include "CursorController.h"
 #include "PlayerController.h"
 #include "World.h"
 #include "Window.h"
@@ -18,8 +17,7 @@ class Client {
 
 	World world{}; //TODO could be fetched from server for multiplayer or from local file system or generated on the spot
 	Player player{{}, &world};
-	im::PlayerController playerController{&player};
-	im::CursorToggleController cursorToggleController{graphics.getWindow().getGlWindow()};
+	PlayerController playerController{&player};
 
 	gm::Gui gui{};
 	gm::Rasterizer rasterizer{};

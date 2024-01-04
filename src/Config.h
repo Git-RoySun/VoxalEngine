@@ -1,7 +1,6 @@
 #pragma once
-#include <GLFW/glfw3.h>
 
-class Configurations {
+class Config {
 public:
 	static int leftKey;
 	static int rightKey;

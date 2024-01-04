@@ -25,6 +25,8 @@ namespace gm {
 
 		uint32_t width = DEFAULT_WIDTH;
 		uint32_t height = DEFAULT_HEIGHT;
+		std::pair<double, double> lastCursorPos = {0, 0};
+
 		bool resized = false;
 		std::string title;
 
@@ -50,6 +52,7 @@ namespace gm {
 		VkExtent2D getExtent() const { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }
 		GLFWwindow* getGlWindow() const { return glWindow; }
 		VkSurfaceKHR getSurface() const { return surface; }
+		SwapChain& getSwapChain() const { return *swapChain; }
 
 		void init(Device* device);
 
@@ -59,6 +62,6 @@ namespace gm {
 		void endRenderPass(VkCommandBuffer commandBuffer);
 		VkCommandBuffer getActiveCommandBuffer() const;
 
-		SwapChain& getSwapChain() const { return *swapChain; }
+		void toggleCursor();
 	};
 }

@@ -146,13 +146,10 @@
     <ClInclude Include="src\Updatable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Configurations.h">
+    <ClInclude Include="src\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Coordinates.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CursorController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Rasterizer.h">
@@ -244,10 +241,7 @@
     <ClCompile Include="src\Updatable.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="src\Configuration.cpp">
-      <Filter>Source Files\Client</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CursorController.cpp">
+    <ClCompile Include="src\Config.cpp">
       <Filter>Source Files\Client</Filter>
     </ClCompile>
     <ClCompile Include="src\Rasterizer.cpp">

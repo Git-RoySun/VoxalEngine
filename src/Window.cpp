@@ -1,5 +1,6 @@
 #include "Window.h"
 
+#include "Config.h"
 #include "Input.h"
 #include "Device.h"
 #include "SwapChain.h"
@@ -40,7 +41,7 @@ namespace gm {
 		glfwSetKeyCallback(
 			glWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 				const char* actionNames[3] = {"RELEASE", "PRESS", "REPEAT"};
-				im::Module::sendKeyEvent(key, action, mods, glfwGetKeyName(key, scancode), actionNames[action]);
+				im::Module::getInstance().sendKeyEvent(key, action, mods, glfwGetKeyName(key, scancode), actionNames[action]);
 			}
 		);
 
@@ -51,7 +52,7 @@ namespace gm {
 					y = std::clamp(y, -1500.0, 1500.0);
 					glfwSetCursorPos(window, x, y);
 				}
-				im::Module::sendMouseEvent(x, y);
+				im::Module::getInstance().sendMouseEvent(x, y);
 			}
 		);
 	}
@@ -160,4 +161,16 @@ namespace gm {
 		assert(frameInFlight && "Cannot get active command buffer when frame is not active!");
 		return commandBuffers[frameIndex];
 	};
+
+	void Window::toggleCursor() {
+		if(Config::cursorToggle) {
+			glfwSetInputMode(glWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetCursorPos(glWindow, lastCursorPos.first, lastCursorPos.second);
+		} else {
+			glfwGetCursorPos(glWindow, &lastCursorPos.first, &lastCursorPos.second);
+			glfwSetInputMode(glWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			glfwSetCursorPos(glWindow, width / 2.0, height / 2.0);
+		}
+		Config::cursorToggle = !Config::cursorToggle;
+	}
 }
