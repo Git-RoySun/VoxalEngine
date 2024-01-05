@@ -3,8 +3,6 @@
 #include <vector>
 #include <memory>
 
-#include "Container.h"
-
 #ifdef NDEBUG
 #define vl {}
 #else
@@ -14,38 +12,38 @@
 class Observer;
 
 namespace gm {
-	class Device;
-	class Window;
-	class Buffer;
+  class Device;
+  class Window;
+  class Buffer;
 
-	struct Frame {
-		VkCommandBuffer commandBuffer;
-		Observer* observer;
-		uint32_t time;
+  struct Frame {
+    VkCommandBuffer commandBuffer;
+    Observer* observer;
+    uint32_t time;
 
-		uint8_t frame;
-	};
+    uint8_t frame;
+  };
 
-	class Module {
-		VkInstance instance;
-		VkDebugUtilsMessengerEXT debugMessenger;
-		std::vector<const char*> validationLayers = vl;
-		std::vector<const char*> instanceExtensions = {};
-		void createVkInstance();
+  class Module {
+    VkInstance instance;
+    VkDebugUtilsMessengerEXT debugMessenger;
+    std::vector<const char*> validationLayers = vl;
+    std::vector<const char*> instanceExtensions = {};
+    void createVkInstance();
 
-		std::unique_ptr<Device> device{};
-		std::unique_ptr<Window> window{};
+    std::unique_ptr<Device> device{};
+    std::unique_ptr<Window> window{};
 
-		Module();
-		~Module();
+    Module();
+    ~Module();
 
-	public:
-		static Module& getInstance();
-		void addExtension(const char* name) { instanceExtensions.push_back(name); }
-		void addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(), names.begin(), names.end()); }
+  public:
+    static Module& getInstance();
+    void addExtension(const char* name) { instanceExtensions.push_back(name); }
+    void addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(), names.begin(), names.end()); }
 
-		const VkInstance& getVkInstance() const { return instance; }
-		Window& getWindow() const { return *window; }
-		Device& getDevice() const { return *device; }
-	};
+    const VkInstance& getVkInstance() const { return instance; }
+    Window& getWindow() const { return *window; }
+    Device& getDevice() const { return *device; }
+  };
 }

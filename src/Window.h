@@ -47,7 +47,7 @@ namespace gm {
 
 	public:
 		static std::vector<const char*> getRequiredExtensions();
-		Window(VkInstance instance);
+		Window(VkInstance instance, const std::string& title = "");
 		~Window();
 		VkExtent2D getExtent() const { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }
 		GLFWwindow* getGlWindow() const { return glWindow; }
