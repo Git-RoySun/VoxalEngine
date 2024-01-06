@@ -220,9 +220,6 @@
     <ClCompile Include="src\volk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Container.cpp">
-      <Filter>Source Files\Graphics\UI\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
