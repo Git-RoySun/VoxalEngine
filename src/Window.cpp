@@ -22,7 +22,7 @@ namespace gm {
 		return extensions;
 	}
 
-	Window::Window(VkInstance instance) {
+	Window::Window(VkInstance instance, const std::string& title): title{title} {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
