@@ -18,19 +18,19 @@ namespace im {
 		};
 
 		struct Comparator {
-			bool operator()(const Handler& a, const Handler& b) const {
-				return a.id > b.id;
-			}
+			bool operator()(const Handler& a, const Handler& b) const { return a.id > b.id; }
 		};
 	};
 
 	typedef Event<> KeyEvent;
 	typedef Event<double, double> MouseEvent;
 
-
 	class Module {
-		std::map<std::tuple<int, int, int>, std::set<KeyEvent::Handler, KeyEvent::Comparator>> keyMap = {};
-		std::set<MouseEvent::Handler, MouseEvent::Comparator> mouseListeners = {};
+		typedef std::set<KeyEvent::Handler, KeyEvent::Comparator> KeySet;
+		typedef std::set<MouseEvent::Handler, MouseEvent::Comparator> MouseSet;
+
+		std::map<std::pair<int, int>, std::pair<std::map<int, KeySet>, KeySet>> keyMap = {};
+		MouseSet mouseListeners = {};
 
 	public:
 		static Module& getInstance();
