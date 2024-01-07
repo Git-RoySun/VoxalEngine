@@ -10,8 +10,8 @@ namespace gm {
 	std::vector<VkVertexInputAttributeDescription> RasterizationPipeline::attributes = {{0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0}, {1, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, position)}, {2, 1, VK_FORMAT_R32_SFLOAT, offsetof(obj::Voxel::Instance, scale)}, {3, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, rotation)}, {4, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},};
 
 	RasterizationPipeline::RasterizationPipeline(const std::string& vertPath, const std::string& fragPath, FixedStageInfo stageInfo) {
-		auto vertFile = Utils::readFile(vertPath);
-		auto fragFile = Utils::readFile(fragPath);
+		auto vertFile = Utils::readShader(vertPath);
+		auto fragFile = Utils::readShader(fragPath);
 
 		createShaderModule(vertFile, &vertShader);
 		createShaderModule(fragFile, &fragShader);

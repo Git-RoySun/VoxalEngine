@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Dev\VoxalEngine\build\CMakeFiles\02e7c484a9574bd1e3c2bcca97697403\shader.frag.spv.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Dev\VoxalEngine\build\CMakeFiles\02e7c484a9574bd1e3c2bcca97697403\shader.vert.spv.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Dev\VoxalEngine\build\CMakeFiles\e478493064622899d651ae2de8a2d56a\Shaders.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Dev\VoxalEngine\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Dev\VoxalEngine\build\CMakeFiles\Shaders" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C1EB3C82-9EFD-3CCD-A4E6-94DFACE39E8B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

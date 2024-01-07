@@ -1,0 +1,4 @@
+D:/Dev/VoxalEngine/build/CMakeFiles/VoxalEngine.dir
+D:/Dev/VoxalEngine/build/CMakeFiles/Shaders.dir
+D:/Dev/VoxalEngine/build/CMakeFiles/ALL_BUILD.dir
+D:/Dev/VoxalEngine/build/CMakeFiles/ZERO_CHECK.dir

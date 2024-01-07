@@ -31,6 +31,10 @@
             tag##ENUM_NAME index){ return gs_##ENUM_NAME [index]; }
 #endif
 
+#ifndef ENDIRE_DIR
+#define ENGINE_DIR "../"
+#endif
+
 struct debugTimer {
 	std::string process;
 	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
@@ -58,7 +62,8 @@ public:
 	}
 
 
-	static std::vector<char> readFile(const std::string& filePath) {
+	static std::vector<char> readShader(const std::string& shaderPath) {
+		std::string filePath = ENGINE_DIR + shaderPath;
 		std::ifstream file{filePath, std::ios::ate | std::ios::binary};
 		//^ this line will call abort (crash) if file is invalid and not throw an error
 		if(!file.is_open()) {
