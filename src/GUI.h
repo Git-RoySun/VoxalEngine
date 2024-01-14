@@ -1,7 +1,8 @@
 #pragma once
-#include "volk.h"
 #include <memory>
 #include <vector>
+
+#include "volk.h"
 
 namespace gm {
   class DescriptorPool;
@@ -11,7 +12,7 @@ namespace gm {
 
   class Gui {
     std::unique_ptr<DescriptorPool> descriptorPool{};
-    std::vector<Widget*> widgets{};
+    std::vector<Widget*>            widgets{};
 
   public:
     Gui();

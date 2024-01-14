@@ -2,20 +2,20 @@
 #include <glm/vec3.hpp>
 
 enum DIRECTION_TITLE {
-	LEFT = 0,
-	RIGHT,
-	DOWN,
-	UP,
-	FRONT,
-	BACK,
-	NUM_DIRECTION_TITLE
+  LEFT = 0,
+  RIGHT,
+  DOWN,
+  UP,
+  FRONT,
+  BACK,
+  NUM_DIRECTION_TITLE
 };
 
 enum AXIS {
-	HORIZONTAL = 0,
-	VERTICAL,
-	DEPTH,
-	NUM_AXIS
+  HORIZONTAL = 0,
+  VERTICAL,
+  DEPTH,
+  NUM_AXIS
 };
 
 constexpr int DIRECTION_PER_AXIS = 2;

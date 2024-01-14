@@ -6,21 +6,21 @@
 class Observer;
 
 class Chunk {
-	//TODO should be serializable
-	glm::ivec2 position;
-	std::vector<obj::Voxel> voxels{};
-	std::vector<Observer*> observers{};
+  //TODO should be serializable
+  glm::ivec2              position;
+  std::vector<obj::Voxel> voxels{};
+  std::vector<Observer*>  observers{};
 
-	void notifyObservers();
+  void notifyObservers();
 
 public:
-	class Builder {
-	public:
-		std::shared_ptr<Chunk> build();
-	};
+  class Builder {
+  public:
+    std::shared_ptr<Chunk> build();
+  };
 
-	Chunk(glm::ivec2 pos);
-	void addObserver(Observer* o) { observers.emplace_back(o); }
-	void removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
-	const std::vector<obj::Voxel>& getVoxels() const { return voxels; }
+  Chunk(glm::ivec2 pos);
+  void                           addObserver(Observer* o) { observers.emplace_back(o); }
+  void                           removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
+  const std::vector<obj::Voxel>& getVoxels() const { return voxels; }
 };

@@ -1,7 +1,8 @@
 #pragma once
-#include "volk.h"
 #include <vector>
 #include <memory>
+
+#include "volk.h"
 
 #ifdef NDEBUG
 #define vl {}
@@ -14,22 +15,21 @@ class Observer;
 namespace gm {
   class Device;
   class Window;
-  class Buffer;
 
   struct Frame {
     VkCommandBuffer commandBuffer;
-    Observer* observer;
-    uint32_t time;
+    Observer*       observer;
+    uint32_t        time;
 
     uint8_t frame;
   };
 
   class Module {
-    VkInstance instance;
+    VkInstance               instance;
     VkDebugUtilsMessengerEXT debugMessenger;
-    std::vector<const char*> validationLayers = vl;
+    std::vector<const char*> validationLayers   = vl;
     std::vector<const char*> instanceExtensions = {};
-    void createVkInstance();
+    void                     createVkInstance();
 
     std::unique_ptr<Device> device{};
     std::unique_ptr<Window> window{};
@@ -39,11 +39,11 @@ namespace gm {
 
   public:
     static Module& getInstance();
-    void addExtension(const char* name) { instanceExtensions.push_back(name); }
-    void addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(), names.begin(), names.end()); }
+    void           addExtension(const char* name) { instanceExtensions.push_back(name); }
+    void           addExtension(std::vector<const char*> names) { instanceExtensions.insert(instanceExtensions.begin(), names.begin(), names.end()); }
 
     const VkInstance& getVkInstance() const { return instance; }
-    Window& getWindow() const { return *window; }
-    Device& getDevice() const { return *device; }
+    Window&           getWindow() const { return *window; }
+    Device&           getDevice() const { return *device; }
   };
 }

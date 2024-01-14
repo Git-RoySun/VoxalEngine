@@ -10,11 +10,11 @@
 #include "GUI.h"
 
 class Client {
-  World world{}; //TODO could be fetched from server for multiplayer or from local file system or generated on the spot
-  Player player{{}, &world};
+  World            world{}; //TODO could be fetched from server for multiplayer or from local file system or generated on the spot
+  Player           player{{}, &world};
   PlayerController playerController{&player};
 
-  gm::Gui gui{};
+  gm::Gui        gui{};
   gm::Rasterizer rasterizer{};
 
   void render() {

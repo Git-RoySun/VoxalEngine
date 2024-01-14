@@ -323,7 +323,9 @@ namespace gm {
 					}
 				}
 
-				VkMemoryAllocateInfo allocInfo{.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, .allocationSize = memRequirements.size, .memoryTypeIndex = memType,};
+				VkMemoryAllocateInfo allocInfo{.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, 
+ .allocationSize = memRequirements.size, 
+ .memoryTypeIndex = memType,};
 
 				VK_CHECK_RESULT(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &colorImageMemorys[i]), "Failed to allocate image memory!")
 				VK_CHECK_RESULT(vkBindImageMemory(device.getVkDevice(), colorImages[i], colorImageMemorys[i], 0), "Failed to bind image memory!")
@@ -387,7 +389,9 @@ namespace gm {
 					}
 				}
 
-				VkMemoryAllocateInfo allocInfo{.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, .allocationSize = memRequirements.size, .memoryTypeIndex = memType,};
+				VkMemoryAllocateInfo allocInfo{.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, 
+ .allocationSize = memRequirements.size, 
+ .memoryTypeIndex = memType,};
 
 				VK_CHECK_RESULT(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &depthImageMemorys[i]), "Failed to allocate image memory!")
 				VK_CHECK_RESULT(vkBindImageMemory(device.getVkDevice(), depthImages[i], depthImageMemorys[i], 0), "Failed to bind image memory!")

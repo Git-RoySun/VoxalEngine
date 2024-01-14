@@ -1,6 +1,5 @@
 #pragma once
 #include "volk.h"
-#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <chrono>
@@ -32,43 +31,42 @@
 #endif
 
 struct debugTimer {
-	std::string process;
-	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+  std::string                           process;
+  std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 };
 
 class Utils {
 public:
-	static void warn(const std::string& msg) {
-		std::cerr << "[WARN]: " << msg << std::endl;
-	}
+  static void warn(const std::string& msg) {
+    std::cerr << "[WARN]: " << msg << std::endl;
+  }
 
-	static void info(const std::string& msg) {
-		std::cout << "[INFO]: " << msg << std::endl;
-	}
+  static void info(const std::string& msg) {
+    std::cout << "[INFO]: " << msg << std::endl;
+  }
 
-	static debugTimer startTimer(std::string process) {
-		return debugTimer{process};
-	}
+  static debugTimer startTimer(std::string process) {
+    return debugTimer{process};
+  }
 
-	static void endTimer(debugTimer& timer) {
-		auto now = std::chrono::steady_clock::now();
-		std::chrono::duration<float> delta = now - timer.start;
-		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
-		std::cout << std::format("[Timer]: {} took {} ms", timer.process, time) << std::endl;
-	}
+  static void endTimer(debugTimer& timer) {
+    auto                         now   = std::chrono::steady_clock::now();
+    std::chrono::duration<float> delta = now - timer.start;
+    auto                         time  = std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
+    std::cout << std::format("[Timer]: {} took {} ms", timer.process, time) << std::endl;
+  }
 
-
-	static std::vector<char> readFile(const std::string& filePath) {
-		std::ifstream file{filePath, std::ios::ate | std::ios::binary};
-		//^ this line will call abort (crash) if file is invalid and not throw an error
-		if(!file.is_open()) {
-			throw std::runtime_error("Pipeline failed to open file " + filePath);
-		}
-		size_t fileSize = static_cast<size_t>(file.tellg());
-		std::vector<char> buffer(fileSize);
-		file.seekg(0);
-		file.read(buffer.data(), fileSize);
-		file.close();
-		return buffer;
-	}
+  static std::vector<char> readFile(const std::string& filePath) {
+    std::ifstream file{filePath, std::ios::ate | std::ios::binary};
+    //^ this line will call abort (crash) if file is invalid and not throw an error
+    if(!file.is_open()) {
+      throw std::runtime_error("Pipeline failed to open file " + filePath);
+    }
+    size_t            fileSize = static_cast<size_t>(file.tellg());
+    std::vector<char> buffer(fileSize);
+    file.seekg(0);
+    file.read(buffer.data(), fileSize);
+    file.close();
+    return buffer;
+  }
 };

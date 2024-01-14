@@ -1,67 +1,75 @@
 #pragma once
 #include "volk.h"
-
 #include <GLFW/glfw3.h>
 #include <string>
 #include <vector>
 #include <memory>
 
 namespace im {
-	class Module;
+  class Module;
 }
 
 namespace gm {
-	class Device;
-	class SwapChain;
+  class Device;
+  class SwapChain;
 
-	enum {
-		DEFAULT_HEIGHT = 480,
-		DEFAULT_WIDTH = 854
-	};
+  enum {
+    DEFAULT_HEIGHT = 480,
+    DEFAULT_WIDTH  = 854
+  };
 
-	class Window {
-		static bool glfwInitialized;
-		static bool initGlffw();
+  class Window {
+    static bool glfwInitialized;
+    static bool initGlfw();
 
-		uint32_t width = DEFAULT_WIDTH;
-		uint32_t height = DEFAULT_HEIGHT;
-		std::pair<double, double> lastCursorPos = {0, 0};
+    std::string title;
 
-		bool resized = false;
-		std::string title;
+    uint32_t width  = DEFAULT_WIDTH;
+    uint32_t height = DEFAULT_HEIGHT;
 
-		GLFWwindow* glWindow;
-		VkSurfaceKHR surface;
+    std::pair<double, double> lastCursorPos = {0, 0};
 
-		Device* device;
-		std::unique_ptr<SwapChain> swapChain;
-		std::vector<VkCommandBuffer> commandBuffers;
+    bool resized = false;
 
-		bool frameInFlight = false;
-		int frameIndex;
-		uint32_t imageIndex;
+    GLFWwindow*  glWindow;
+    VkSurfaceKHR surface;
 
-		void initSwapChain();
-		void initCommandBuffer();
-		void freeCommandBuffers();
+    Device*                      device;
+    std::unique_ptr<SwapChain>   swapChain;
+    std::vector<VkCommandBuffer> commandBuffers;
 
-	public:
-		static std::vector<const char*> getRequiredExtensions();
-		Window(VkInstance instance, const std::string& title = "");
-		~Window();
-		VkExtent2D getExtent() const { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }
-		GLFWwindow* getGlWindow() const { return glWindow; }
-		VkSurfaceKHR getSurface() const { return surface; }
-		SwapChain& getSwapChain() const { return *swapChain; }
+    bool     frameInFlight = false;
+    int      frameIndex;
+    uint32_t imageIndex;
 
-		void init(Device* device);
+    void initSwapChain();
+    void initCommandBuffer();
+    void freeCommandBuffers();
 
-		VkCommandBuffer startFrame();
-		void endFrame();
-		void startRenderPass(VkCommandBuffer commandBuffer);
-		void endRenderPass(VkCommandBuffer commandBuffer);
-		VkCommandBuffer getActiveCommandBuffer() const;
+  public:
+    static std::vector<const char*> getRequiredExtensions();
 
-		void toggleCursor();
-	};
+    Window(VkInstance instance, const std::string& title = "");
+    ~Window();
+
+    VkExtent2D getExtent() const {
+      return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
+    }
+
+    GLFWwindow*  getGlWindow() const { return glWindow; }
+    VkSurfaceKHR getSurface() const { return surface; }
+    SwapChain&   getSwapChain() const { return *swapChain; }
+
+    void init(Device* device);
+
+    void startRenderPass(VkCommandBuffer commandBuffer);
+    void endRenderPass(VkCommandBuffer commandBuffer);
+
+    VkCommandBuffer startFrame();
+    void            endFrame();
+
+    VkCommandBuffer getActiveCommandBuffer() const;
+
+    void toggleCursor();
+  };
 }
