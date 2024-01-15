@@ -11,9 +11,30 @@
 namespace gm {
   Gui::Gui() {
     auto& module   = Module::getInstance();
+    auto  instance = module.getVkInstance();
     auto& window   = module.getWindow();
     auto& device   = module.getDevice();
-    descriptorPool = DescriptorPool::Builder(Module::getInstance().getDevice()).setMaxSets(3).addPoolSize(VK_DESCRIPTOR_TYPE_SAMPLER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 2).addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 2).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 2).addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 2).addPoolSize(VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 2).build();
+
+    ImGui_ImplVulkan_LoadFunctions(
+      [](const char* function_name, void* vulkan_instance) {
+        return vkGetInstanceProcAddr(*(static_cast<VkInstance*>(vulkan_instance)), function_name);
+      }, &instance
+    );
+
+    descriptorPool = DescriptorPool::Builder(Module::getInstance().getDevice())
+      .setMaxSets(3)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_SAMPLER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 2)
+      .build();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

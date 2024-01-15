@@ -113,9 +113,6 @@
     <ClInclude Include="src\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dynamic.h">
-      <Filter>Header Files\Object Trait</Filter>
-    </ClInclude>
     <ClInclude Include="src\SwapChain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="src\Player.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rotary.h">
-      <Filter>Header Files\Object Trait</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerController.h">
       <Filter>Header Files</Filter>
@@ -165,6 +159,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dynamic.h">
+      <Filter>Header Files\Object Trait</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rotary.h">
+      <Filter>Header Files\Object Trait</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DeviceExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

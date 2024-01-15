@@ -2,8 +2,6 @@
 #include <deque>
 #include <memory>
 #include <vector>
-#include <glm/vec2.hpp>
-
 #include "Camera.h"
 #include "Voxel.h"
 

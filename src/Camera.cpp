@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 namespace gm {
-  void Camera::setOrthographicProjection(float left, float right, float top, float bottom, float near, float far) {
+  void Camera::setOrthographicProjection(float left, float bottom, float top, float right, float near, float far) {
     projection       = glm::mat4{1.0f};
     projection[0][0] = 2.f / (right - left);
     projection[1][1] = 2.f / (bottom - top);

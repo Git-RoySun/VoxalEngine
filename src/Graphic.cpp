@@ -1,10 +1,5 @@
 #include "Graphic.h"
-
-#include "Container.h"
 #include "Utils.hpp"
-#include "Window.h"
-#include "Device.h"
-#include "imgui_impl_vulkan.h"
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
   std::cerr << pCallbackData->pMessage << "\n" << std::endl;
@@ -26,20 +21,13 @@ bool enableValidationLayers = true;
 
 namespace gm {
   Module::Module() {
-    addExtension(Window::getRequiredExtensions());
-    createVkInstance();
-
-    window = std::make_unique<Window>(instance, "Window");
-    Device::Initializer deviceInit{instance};
-    deviceInit.setTargetSurface(window->getSurface());
-    //deviceInit.addExtension();
-    device = deviceInit.init();
-    window->init(device.get());
+    window.init(&device);
   }
 
-  Module::~Module() { vkDeviceWaitIdle(device->getVkDevice()); }
+  Module::~Module() { vkDeviceWaitIdle(device.getVkDevice()); }
 
-  void Module::createVkInstance() {
+  VkInstance Module::createVkInstance() {
+    addExtension(Window::getRequiredExtensions());
     volkInitialize();
     if(enableValidationLayers) {
       //Check for validation layer support
@@ -89,11 +77,10 @@ namespace gm {
     }
     VK_CHECK_RESULT(vkCreateInstance(&createInfo, nullptr, &instance), "Failed to create Vulkan instance!")
     volkLoadInstance(instance);
-    ImGui_ImplVulkan_LoadFunctions(
-      [](const char* function_name, void* vulkan_instance) { return vkGetInstanceProcAddr(*(reinterpret_cast<VkInstance*>(vulkan_instance)), function_name); }, &instance
-    );
 
     if(enableValidationLayers) VK_CHECK_RESULT(vkCreateDebugUtilsMessengerEXT(instance, &debugCreateInfo, nullptr, &debugMessenger), "Failed to Create Debug Messenger!")
+
+    return instance;
   }
 
   Module& Module::getInstance() {

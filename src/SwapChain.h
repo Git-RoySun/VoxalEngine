@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include <memory>
-
 #include "Device.h"
+
+#define SWAPCHAIN_H
 
 namespace gm {
   class SwapChain {

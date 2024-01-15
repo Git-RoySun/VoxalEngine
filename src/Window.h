@@ -4,10 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-
-namespace im {
-  class Module;
-}
+#define WINDOW_EXTENSIONS addExtension(Window::getRequiredExtensions());
 
 namespace gm {
   class Device;

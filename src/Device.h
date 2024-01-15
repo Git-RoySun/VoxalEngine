@@ -1,8 +1,8 @@
 #pragma once
-#include "volk.h"
-
 #include <vector>
 #include <memory>
+
+#include "volk.h"
 
 namespace gm {
   class Device {
@@ -32,30 +32,7 @@ namespace gm {
       bool isComplete() const { return !formats.empty() && !presentModes.empty(); }
     };
 
-    class Initializer {
-      std::unique_ptr<Device>       device;
-      VkSurfaceKHR                  targetSurface;
-      std::vector<VkPhysicalDevice> availablePhysicalDevices{};
-      std::vector<const char*>      extensions       = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-      void*                         deviceFeaturePtr = nullptr;
-
-      //helpers
-      QueueFamily findQueues(VkPhysicalDevice device) const;
-
-      bool isDeviceSuitable(VkPhysicalDevice device);
-      void pickPhysicalDevice();
-      void createLogicalDevice();
-      void createCommandPool();
-
-    public:
-      Initializer(VkInstance instance);
-      void  setTargetSurface(VkSurfaceKHR surface) { this->targetSurface = surface; }
-      void* addFeature(void* addr);
-      void  addExtension(const char* name) { extensions.push_back(name); }
-      void  addExtension(std::vector<const char*> names) { extensions.insert(extensions.end(), names.begin(), names.end()); }
-
-      std::unique_ptr<Device> init();
-    };
+    class Initializer;
 
   private:
     VkDevice         device;
@@ -71,10 +48,11 @@ namespace gm {
     Device() = default;
     ~Device();
 
-    Device(const Device&)            = delete;
+    Device(const Device&) noexcept   = delete;
     Device& operator=(const Device&) = delete;
-    Device(Device&&)                 = delete;
     Device& operator=(Device&&)      = delete;
+
+    Device(Device&&);
 
     VkDevice                       getVkDevice() const { return device; }
     VkPhysicalDevice               getPhysicalDevice() const { return physicalDevice; }
@@ -87,5 +65,32 @@ namespace gm {
     void                           endInstantCommands(VkCommandBuffer commandBuffer);
 
     //TODO: Add submit to queue functions
+  };
+
+  class Device::Initializer {
+    Device device{};
+
+    VkSurfaceKHR                  targetSurface;
+    std::vector<VkPhysicalDevice> availablePhysicalDevices{};
+    std::vector<const char*>      extensions{};
+    void*                         deviceFeaturePtr = nullptr;
+
+    //helpers
+    QueueFamily findQueues(VkPhysicalDevice device) const;
+
+    bool isDeviceSuitable(VkPhysicalDevice device);
+    void pickPhysicalDevice();
+    void createLogicalDevice();
+    void createCommandPool();
+    void getExtensions();
+
+    void  addExtension(const char* name) { extensions.push_back(name); }
+    void  addExtension(std::vector<const char*> names) { extensions.insert(extensions.end(), names.begin(), names.end()); }
+    void  setFeature(void* addr) { deviceFeaturePtr = addr; }
+    void* getFeature() const { return deviceFeaturePtr; }
+
+  public:
+    Initializer(VkInstance instance, VkSurfaceKHR surface);
+    Device init();
   };
 }

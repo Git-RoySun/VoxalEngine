@@ -1,6 +1,5 @@
 #pragma once
 #include "Device.h"
-#include "volk.h"
 
 namespace gm {
   class Buffer {

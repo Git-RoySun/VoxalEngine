@@ -1,8 +1,8 @@
 #pragma once
-#include "Dynamic.h"
 #include "Object.h"
 #include "Observer.h"
 #include "Rotary.h"
+#include "Dynamic.h"
 
 class Player: public Observer, public obj::Base, public obj::Dynamic, public obj::Rotary {
   float speed = 7; //TODO add attribute system

@@ -1,5 +1,4 @@
 #pragma once
-#include <glm/vec3.hpp>
 
 namespace obj {
   class Dynamic {

@@ -1,30 +1,21 @@
+#include <set>
 #include "Device.h"
 #include "Utils.hpp"
-
-#include <set>
+#include "Window.h"
+#include "DeviceExtensions.h"
 
 namespace gm {
-  Device::Initializer::Initializer(VkInstance instance) {
+  Device::Initializer::Initializer(VkInstance instance, VkSurfaceKHR surface) : targetSurface{surface} {
     uint32_t deviceCount = 0;
     vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
     assert(deviceCount != 0 && "Failed to find GPUs with Vulkan support!");
 
     availablePhysicalDevices.resize(deviceCount);
     vkEnumeratePhysicalDevices(instance, &deviceCount, availablePhysicalDevices.data());
-    device = std::make_unique<Device>();
   }
 
-  Device::~Device() {
-    vkDeviceWaitIdle(device);
-  }
-
-  void* Device::Initializer::addFeature(void* addr) {
-    void* res        = deviceFeaturePtr;
-    deviceFeaturePtr = addr;
-    return res;
-  }
-
-  std::unique_ptr<Device> Device::Initializer::init() {
+  Device Device::Initializer::init() {
+    getExtensions();
     pickPhysicalDevice();
     createLogicalDevice();
     createCommandPool();
@@ -34,23 +25,23 @@ namespace gm {
   void Device::Initializer::pickPhysicalDevice() {
     for(const auto& pDevice: availablePhysicalDevices) {
       if(isDeviceSuitable(pDevice)) {
-        device->physicalDevice   = pDevice;
-        device->swapChainSupport = Device::querySwapChainSupport(pDevice, targetSurface);
-        device->queues           = findQueues(pDevice);
-        vkGetPhysicalDeviceProperties(pDevice, &device->deviceProperties);
+        device.physicalDevice   = pDevice;
+        device.swapChainSupport = Device::querySwapChainSupport(pDevice, targetSurface);
+        device.queues           = findQueues(pDevice);
+        vkGetPhysicalDeviceProperties(pDevice, &device.deviceProperties);
         break;
       }
     }
 
-    assert(device->physicalDevice != VK_NULL_HANDLE &&"Failed to find a suitable GPU!");
+    assert(device.physicalDevice != VK_NULL_HANDLE &&"Failed to find a suitable GPU!");
     VkPhysicalDeviceProperties properties{};
-    vkGetPhysicalDeviceProperties(device->physicalDevice, &properties);
+    vkGetPhysicalDeviceProperties(device.physicalDevice, &properties);
     Utils::info("Selected physical device: " + static_cast<std::string>(properties.deviceName));
   }
 
   void Device::Initializer::createLogicalDevice() {
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-    std::set<uint32_t>                   queueIndices = {device->queues.graphicsFamily, device->queues.computeFamily, device->queues.presentFamily,};
+    std::set<uint32_t>                   queueIndices = {device.queues.graphicsFamily, device.queues.computeFamily, device.queues.presentFamily,};
 
     float queuePriority = 1.0f;
     for(uint32_t queueFamily: queueIndices) {
@@ -78,7 +69,7 @@ namespace gm {
     };
 
     VkPhysicalDeviceFeatures2 physicalDeviceFeatures2{};
-    if(deviceFeaturePtr) {
+    if(!deviceFeaturePtr) {
       physicalDeviceFeatures2.sType    = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
       physicalDeviceFeatures2.features = enabledFeatures;
       physicalDeviceFeatures2.pNext    = deviceFeaturePtr;
@@ -86,21 +77,25 @@ namespace gm {
       createInfo.pNext                 = &physicalDeviceFeatures2;
     }
 
-    VK_CHECK_RESULT(vkCreateDevice(device->physicalDevice, &createInfo, nullptr, &device->device), "Failed to create logical device!")
+    VK_CHECK_RESULT(vkCreateDevice(device.physicalDevice, &createInfo, nullptr, &device.device), "Failed to create logical device!")
 
-    vkGetDeviceQueue(device->device, device->queues.graphicsFamily, 0, &device->queues.graphicsQueue);
-    vkGetDeviceQueue(device->device, device->queues.presentFamily, 0, &device->queues.presentQueue);
-    vkGetDeviceQueue(device->device, device->queues.computeFamily, 0, &device->queues.computeQueue);
+    vkGetDeviceQueue(device.device, device.queues.graphicsFamily, 0, &device.queues.graphicsQueue);
+    vkGetDeviceQueue(device.device, device.queues.presentFamily, 0, &device.queues.presentQueue);
+    vkGetDeviceQueue(device.device, device.queues.computeFamily, 0, &device.queues.computeQueue);
   }
 
   void Device::Initializer::createCommandPool() {
     const VkCommandPoolCreateInfo poolInfo = {
       .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
       .flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT | VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
-      .queueFamilyIndex = device->queues.graphicsFamily,
+      .queueFamilyIndex = device.queues.graphicsFamily,
     };
 
-    VK_CHECK_RESULT(vkCreateCommandPool(device->device, &poolInfo, nullptr, &device->commandPool), "failed to create command pool!")
+    VK_CHECK_RESULT(vkCreateCommandPool(device.device, &poolInfo, nullptr, &device.commandPool), "failed to create command pool!")
+  }
+
+  void Device::Initializer::getExtensions() {
+    SWAPCHAIN_EXTENSIONS
   }
 
   bool Device::Initializer::isDeviceSuitable(VkPhysicalDevice pDevice) {
@@ -149,6 +144,20 @@ namespace gm {
     }
 
     return queueFamily;
+  }
+
+  Device::Device(Device&& other) {
+    this->device         = other.device;
+    this->physicalDevice = other.physicalDevice;
+    this->commandPool    = other.commandPool;
+
+    this->queues           = std::move(other.queues);
+    this->swapChainSupport = std::move(other.swapChainSupport);
+    this->deviceProperties = std::move(other.deviceProperties);
+  }
+
+  Device::~Device() {
+    vkDeviceWaitIdle(device);
   }
 
   Device::SwapChainSupportDetails Device::querySwapChainSupport(VkPhysicalDevice pDevice, VkSurfaceKHR targetSurface) {
