@@ -239,11 +239,11 @@ namespace gm {
     };
   }
 
-  void Buffer::transfer(VkBuffer dstBuffer) {
+  void Buffer::transfer(VkBuffer dstBuffer, VkDeviceSize offset) {
     const VkCommandBuffer commandBuffer = device.beginInstantCommands();
     const VkBufferCopy    copyRegion{
       .srcOffset = 0,
-      .dstOffset = 0,
+      .dstOffset = offset,
       .size = bufferSize,
     };
 

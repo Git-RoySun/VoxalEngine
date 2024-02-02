@@ -57,11 +57,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="src\VectorText.h">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>Source Files\Graphics</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +170,12 @@
     <ClInclude Include="src\DeviceExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MaterialBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input.cpp">
@@ -258,6 +264,9 @@
     </ClCompile>
     <ClCompile Include="src\GUI.cpp">
       <Filter>Source Files\Graphics\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MaterialBuffer.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

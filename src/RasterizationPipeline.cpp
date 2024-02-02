@@ -5,9 +5,19 @@
 #include "Voxel.h"
 
 namespace gm {
-  std::vector<VkVertexInputBindingDescription> RasterizationPipeline::bindings = {{0, sizeof(glm::vec3), VK_VERTEX_INPUT_RATE_VERTEX}, {1, sizeof(obj::Voxel::Instance), VK_VERTEX_INPUT_RATE_INSTANCE},};
+  std::vector<VkVertexInputBindingDescription> RasterizationPipeline::bindings = {
+    {0, sizeof(obj::Vertex), VK_VERTEX_INPUT_RATE_VERTEX},
+    {1, sizeof(obj::Voxel::Instance), VK_VERTEX_INPUT_RATE_INSTANCE},
+  };
 
-  std::vector<VkVertexInputAttributeDescription> RasterizationPipeline::attributes = {{0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0}, {1, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, position)}, {2, 1, VK_FORMAT_R32_SFLOAT, offsetof(obj::Voxel::Instance, scale)}, {3, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, rotation)}, {4, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},};
+  std::vector<VkVertexInputAttributeDescription> RasterizationPipeline::attributes = {
+    {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Vertex, position)},
+    {1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Vertex, normal)},
+    {2, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, position)},
+    {3, 1, VK_FORMAT_R32_SFLOAT, offsetof(obj::Voxel::Instance, scale)},
+    {4, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, rotation)},
+    {5, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},
+  };
 
   RasterizationPipeline::RasterizationPipeline(const std::string& vertPath, const std::string& fragPath, FixedStageInfo stageInfo) {
     auto vertFile = Utils::readFile(vertPath);
@@ -105,7 +115,7 @@ namespace gm {
       .rasterizerDiscardEnable = VK_FALSE,
       .polygonMode = VK_POLYGON_MODE_FILL,
       .cullMode = VK_CULL_MODE_NONE,
-      .frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE,
+      .frontFace = VK_FRONT_FACE_CLOCKWISE,
       .depthBiasEnable = VK_FALSE,
       .depthBiasConstantFactor = 0.0f,
       //optional

@@ -14,9 +14,7 @@ namespace im {
 
   void Module::sendKeyEvent(int key, int action, int mods, const char* keyName, const char* actionName, const char* modName) {
     const auto subs = keyMap.find(std::pair(key, action));
-    if(subs == keyMap.end()) {
-      Utils::warn(std::format("Unmapped Key {} {}!", (keyName) ? keyName : reinterpret_cast<const char*>(&key), (actionName) ? actionName : reinterpret_cast<const char*>(&action)));
-    } else {
+    if(subs != keyMap.end()) {
       for(auto& it: subs->second.first[mods]) {
         it.onEvent();
       }
@@ -25,6 +23,11 @@ namespace im {
         it.onEvent();
       }
     }
+#ifndef NDEBUG
+    else {
+      Utils::warn(std::format("Unmapped Key {} {}!", (keyName) ? keyName : reinterpret_cast<const char*>(&key), (actionName) ? actionName : reinterpret_cast<const char*>(&action)));
+    }
+#endif
   };
 
   void Module::mapKey(int key, int action, int mod, const std::function<void()>& f) {

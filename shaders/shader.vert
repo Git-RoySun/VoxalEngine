@@ -1,17 +1,28 @@
 #version 450
-
+struct Material {
+    vec3 colour;
+};
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 worldPosition;
-layout(location = 2) in float scale;
-layout(location = 3) in vec3 rotation;
-layout(location = 4) in uint modelId;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec3 worldPosition;
+layout(location = 3) in float scale;
+layout(location = 4) in vec3 rotation;
+layout(location = 5) in uint matId;
 
 layout(location = 0) out vec3 outColor;
+layout(location = 1) out vec3 outPosition;
+layout(location = 2) flat out vec3 outNormal;
 
 layout( push_constant ) uniform constants{
-	mat4 view;
+	mat4 projection;
+    mat4 view;
+    uint time;
 } PushConstants;
+
+layout(set = 0, binding = 1) buffer MaterialBuffer {
+    Material materials[];
+};
 
 float c3 = cos(rotation.z);
 float s3 = sin(rotation.z);
@@ -42,8 +53,11 @@ mat4 transformMatrix = mat4(
     vec4( worldPosition.x, worldPosition.y, worldPosition.z, 1.0f)
 );
 
-
 void main() {
-    gl_Position = PushConstants.view * transformMatrix * vec4(position, 1.0);
-    outColor = position+vec3(0.5);
+    gl_Position = PushConstants.projection * PushConstants.view * transformMatrix * vec4(position, 1.0);
+
+    outNormal = vec3(PushConstants.projection * transformMatrix * vec4(normal, 0.0));
+    outPosition = vec3(PushConstants.projection * transformMatrix * vec4(position, 1.0));
+    //using PushConstants.view instead of view gives an iridescent effect
+    outColor = materials[matId].colour;
 }

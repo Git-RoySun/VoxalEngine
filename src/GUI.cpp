@@ -10,10 +10,7 @@
 
 namespace gm {
   Gui::Gui() {
-    auto& module   = Module::getInstance();
-    auto  instance = module.getVkInstance();
-    auto& window   = module.getWindow();
-    auto& device   = module.getDevice();
+    auto instance = Module::getInstance().getVkInstance();
 
     ImGui_ImplVulkan_LoadFunctions(
       [](const char* function_name, void* vulkan_instance) {
@@ -21,7 +18,7 @@ namespace gm {
       }, &instance
     );
 
-    descriptorPool = DescriptorPool::Builder(Module::getInstance().getDevice())
+    descriptorPool = DescriptorPool::Builder(DEVICE)
       .setMaxSets(3)
       .addPoolSize(VK_DESCRIPTOR_TYPE_SAMPLER, 2)
       .addPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2)
@@ -45,27 +42,27 @@ namespace gm {
     ImGui::StyleColorsDark();
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForVulkan(window.getGlWindow(), false);
+    ImGui_ImplGlfw_InitForVulkan(WINDOW.getGlWindow(), false);
     ImGui_ImplVulkan_InitInfo initInfo = {};
-    initInfo.Instance                  = module.getVkInstance();
-    initInfo.PhysicalDevice            = device.getPhysicalDevice();
-    initInfo.Device                    = device.getVkDevice();
-    initInfo.QueueFamily               = device.getQueueFamilies().graphicsFamily;
-    initInfo.Queue                     = device.getQueueFamilies().graphicsQueue;
+    initInfo.Instance                  = instance;
+    initInfo.PhysicalDevice            = DEVICE.getPhysicalDevice();
+    initInfo.Device                    = DEVICE.getVkDevice();
+    initInfo.QueueFamily               = DEVICE.getQueueFamilies().graphicsFamily;
+    initInfo.Queue                     = DEVICE.getQueueFamilies().graphicsQueue;
     initInfo.DescriptorPool            = descriptorPool->getVkDescriptorPool();
     initInfo.MinImageCount             = 2;
     initInfo.ImageCount                = 2;
-    initInfo.MSAASamples               = device.getMsaaSample();
-    ImGui_ImplVulkan_Init(&initInfo, window.getSwapChain().getRenderPass());
-    ImGui_ImplGlfw_InstallCallbacks(window.getGlWindow());
+    initInfo.MSAASamples               = DEVICE.getMsaaSample();
+    ImGui_ImplVulkan_Init(&initInfo, WINDOW.getSwapChain().getRenderPass());
+    ImGui_ImplGlfw_InstallCallbacks(WINDOW.getGlWindow());
 
-    VkCommandBuffer command_buffer = device.beginInstantCommands();
+    VkCommandBuffer command_buffer = DEVICE.beginInstantCommands();
     ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
-    device.endInstantCommands(command_buffer);
+    DEVICE.endInstantCommands(command_buffer);
   }
 
   Gui::~Gui() {
-    vkDeviceWaitIdle(Module::getInstance().getDevice().getVkDevice());
+    vkDeviceWaitIdle(DEVICE.getVkDevice());
     for(const auto& w: widgets) { delete w; }
     widgets.clear();
     ImGui_ImplVulkan_Shutdown();

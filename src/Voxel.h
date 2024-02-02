@@ -1,4 +1,5 @@
 #pragma once
+#include "Material.h"
 #include "Object.h"
 
 namespace obj {
@@ -8,7 +9,7 @@ namespace obj {
       alignas(16) glm::vec3 position{};
       alignas(4) float      scale = 1.f;
       alignas(16) glm::vec3 rotation{};
-      alignas(4) uint32_t   materialID = 0;
+      alignas(4) matId      materialID = 0;
     };
 
   private:
@@ -16,6 +17,9 @@ namespace obj {
 
   public:
     Voxel(Transform transform = {}, uint32_t matId = 0): Base{transform}, materialID{matId} {};
-    Instance toInstance() const { return Instance{transform.position, 1, transform.rotation, materialID}; }
+
+    Instance toInstance() const {
+      return Instance{transform.position, 1, transform.rotation, materialID};
+    }
   };
 }

@@ -38,7 +38,7 @@ namespace gm {
     VkResult flushIndex(int index);
     VkResult invalidateIndex(int index);
 
-    void transfer(VkBuffer dstBuffer);
+    void transfer(VkBuffer dstBuffer, VkDeviceSize offset = 0);
 
     VkDescriptorBufferInfo descriptorInfoForIndex(int index);
     VkDescriptorBufferInfo descriptorInfo(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);

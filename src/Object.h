@@ -2,6 +2,11 @@
 #include <glm/glm.hpp>
 
 namespace obj {
+  struct Vertex {
+    glm::vec3 position;
+    glm::vec3 normal;
+  };
+
   struct Transform {
     glm::vec3 position{0.f};
     glm::vec3 scale{1.f};

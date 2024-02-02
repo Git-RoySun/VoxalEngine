@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "SwapChain.h"
 #include "Utils.hpp"
+#include <algorithm>
 
 namespace gm {
   bool Window::glfwInitialized = Window::initGlfw();

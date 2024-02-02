@@ -8,6 +8,9 @@
 #define vl { "VK_LAYER_KHRONOS_validation" }
 #endif
 
+#define WINDOW gm::Module::getInstance().getWindow()
+#define DEVICE gm::Module::getInstance().getDevice()
+
 class Observer;
 
 namespace gm {
