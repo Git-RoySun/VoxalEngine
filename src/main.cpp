@@ -8,6 +8,7 @@
 #include "Rasterizer.h"
 #include "VectorText.h"
 #include "GUI.h"
+#include "VectorInput.h"
 
 class Client {
   World            world{}; //TODO could be fetched from server for multiplayer or from local file system or generated on the spot
@@ -32,7 +33,8 @@ public:
   Client() {
     gui.addWidget(new gm::Container("Debug Window", {
       new gm::VectorText(&player.getPosition()),
-      new gm::VectorText(&player.getRotation())
+      new gm::VectorText(&player.getRotation()),
+      new gm::VectorInput("Light", &rasterizer.light.x)
     }));
   }
 

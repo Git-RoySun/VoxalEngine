@@ -29,7 +29,6 @@ namespace gm {
     uint32_t                instanceCount = 0;
 
     std::unique_ptr<Buffer> UBO[2];
-    glm::vec3               light = {2.f, -2.f, 1.f};
 
     VkPipelineLayout                       pipelineLayout;
     std::unique_ptr<RasterizationPipeline> pipeline;
@@ -47,6 +46,7 @@ namespace gm {
     void bindInstances(std::vector<obj::Voxel::Instance> voxels);
 
   public:
+    glm::vec3 light = {2.f, -2.f, 1.f};
     Rasterizer();
 
     void        render(Frame frameInfo);

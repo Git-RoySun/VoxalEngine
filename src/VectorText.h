@@ -11,6 +11,6 @@ namespace gm {
 
   public:
     VectorText(T* content) : content{content} {}
-    void render() override { return ImGui::Text(glm::to_string(*content).c_str()); }
+    void render() override { ImGui::Text(glm::to_string(*content).c_str()); }
   };
 }
