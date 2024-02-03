@@ -70,6 +70,26 @@ namespace gm {
       1
     );
 
+    UBO[0] = std::make_unique<Buffer>(
+      DEVICE,
+      VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+      sizeof(UniformBuffer),
+      1,
+      DEVICE.getDeviceProperties().limits.minUniformBufferOffsetAlignment
+    );
+    UBO[0]->map();
+
+    UBO[1] = std::make_unique<Buffer>(
+      DEVICE,
+      VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+      sizeof(UniformBuffer),
+      1,
+      DEVICE.getDeviceProperties().limits.minUniformBufferOffsetAlignment
+    );
+    UBO[1]->map();
+
     if(!vertexBuffer || !instanceBuffer[activeIndex])initBuffers();
     initDescriptors();
     initPipelineLayout();
@@ -117,16 +137,20 @@ namespace gm {
   void Rasterizer::initDescriptors() {
     descriptorPool = DescriptorPool::Builder(DEVICE)
       .setMaxSets(2)
+      .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2)
       .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2)
       .build();
 
     setLayout = DescriptorSetLayout::Builder(DEVICE)
+      .addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
       .addBinding(1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
       .build();
 
     for(int i = 0; i < 2; ++i) {
+      auto uboInfo = UBO[i]->descriptorInfo();
       auto matInfo = gm::MaterialBuffer::getInstance().descriptorInfo();
       DescriptorWriter(*setLayout, *descriptorPool)
+        .writeBuffer(0, &uboInfo)
         .writeBuffer(1, &matInfo)
         .build(descriptorSets[i]);
     }
@@ -196,6 +220,7 @@ namespace gm {
       bindInstances(frameInfo.observer->getData());
       frameInfo.observer->changed = false;
     }
+
     vkCmdBindPipeline(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getVkPipeline());
 
     VkBuffer     buffers[] = {vertexBuffer->getVkBuffer(), instanceBuffer[activeIndex]->getVkBuffer()};
@@ -203,12 +228,17 @@ namespace gm {
     vkCmdBindVertexBuffers(frameInfo.commandBuffer, 0, 2, buffers, offsets);
     vkCmdBindIndexBuffer(frameInfo.commandBuffer, indexBuffer->getVkBuffer(), 0, VK_INDEX_TYPE_UINT32);
 
+    UniformBuffer data{
+      .projection = frameInfo.observer->getCamera().getProjection(),
+      .view = frameInfo.observer->getCamera().getView(),
+      .light = light,
+    };
+    UBO[activeIndex]->writeToBuffer(&data);
+    UBO[activeIndex]->flush();
+
     vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[activeIndex], 0, nullptr);
 
-    PushConstant pushConstantsData{
-      .projection = frameInfo.observer->getCamera().getProjection(),
-      .view = frameInfo.observer->getCamera().getView()
-    };
+    PushConstant pushConstantsData{.time = 0};
 
     vkCmdPushConstants(frameInfo.commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstant), &pushConstantsData);
 

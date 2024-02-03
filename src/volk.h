@@ -7,6 +7,7 @@
  * This library is distributed under the MIT License. See notice at the end of this file.
  */
 /* clang-format off */
+
 #ifndef VOLK_H_
 #define VOLK_H_
 

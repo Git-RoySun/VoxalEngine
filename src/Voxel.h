@@ -6,10 +6,8 @@ namespace obj {
   class Voxel: public Base {
   public:
     struct Instance {
-      alignas(16) glm::vec3 position{};
-      alignas(4) float      scale = 1.f;
-      alignas(16) glm::vec3 rotation{};
-      alignas(4) matId      materialID = 0;
+      glm::mat4 transform{};
+      matId     materialID = 0;
     };
 
   private:
@@ -19,7 +17,7 @@ namespace obj {
     Voxel(Transform transform = {}, uint32_t matId = 0): Base{transform}, materialID{matId} {};
 
     Instance toInstance() const {
-      return Instance{transform.position, 1, transform.rotation, materialID};
+      return Instance{transform.mat4(), materialID};
     }
   };
 }

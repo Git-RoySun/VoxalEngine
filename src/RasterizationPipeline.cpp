@@ -13,10 +13,11 @@ namespace gm {
   std::vector<VkVertexInputAttributeDescription> RasterizationPipeline::attributes = {
     {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Vertex, position)},
     {1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Vertex, normal)},
-    {2, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, position)},
-    {3, 1, VK_FORMAT_R32_SFLOAT, offsetof(obj::Voxel::Instance, scale)},
-    {4, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(obj::Voxel::Instance, rotation)},
-    {5, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},
+    {2, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 0},
+    {3, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 16},
+    {4, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 32},
+    {5, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 48},
+    {6, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},
   };
 
   RasterizationPipeline::RasterizationPipeline(const std::string& vertPath, const std::string& fragPath, FixedStageInfo stageInfo) {

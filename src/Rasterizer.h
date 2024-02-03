@@ -12,9 +12,13 @@
 namespace gm {
   class Rasterizer {
     struct PushConstant {
+      uint32_t time;
+    };
+
+    struct UniformBuffer {
       glm::mat4 projection;
       glm::mat4 view;
-      uint32_t  time;
+      glm::vec3 light;
     };
 
     static std::unique_ptr<Buffer> vertexBuffer;
@@ -23,6 +27,9 @@ namespace gm {
     //todo currently not very efficient with removing/adding single voxels
     std::unique_ptr<Buffer> instanceBuffer[2];
     uint32_t                instanceCount = 0;
+
+    std::unique_ptr<Buffer> UBO[2];
+    glm::vec3               light = {2.f, -2.f, 1.f};
 
     VkPipelineLayout                       pipelineLayout;
     std::unique_ptr<RasterizationPipeline> pipeline;
