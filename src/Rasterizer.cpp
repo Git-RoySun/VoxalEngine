@@ -148,7 +148,7 @@ namespace gm {
 
     for(int i = 0; i < 2; ++i) {
       auto uboInfo = UBO[i]->descriptorInfo();
-      auto matInfo = gm::MaterialBuffer::getInstance().descriptorInfo();
+      auto matInfo = gm::MaterialBuffer::getInstance().getLocalBuffer().descriptorInfo();
       DescriptorWriter(*setLayout, *descriptorPool)
         .writeBuffer(0, &uboInfo)
         .writeBuffer(1, &matInfo)

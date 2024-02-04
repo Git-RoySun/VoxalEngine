@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Buffer.h"
+#include "DeviceBuffer.h"
 #include "Material.h"
 
 #define MATERIALS gm::MaterialBuffer::getInstance()
@@ -13,7 +14,7 @@
 #define M_BLUE  MATERIALS.getMaterial("BLUE")
 
 namespace gm {
-  class MaterialBuffer: public Buffer {
+  class MaterialBuffer: public DeviceBuffer {
     MaterialBuffer();
     std::map<std::string, matId> nameMap;
 
@@ -25,8 +26,7 @@ namespace gm {
       return singleton;
     }
 
-    void addMaterials(std::vector<std::pair<std::string, Material>> materials);
-
+    void  addMaterials(std::vector<std::pair<std::string, Material>> materials);
     matId getMaterial(std::string name) { return nameMap[name]; }//todo add error handling
   };
 }

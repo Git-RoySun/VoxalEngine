@@ -1,4 +1,5 @@
 #include "MaterialBuffer.h"
+
 #include "Graphic.h"
 
 static std::vector<std::pair<std::string, Material>> default_materials = {
@@ -10,31 +11,21 @@ static std::vector<std::pair<std::string, Material>> default_materials = {
 };
 
 namespace gm {
-  MaterialBuffer::MaterialBuffer(): Buffer(
-    DEVICE,
-    VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+  MaterialBuffer::MaterialBuffer(): DeviceBuffer(
     sizeof(Material),
+    VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
     INT8_MAX
   ) {
     addMaterials(default_materials);
   }
 
   void MaterialBuffer::addMaterials(std::vector<std::pair<std::string, Material>> materials) {
-    int    offset = nextMatId * sizeof(Material);
-    Buffer stagingBuffer{
-      DEVICE,
-      VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
-      sizeof(Material),
-      static_cast<uint32_t>(materials.size())
-    };
-    stagingBuffer.map();
+    int offset = nextMatId * sizeof(Material);
+    stagingBuffer->map();
     for(auto& [name, material]: materials) {
-      stagingBuffer.writeToIndex(&material, nextMatId);
+      stagingBuffer->writeToIndex(&material, nextMatId);
       nameMap[name] = nextMatId++;
     }
-    stagingBuffer.flush();
-    stagingBuffer.transfer(this->getVkBuffer(), offset);
+    synchronize();
   }
 }

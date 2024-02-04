@@ -55,13 +55,16 @@
     <Filter Include="Source Files\Graphics\Pipelines">
       <UniqueIdentifier>{fe64f411-f5c7-43b7-b142-3ee01e497598}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics\Memory">
+      <UniqueIdentifier>{8dc1b9a1-f16a-4520-8e5c-efd549ccb8c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\VectorText.h">
       <Filter>Header Files</Filter>
     </None>
     <None Include="README.md">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +182,9 @@
     <ClInclude Include="src\VectorInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\DeviceBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input.cpp">
@@ -212,9 +218,6 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Device.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Buffer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\World.cpp">
@@ -269,7 +272,13 @@
       <Filter>Source Files\Graphics\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\MaterialBuffer.cpp">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Graphics\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffer.cpp">
+      <Filter>Source Files\Graphics\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DeviceBuffer.cpp">
+      <Filter>Source Files\Graphics\Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

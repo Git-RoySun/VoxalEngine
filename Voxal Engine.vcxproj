@@ -144,6 +144,7 @@
     <ClInclude Include="src\Coordinates.h" />
     <ClInclude Include="src\Descriptor.h" />
     <ClInclude Include="src\Device.h" />
+    <ClInclude Include="src\DeviceBuffer.h" />
     <ClInclude Include="src\DeviceExtensions.h" />
     <ClInclude Include="src\Dynamic.h" />
     <ClInclude Include="src\Material.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Descriptor.cpp" />
     <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\DeviceBuffer.cpp" />
     <ClCompile Include="src\MaterialBuffer.cpp" />
     <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\RasterizationPipeline.cpp" />
