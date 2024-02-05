@@ -20,7 +20,6 @@ namespace gm {
   }
 
   void MaterialBuffer::addMaterials(std::vector<std::pair<std::string, Material>> materials) {
-    int offset = nextMatId * sizeof(Material);
     stagingBuffer->map();
     for(auto& [name, material]: materials) {
       stagingBuffer->writeToIndex(&material, nextMatId);

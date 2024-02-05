@@ -17,7 +17,8 @@ namespace gm {
     {3, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 16},
     {4, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 32},
     {5, 1, VK_FORMAT_R32G32B32A32_SFLOAT, 48},
-    {6, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},
+    {6, 1, VK_FORMAT_R32_SFLOAT, offsetof(obj::Voxel::Instance, random)},
+    {7, 1, VK_FORMAT_R32_UINT, offsetof(obj::Voxel::Instance, materialID)},
   };
 
   RasterizationPipeline::RasterizationPipeline(const std::string& vertPath, const std::string& fragPath, FixedStageInfo stageInfo) {

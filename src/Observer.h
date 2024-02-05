@@ -21,7 +21,7 @@ protected:
   void move(glm::vec2 pos);
 
 public:
-  Observer(World* world, glm::ivec2 pos = {0, 0}, int renderDistance = 1);
+  Observer(World* world, glm::ivec2 pos = {0, 0}, int renderDistance = 0);
   std::vector<obj::Voxel::Instance> getData() const;
   gm::Camera&                       getCamera() { return camera; }
   bool                              changed = false;

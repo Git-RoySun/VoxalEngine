@@ -7,6 +7,7 @@ namespace obj {
   public:
     struct Instance {
       glm::mat4 transform{};
+      float     random     = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
       matId     materialID = 0;
     };
 
@@ -17,7 +18,10 @@ namespace obj {
     Voxel(Transform transform = {}, uint32_t matId = 0): Base{transform}, materialID{matId} {};
 
     Instance toInstance() const {
-      return Instance{transform.mat4(), materialID};
+      return Instance{
+        .transform = transform.mat4(),
+        .materialID = materialID
+      };
     }
   };
 }

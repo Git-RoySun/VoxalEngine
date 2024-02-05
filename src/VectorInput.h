@@ -11,6 +11,6 @@ namespace gm {
 
   public:
     VectorInput(std::string label, T* content): label{label}, content{content} {}
-    void render() override { ImGui::SliderFloat3(label.c_str(), content, -10, 10); }
+    void render() override { ImGui::SliderFloat3(label.c_str(), content, -20, 20); }
   };
 }
