@@ -3,14 +3,14 @@
 #include <vector>
 
 #include "volk.h"
-#include "Graphic.h"
 #include "Voxel.h"
 #include "RasterizationPipeline.h"
 #include "Buffer.h"
 #include "Descriptor.h"
+#include "Renderer.h"
 
 namespace gm {
-  class Rasterizer {
+  class Rasterizer: public Renderer {
     struct PushConstant {
       uint32_t time;
     };
@@ -49,7 +49,8 @@ namespace gm {
     glm::vec3 light = {2.f, -2.f, 1.f};
     Rasterizer();
 
-    void        render(Frame frameInfo);
-    static void cleanup();
+    void render(Frame frameInfo) override;
+
+    static void cleanup();//TODO I do not like this, should be a simple desctructor
   };
 }

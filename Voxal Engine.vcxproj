@@ -165,6 +165,8 @@
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Rasterizer.h" />
+    <ClInclude Include="src\RayTracer.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Rotary.h" />
     <ClInclude Include="src\SwapChain.h" />
     <ClInclude Include="src\GUI.h" />
@@ -201,6 +203,7 @@
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Rasterizer.cpp" />
+    <ClCompile Include="src\RayTracer.cpp" />
     <ClCompile Include="src\SwapChain.cpp" />
     <ClCompile Include="src\Updatable.cpp" />
     <ClCompile Include="src\Utils.hpp" />

@@ -19,8 +19,15 @@ public:
     std::shared_ptr<Chunk> build();
   };
 
+  struct Octree {
+    uint32_t pNext;
+    uint8_t  validMask;
+    uint8_t  leafMask;
+  };
+
   Chunk(glm::ivec2 pos);
-  void                           addObserver(Observer* o) { observers.emplace_back(o); }
-  void                           removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
+  void addObserver(Observer* o) { observers.emplace_back(o); }
+  void removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
+
   const std::vector<obj::Voxel>& getVoxels() const { return voxels; }
 };

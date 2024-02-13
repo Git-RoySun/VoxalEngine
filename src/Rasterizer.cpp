@@ -1,9 +1,10 @@
 #include "Rasterizer.h"
 #include "Observer.h"
-#include "SwapChain.h"
 #include "Utils.hpp"
 #include "Window.h"
 #include "MaterialBuffer.h"
+#include "SwapChain.h"
+#include "Graphic.h"
 
 static std::vector<obj::Vertex> vertices = {
   {

@@ -1,10 +1,10 @@
+#include <algorithm>
 #include "Window.h"
 #include "Config.h"
 #include "Input.h"
 #include "Device.h"
 #include "SwapChain.h"
 #include "Utils.hpp"
-#include <algorithm>
 
 namespace gm {
   bool Window::glfwInitialized = Window::initGlfw();
@@ -59,6 +59,7 @@ namespace gm {
 
   Window::~Window() {
     freeCommandBuffers();
+    glfwTerminate();
   }
 
   void Window::init(Device* device) {

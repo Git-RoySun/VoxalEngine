@@ -11,17 +11,7 @@
 #define WINDOW gm::Module::getInstance().getWindow()
 #define DEVICE gm::Module::getInstance().getDevice()
 
-class Observer;
-
 namespace gm {
-  struct Frame {
-    VkCommandBuffer commandBuffer;
-    Observer*       observer;
-    uint32_t        time;
-
-    uint8_t frame;
-  };
-
   class Module {
     VkInstance               instance = createVkInstance();
     VkDebugUtilsMessengerEXT debugMessenger;

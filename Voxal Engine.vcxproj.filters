@@ -185,6 +185,12 @@
     <ClInclude Include="src\DeviceBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\RayTracer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input.cpp">
@@ -279,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="src\DeviceBuffer.cpp">
       <Filter>Source Files\Graphics\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RayTracer.cpp">
+      <Filter>Source Files\Graphics\Pipelines</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
