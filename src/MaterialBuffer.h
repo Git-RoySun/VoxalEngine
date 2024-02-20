@@ -12,13 +12,15 @@
 #define M_RED   MATERIALS.getMaterial("RED")
 #define M_GREEN MATERIALS.getMaterial("GREEN")
 #define M_BLUE  MATERIALS.getMaterial("BLUE")
+#define M_BROWN  MATERIALS.getMaterial("BROWN")
+#define M_GRAY  MATERIALS.getMaterial("GRAY")
 
 namespace gm {
   class MaterialBuffer: public DeviceBuffer {
     MaterialBuffer();
     std::map<std::string, matId> nameMap;
 
-    uint8_t nextMatId = 0;
+    uint16_t nextMatId = 0;
 
   public:
     static MaterialBuffer& getInstance() {

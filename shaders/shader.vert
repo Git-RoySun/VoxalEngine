@@ -1,6 +1,6 @@
 #version 450
 struct Material {
-    vec3 colour;
+    uint colour;
 };
 
 layout(location = 0) in vec3 position;
@@ -31,5 +31,9 @@ void main() {
     outPosition = vec3(ubo.projection *  transformMatrix * vec4(position, 1.0));
     //using PushConstants.view instead of view gives an iridescent effect
     outLight = vec3(ubo.projection *  transformMatrix * vec4(ubo.lightDirection, 1.0));
-    outColor = materials[matId].colour * (random*0.75+0.25);
+    uint a = (materials[matId].colour >> 24) & 0xFFu;
+    uint b = (materials[matId].colour >> 16) & 0xFFu;
+    uint c = (materials[matId].colour >> 8) & 0xFFu;
+    
+    outColor = vec3(a/255.0,b/255.0,c/255.0) * (random*0.75+0.25);
 }

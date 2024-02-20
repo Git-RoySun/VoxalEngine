@@ -2,7 +2,7 @@
 #include "Graphic.h"
 
 namespace gm {
-  DeviceBuffer::DeviceBuffer(VkDeviceSize instanceSize, VkBufferUsageFlagBits usage, uint32_t instanceCount, VkDeviceSize offset) {
+  DeviceBuffer::DeviceBuffer(VkBufferUsageFlagBits usage, VkDeviceSize instanceSize, uint32_t instanceCount, VkDeviceSize offset) {
     localBuffer = std::make_unique<Buffer>(
       DEVICE,
       usage | VK_BUFFER_USAGE_TRANSFER_DST_BIT,

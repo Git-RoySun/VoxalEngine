@@ -1,9 +1,9 @@
 #pragma once
 #include <glm/vec3.hpp>
-typedef uint32_t matId;
+typedef uint16_t matId;
 
 struct Material {
-  alignas(16) glm::vec3 colour;
+  alignas(4) glm::u8vec3 colour;
 
   //todo add textures
 

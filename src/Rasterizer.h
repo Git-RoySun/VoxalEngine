@@ -43,7 +43,7 @@ namespace gm {
     void initDescriptors();
     void initPipelineLayout();
     void initPipeline();
-    void bindInstances(std::vector<obj::Voxel::Instance> voxels);
+    void bindInstances(std::vector<obj::Voxel*> voxels);
 
   public:
     glm::vec3 light = {2.f, -2.f, 1.f};

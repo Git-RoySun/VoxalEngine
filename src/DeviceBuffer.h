@@ -8,7 +8,7 @@ namespace gm {
     std::unique_ptr<Buffer> stagingBuffer;
 
   public:
-    DeviceBuffer(VkDeviceSize instanceSize, VkBufferUsageFlagBits usage, uint32_t instanceCount, VkDeviceSize offset = 0);
+    DeviceBuffer(VkBufferUsageFlagBits usage, VkDeviceSize instanceSize, uint32_t instanceCount, VkDeviceSize offset = 0);
     Buffer& getStagingBuffer() const { return *stagingBuffer; }
     Buffer& getLocalBuffer() const { return *localBuffer; }
     void    synchronize();

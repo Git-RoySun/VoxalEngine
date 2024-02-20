@@ -11,15 +11,20 @@ std::shared_ptr<Chunk> Chunk::Builder::build() {
 }
 
 Chunk::Chunk(glm::ivec2 pos) : position{pos} {
-  for(int x = 0; x < SIZE; x++) {
-    for(int y = 0; y < SIZE; y++) {
-      voxels.emplace_back(
-        obj::Transform{
-          glm::vec3(pos.x + x / SIZE, pos.y + y / SIZE, 0) * 1.2f,
-          1 / SIZE
-        },M_GREEN);
-    }
+  voxels.emplace_back(
+    obj::Transform{
+      glm::vec3(pos.x, 0, pos.y),
+    },
+    MATERIALS.getMaterial("RUBIDIUM")
+  );
+}
+
+std::vector<obj::Voxel*> Chunk::getVoxels() {
+  std::vector<obj::Voxel*> res{};
+  for(auto& v: voxels) {
+    res.push_back(&v);
   }
+  return res;
 }
 
 void Chunk::notifyObservers() {

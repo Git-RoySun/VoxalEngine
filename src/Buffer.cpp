@@ -67,9 +67,7 @@ namespace gm {
       allocInfo.pNext     = &allocateFlags;
     }
 
-    if(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &memory) != VK_SUCCESS) {
-      throw std::runtime_error("failed to allocate buffer memory!");
-    }
+    VK_CHECK_RESULT(vkAllocateMemory(device.getVkDevice(), &allocInfo, nullptr, &memory), "failed to allocate buffer memory!")
 
     vkBindBufferMemory(device.getVkDevice(), buffer, memory, 0);
   }
@@ -120,7 +118,8 @@ namespace gm {
 
     if(size == VK_WHOLE_SIZE) {
       memcpy(mapped, data, bufferSize);
-    } else {
+    }
+    else {
       char* memOffset = (char*)mapped;
       memOffset += offset;
       memcpy(memOffset, data, size);

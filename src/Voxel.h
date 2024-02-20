@@ -7,15 +7,15 @@ namespace obj {
   public:
     struct Instance {
       glm::mat4 transform{};
-      float     random     = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+      float     random     = 1.f; //static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
       matId     materialID = 0;
     };
 
   private:
-    uint32_t materialID;
+    matId materialID;
 
   public:
-    Voxel(Transform transform = {}, uint32_t matId = 0): Base{transform}, materialID{matId} {};
+    Voxel(Transform transform = {}, matId matId = 0): Base{transform}, materialID{matId} {};
 
     Instance toInstance() const {
       return Instance{

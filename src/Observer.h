@@ -22,7 +22,7 @@ protected:
 
 public:
   Observer(World* world, glm::ivec2 pos = {0, 0}, int renderDistance = 0);
-  std::vector<obj::Voxel::Instance> getData() const;
-  gm::Camera&                       getCamera() { return camera; }
-  bool                              changed = false;
+  std::vector<obj::Voxel*> getData() const;
+  gm::Camera&              getCamera() { return camera; }
+  bool                     changed = false;
 };
