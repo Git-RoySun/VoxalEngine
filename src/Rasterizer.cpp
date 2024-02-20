@@ -190,18 +190,22 @@ namespace gm {
     pipeline = std::make_unique<RasterizationPipeline>("shaders/vert.spv", "shaders/frag.spv", pipelineConfig);
   }
 
-  void Rasterizer::bindInstances(std::vector<obj::Voxel::Instance> voxels) {
+  void Rasterizer::bindInstances(std::vector<obj::Voxel*> voxels) {
+    std::vector<obj::Voxel::Instance> instances{};
+    for(auto& voxel: voxels) {
+      instances.push_back(voxel->toInstance());
+    }
     instanceCount = voxels.size();
     Buffer stagingBuffer{
       DEVICE,
       VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
-      sizeof(voxels[0]),
-      static_cast<uint32_t>(voxels.size())
+      sizeof(instances[0]),
+      static_cast<uint32_t>(instances.size())
     };
 
     stagingBuffer.map();
-    stagingBuffer.writeToBuffer(voxels.data());
+    stagingBuffer.writeToBuffer(instances.data());
     stagingBuffer.flush();
     instanceBuffer[activeIndex]->invalidate();
 
@@ -209,17 +213,17 @@ namespace gm {
       DEVICE,
       VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
       VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-      sizeof(voxels[0]),
-      static_cast<uint32_t>(voxels.size())
+      sizeof(instances[0]),
+      static_cast<uint32_t>(instances.size())
     );
 
     stagingBuffer.transfer(instanceBuffer[activeIndex]->getVkBuffer());
   }
 
   void Rasterizer::render(Frame frameInfo) {
-    if(frameInfo.observer->changed) {
-      bindInstances(frameInfo.observer->getData());
-      frameInfo.observer->changed = false;
+    if(context->changed) {
+      bindInstances(context->getData());
+      context->changed = false;
     }
 
     vkCmdBindPipeline(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getVkPipeline());
@@ -230,8 +234,8 @@ namespace gm {
     vkCmdBindIndexBuffer(frameInfo.commandBuffer, indexBuffer->getVkBuffer(), 0, VK_INDEX_TYPE_UINT32);
 
     UniformBuffer data{
-      .projection = frameInfo.observer->getCamera().getProjection(),
-      .view = frameInfo.observer->getCamera().getView(),
+      .projection = context->getCamera().getProjection(),
+      .view = context->getCamera().getView(),
       .light = light,
     };
     UBO[activeIndex]->writeToBuffer(&data);

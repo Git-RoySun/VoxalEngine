@@ -29,5 +29,5 @@ public:
   void addObserver(Observer* o) { observers.emplace_back(o); }
   void removeObserver(Observer* o) { observers.erase(std::ranges::find(observers, o)); }
 
-  const std::vector<obj::Voxel>& getVoxels() const { return voxels; }
+  std::vector<obj::Voxel*> getVoxels();
 };

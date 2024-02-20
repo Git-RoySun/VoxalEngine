@@ -14,16 +14,16 @@ Observer::Observer(World* world, glm::ivec2 pos, int renderDistance): world{worl
   }
 }
 
-std::vector<obj::Voxel::Instance> Observer::getData() const {
-  std::vector<obj::Voxel::Instance> instances{};
+std::vector<obj::Voxel*> Observer::getData() const {
+  std::vector<obj::Voxel*> data{};
   for(auto col: chunks) {
     for(auto chunk: col) {
-      for(auto& voxel: chunk->getVoxels()) {
-        instances.push_back(voxel.toInstance());
+      for(auto v: chunk->getVoxels()) {
+        data.push_back(v);
       }
     }
   }
-  return instances;
+  return data;
 }
 
 void Observer::move(glm::vec2 pos) {
@@ -38,7 +38,8 @@ void Observer::move(glm::vec2 pos) {
         }
         chunks.pop_front();
         chunks.push_back(getCol(renderDistance + i));
-      } else {
+      }
+      else {
         auto out = chunks.back();
         for(auto c: out) {
           c->removeObserver(this);
@@ -59,7 +60,8 @@ void Observer::move(glm::vec2 pos) {
           auto c = world->getChunk(currentChunkPos + glm::ivec2{t, renderDistance + i});
           c->addObserver(this);
           col.push_back(c);
-        } else {
+        }
+        else {
           col.front()->removeObserver(this);
           col.pop_front();
           auto c = world->getChunk(currentChunkPos + glm::ivec2{t, -(renderDistance + i)});
