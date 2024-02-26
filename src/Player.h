@@ -7,7 +7,7 @@
 class Player: public Observer, public obj::Base, public obj::Dynamic, public obj::Rotary {
   float speed = 7; //TODO add attribute system
 public:
-  Player(obj::Transform transform, World* world);
+  Player(obj::Transform transform, World& world);
 
   void       move(glm::vec3 direction) override;
   void       setPosition(glm::vec3 pos) override;

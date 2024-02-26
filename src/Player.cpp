@@ -3,7 +3,7 @@
 #include "Window.h"
 #include "glm/gtx/string_cast.hpp"
 
-Player::Player(obj::Transform transform, World* world) : Base{transform}, Observer{world, transform.position} {
+Player::Player(obj::Transform transform, World& world) : Base{transform}, Observer{world, transform.position} {
   auto extent = WINDOW.getExtent();
   getCamera().setPerspectiveProjection(glm::radians(50.f), (float)extent.width / extent.height,
     .1f, 35.f);
@@ -22,6 +22,7 @@ void Player::move(glm::vec3 direction) {
 };
 
 void Player::setPosition(glm::vec3 pos) {
+  Observer::move(pos);
   getCamera().setRotation(transform.position = pos, transform.rotation);
 };
 

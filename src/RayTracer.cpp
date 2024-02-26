@@ -1,3 +1,5 @@
+#include <array>
+
 #include "RayTracer.h"
 #include "Graphic.h"
 
@@ -26,9 +28,9 @@ namespace gm {
   }
 
   void RayTracer::bindInstances(std::vector<obj::Voxel*> voxels) {
-    std::vector<Octree> octrees(OCTREE_COUNT);
-    std::vector<Leaf>   leaves(LEAF_COUNT);
-    std::vector<Atom>   atoms(ATOM_COUNT);
+    std::array<uint32_t, OCTREE_COUNT / 2> octreeData{};
+    std::array<uint32_t, LEAF_COUNT>       leafData{};
+    std::array<uint32_t, ATOM_COUNT>       atomData{};
   }
 
   void RayTracer::render(Frame frameInfo) {

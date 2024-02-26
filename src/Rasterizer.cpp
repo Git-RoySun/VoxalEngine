@@ -221,10 +221,10 @@ namespace gm {
   }
 
   void Rasterizer::render(Frame frameInfo) {
-    if(context->changed) {
-      bindInstances(context->getData());
-      context->changed = false;
-    }
+    /* if(context->changed) {
+       bindInstances(context->getData());
+       context->changed = false;
+     }*/
 
     vkCmdBindPipeline(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getVkPipeline());
 

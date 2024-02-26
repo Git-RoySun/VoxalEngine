@@ -2,86 +2,82 @@
 #include "Chunk.h"
 #include "World.h"
 
-Observer::Observer(World* world, glm::ivec2 pos, int renderDistance): world{world}, renderDistance{renderDistance} {
-  currentChunkPos = glm::ivec2{-renderDistance, -renderDistance};
-  changed         = true;
-  for(int x = -renderDistance; x <= renderDistance; x++) {
-    std::deque<std::shared_ptr<Chunk>> row{};
-    for(int y = -renderDistance; y <= renderDistance; y++) {
-      row.emplace_back(world->getChunk({x, y}));
-    }
-    chunks.emplace_back(row);
-  }
-}
-
-std::vector<obj::Voxel*> Observer::getData() const {
-  std::vector<obj::Voxel*> data{};
-  for(auto col: chunks) {
-    for(auto chunk: col) {
-      for(auto v: chunk->getVoxels()) {
-        data.push_back(v);
+Observer::Observer(World& world, glm::ivec3 pos) : world{world}, position{pos}, chunks(32, std::deque(32, std::deque<std::shared_ptr<Chunk>>(32))) {
+  for(int x = 0; x < chunks.size(); x++) {
+    for(int y = 0; y < chunks[x].size(); y++) {
+      for(int z = 0; z < chunks[x][y].size(); z++) {
+        chunks[x][y][z] = world.getChunk(glm::ivec3{position.x + x - 16, position.y + y - 16, position.z + z - 16});
       }
     }
   }
-  return data;
 }
 
-void Observer::move(glm::vec2 pos) {
-  auto direction = glm::ivec2(pos / static_cast<float>(World::CHUNKSIZE)) - currentChunkPos;
-  if(direction.x != 0) {
-    changed = true;
-    for(int i = 1; i <= glm::abs(direction.x) && i <= renderDistance * 2 + 1; i++) {
-      if(direction.x > 0) {
-        auto out = chunks.front();
-        for(auto c: out) {
-          c->removeObserver(this);
-        }
-        chunks.pop_front();
-        chunks.push_back(getCol(renderDistance + i));
+void Observer::moveX(int x) {
+  bool positive = x > 0;
+
+  auto layer = std::deque(32, std::deque<std::shared_ptr<Chunk>>(32));
+  for(int y = -16; y < 16; y++) {
+    for(int z = -16; z < 16; z++) {
+      layer[y + 16][z + 16] = world.getChunk(glm::ivec3{position.x + ((positive) ? 16 : -17), position.y + y, position.z + z});
+    }
+  }
+
+  if(positive) {
+    chunks.pop_front();
+    chunks.push_back(layer);
+  }
+  else {
+    chunks.pop_back();
+    chunks.push_front(layer);
+  }
+}
+
+void Observer::moveY(int y) {
+  bool positive = y > 0;
+  for(int x = 0; x < chunks.size(); x++) {
+    //populate layer with correct chunks
+    auto layer = std::deque<std::shared_ptr<Chunk>>(32);
+    for(int z = -16; z < 16; z++) {
+      layer[z + 16] = world.getChunk(glm::ivec3(position.x + x - 16, position.y + ((positive) ? 16 : -17), position.z + z));
+    }
+
+    if(positive) {
+      chunks[x].pop_front();
+      chunks[x].push_back(layer);
+    }
+    else {
+      chunks[x].pop_back();
+      chunks[x].push_front(layer);
+    }
+  }
+}
+
+void Observer::moveZ(int z) {
+  bool positive = z > 0;
+
+  for(int x = 0; x < chunks.size(); x++) {
+    for(int y = 0; y < chunks[x].size(); y++) {
+      auto layer = world.getChunk(glm::ivec3(position.x + x - 16, position.y + y - 16, position.z + ((positive) ? 16 : -17)));
+
+      if(positive) {
+        chunks[x][y].pop_front();
+        chunks[x][y].push_back(layer);
       }
       else {
-        auto out = chunks.back();
-        for(auto c: out) {
-          c->removeObserver(this);
-        }
-        chunks.pop_back();
-        chunks.push_front(getCol(-(renderDistance + i)));
+        chunks[x][y].pop_back();
+        chunks[x][y].push_front(layer);
       }
     }
   }
-  if(direction.y != 0) {
-    changed = true;
-    int t   = -renderDistance;
-    for(auto col: chunks) {
-      for(int i = 1; i <= glm::abs(direction.y) && i <= renderDistance * 2 + 1; i++) {
-        if(direction.y > 0) {
-          col.back()->removeObserver(this);
-          col.pop_back();
-          auto c = world->getChunk(currentChunkPos + glm::ivec2{t, renderDistance + i});
-          c->addObserver(this);
-          col.push_back(c);
-        }
-        else {
-          col.front()->removeObserver(this);
-          col.pop_front();
-          auto c = world->getChunk(currentChunkPos + glm::ivec2{t, -(renderDistance + i)});
-          c->addObserver(this);
-          col.push_back(c);
-        }
-      }
-      t += 1;
-    }
-  }
-
-  currentChunkPos = pos;
 }
 
-std::deque<std::shared_ptr<Chunk>> Observer::getCol(int x) {
-  std::deque<std::shared_ptr<Chunk>> col{};
-  for(int t = -renderDistance; t <= renderDistance; t += 1) {
-    auto c = world->getChunk(currentChunkPos + glm::ivec2{x, t});
-    c->addObserver(this);
-    col.push_back(c);
+void Observer::move(glm::vec3 pos) {
+  glm::ivec3 newPos = pos / 8.f;
+  if(position != newPos) {
+    auto diff = newPos - position;
+    if(diff.x)moveX(diff.x);
+    if(diff.y)moveY(diff.y);
+    if(diff.z)moveZ(diff.z);
+    position = newPos;
   }
-  return col;
 }
