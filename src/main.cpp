@@ -16,7 +16,7 @@ class Client {
   PlayerController playerController{&player};
 
   gm::Gui       gui{};
-  gm::RayTracer rayTracer{};
+  gm::RayTracer rayTracer{&player};
 
   void render() {
     auto& window = gm::Module::getInstance().getWindow();

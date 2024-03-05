@@ -2,12 +2,9 @@
 #include <vector>
 
 class Updatable {
-  //static members
-  static std::vector<Updatable*> updateQueue; //should be DoubleList when it is implemented
-public:
-  static void updateAll(float delta);
-  //class members
-private:
+  static std::vector<Updatable*> updateQueue;
+  //todo: should be a linked list implementation (iterators that don't invalidate)
+
   bool queued = false;
 
 protected:
@@ -16,6 +13,7 @@ protected:
   virtual void update(float delta) = 0;
 
 public:
+  static void updateAll(float delta);
   Updatable() {};
   ~Updatable() { unqueuUpdate(); };
 };

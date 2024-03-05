@@ -47,7 +47,7 @@ namespace gm {
 
   public:
     glm::vec3 light = {2.f, -2.f, 1.f};
-    Rasterizer();
+    Rasterizer(Observer* context);
 
     void render(Frame frameInfo) override;
 

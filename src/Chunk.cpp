@@ -1,6 +1,6 @@
-#include <stack>
 #include <bitset>
 #include "Chunk.h"
+#include "Observer.h"
 
 static uint32_t abs_svo(int32_t n) {
   return n < 0 ? (-n - 1) : n;
@@ -63,6 +63,12 @@ void Chunk::setVoxel(glm::vec3 pos, matId material) {
   }
 
   node->children[getRelativePosition(pos, currentPos).to_ulong()] = new Leaf{.material = material};
+}
+
+void Chunk::notifyObservers(glm::vec3 pos, matId material) {
+  for(auto observer: observers) {
+    observer->update(pos, material);
+  }
 }
 
 Chunk::Octree* Chunk::getVoxels(int finalWidth) {

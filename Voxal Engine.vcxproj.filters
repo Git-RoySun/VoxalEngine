@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Graphics\Memory">
       <UniqueIdentifier>{8dc1b9a1-f16a-4520-8e5c-efd549ccb8c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{f562dae7-0309-4cf0-b09c-5b643e0492a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\VectorText.h">
@@ -191,6 +194,9 @@
     <ClInclude Include="src\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Observable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input.cpp">
@@ -288,6 +294,9 @@
     </ClCompile>
     <ClCompile Include="src\RayTracer.cpp">
       <Filter>Source Files\Graphics\Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Observable.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

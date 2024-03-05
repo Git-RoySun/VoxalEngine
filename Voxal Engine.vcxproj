@@ -149,6 +149,7 @@
     <ClInclude Include="src\Dynamic.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\MaterialBuffer.h" />
+    <ClInclude Include="src\Observable.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\RasterizationPipeline.h" />
     <ClInclude Include="src\PlayerController.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="src\Device.cpp" />
     <ClCompile Include="src\DeviceBuffer.cpp" />
     <ClCompile Include="src\MaterialBuffer.cpp" />
+    <ClCompile Include="src\Observable.cpp" />
     <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\RasterizationPipeline.cpp" />
     <ClCompile Include="src\PlayerController.cpp" />

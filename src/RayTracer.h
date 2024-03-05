@@ -1,4 +1,6 @@
 #pragma once
+#include <bitset>
+
 #include "DeviceBuffer.h"
 #include "Renderer.h"
 
@@ -9,15 +11,15 @@
 namespace gm {
   class RayTracer: public Renderer {
     struct Octree {//16
-      uint8_t validMask = 0;
-      uint8_t leafMask  = 0;
-    }         root;
+      std::bitset<8> validMask = 0;
+      std::bitset<8> leafMask  = 0;
+    }                root;
 
     struct Leaf {//32
-      uint8_t red       = 0;
-      uint8_t green     = 0;
-      uint8_t blue      = 0;
-      uint8_t validMask = 0;
+      std::bitset<8> red       = 0;
+      std::bitset<8> green     = 0;
+      std::bitset<8> blue      = 0;
+      std::bitset<8> validMask = 0;
     };
 
     struct Atom {//32
@@ -29,10 +31,12 @@ namespace gm {
     std::unique_ptr<DeviceBuffer> leaves;
     std::unique_ptr<DeviceBuffer> atoms;
 
-    void bindInstances(std::vector<obj::Voxel*> voxels);
+    void bindInstances(ChunkMap& chunks) override;
+    void setLeaf(Chunk::Octree* octree);
+    void setAtom(Chunk::Leaf* leaf);
 
   public:
-    RayTracer();
+    RayTracer(Observer* context);
     void render(Frame frameInfo) override;
   };
 }

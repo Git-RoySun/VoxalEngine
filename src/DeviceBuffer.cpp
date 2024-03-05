@@ -12,11 +12,13 @@ namespace gm {
       offset
     );
 
-    if(clearFlag) {
-      auto commandBuffer = DEVICE.beginInstantCommands();
-      vkCmdFillBuffer(commandBuffer, localBuffer->getVkBuffer(), 0, localBuffer->getBufferSize(), 0);
-      DEVICE.endInstantCommands(commandBuffer);
-    }
+    if(clearFlag) clear();
+  }
+
+  void DeviceBuffer::clear() {
+    auto commandBuffer = DEVICE.beginInstantCommands();
+    vkCmdFillBuffer(commandBuffer, localBuffer->getVkBuffer(), 0, localBuffer->getBufferSize(), 0);
+    DEVICE.endInstantCommands(commandBuffer);
   }
 
   void* DeviceBuffer::getData() {

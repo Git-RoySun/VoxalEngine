@@ -8,6 +8,8 @@ namespace gm {
 
   public:
     DeviceBuffer(VkBufferUsageFlagBits usage, VkDeviceSize instanceSize, uint32_t instanceCount, VkDeviceSize offset = 0, bool clearFlag = false);
+
+    void    clear();
     void*   getData();
     void    writeData(void* data, VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
     Buffer& getLocalBuffer() const { return *localBuffer; }

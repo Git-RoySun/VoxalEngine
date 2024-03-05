@@ -63,7 +63,7 @@ namespace gm {
   std::unique_ptr<Buffer> Rasterizer::vertexBuffer = nullptr;
   std::unique_ptr<Buffer> Rasterizer::indexBuffer  = nullptr;
 
-  Rasterizer::Rasterizer() {
+  Rasterizer::Rasterizer(Observer* context) : Renderer{context} {
     instanceBuffer[activeIndex] = std::make_unique<Buffer>(
       DEVICE,
       VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,

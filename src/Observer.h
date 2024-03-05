@@ -25,6 +25,7 @@ protected:
 
 public:
   Observer(World& world, glm::ivec3 pos);
+  void        update(glm::vec3 pos, matId material);
   gm::Camera& getCamera() { return camera; }
   ChunkMap&   getChunks() { return chunks; }
 };
